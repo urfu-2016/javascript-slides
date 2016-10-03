@@ -1,1 +1,1 @@
-# javascript-slides
+# Слайды лекций курса «Javascript»
