@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, Intro</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+<section class="large">
+    <h1>JavaScript</h1>
+    <h4>Введение. Основы языка. github</h4>
+    <p class="author"><small>Жигалов Сергей</small></p>
+</section>
+
+<section data-background-video="images/taxi_screencast.webm">
+</section>
+
+<section>
+    <section>
+        <h4>Java</h4>
+
+        <ul>
+            <li>написать код</li>
+            <li>скомпилировать</li>
+            <li>упаковать в апплет</li>
+            <li>подключить</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>JavaScript</h4>
+
+        <ul>
+            <li>написать код</li>
+            <li class="strike">скомпилировать</li>
+            <li class="strike">упаковать в апплет</li>
+            <li>подключить</li>
+        </ul>
+    </section>
+
+    <section>
+        <ul>
+            <li>Синтаксис &rarr; C, C++, Java</li>
+            <li class="fragment">Динамическая типизация &rarr; Perl</li>
+            <li class="fragment">Ссылки на функции &rarr; Lisp</li>
+            <li class="fragment">Наследование через прототипы  &rarr; Self</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Брэндон Айк</h4>
+
+        <p>разработал JavaScript для Netscape 1995</p>
+        <img src="images/brendan.jpg" alt="Брэндон Айк"/>
+    </section>
+
+    <section>
+        <h4>Брэндон Айк</h4>
+        <blockquote>... он должен был быть написан за 10 дней,
+            а иначе мы бы имели что-то похуже JS...
+        </blockquote>
+    </section>
+
+    <section>
+        <h4>Брэндон Айк</h4>
+        <blockquote>... В то время мы должны
+            были двигаться очень быстро, т.к. знали, что Microsoft идет за нами...
+        </blockquote>
+    </section>
+
+    <section>
+        <h4>Брэндон Айк</h4>
+        <blockquote>... JS был обязан «выглядеть как Java», только поменьше,
+            быть эдаким младшим братом-простаком для Java...</blockquote>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>JSON</h4>
+        <small>JavaScript Object Notation</small>
+        <p>Дуглас Крокфорд, 2001</p>
+    </section>
+
+    <section>
+        <h4>JSON</h4>
+        <pre class="size-XS"><code data-trim>
+{
+    "name": "Works",
+    "cashlessPayment": true,
+    "capacity": 3,
+    "barista": [
+        {
+            "name": "Лёша",
+            "favourite": "cappuccino"
+        },
+        {
+            "name": "Лиза",
+            "favourite": "tea"
+        }
+    ]
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4 class="strike">XML</h4>
+        <pre><code data-trim>
+<?xml version="1.0" encoding="UTF-8" ?>
+<coffee_shop>
+    <name>Works</name>
+    <cashlessPayment>true</cashlessPayment>
+    <capacity>3</capacity>
+    <barista>
+        <persone>
+            <name>Лёша</name>
+            <favourite>cappuccino</favourite>
+        </persone>
+        <persone>
+            <name>Лиза</name>
+            <favourite>tea</favourite>
+        </persone>
+    </barista>
+</coffee_shop>
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>AJAX</h4>
+    <p>(Asynchronous JavaScript and XML)</p>
+    <p>Джеймс Гаррет, 2005</p>
+    <img src="images/google_maps.jpeg" alt="Google maps 2005"/>
+</section>
+
+<section>
+    <section>
+        <img src="images/node.svg" alt="node" style="background: none;"/>
+    </section>
+
+    <section>
+        <h4>NodeJS</h4>
+
+        <ul>
+            <li>Linux / Windows / MacOS /...</li>
+            <li class="fragment">Единая архитектура</li>
+            <li class="fragment">Один поток*</li>
+            <li class="fragment">Node Package Manager</li>
+        </ul>
+        <img class="fragment" src="http://cronj.com/blog/wp-content/uploads/2014/12/npm.logo_.png" alt="npm" />
+    </section>
+
+    <section>
+        <table>
+            <thead>
+                <tr>
+                    <td>Версия</td>
+                    <td>Год выпуска</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fragment">
+                    <td>node 0.4</td>
+                    <td>2011</td>
+                </tr>
+                <tr class="fragment">
+                    <td>node 0.10</td>
+                    <td>2013</td>
+                </tr>
+                <tr class="fragment">
+                    <td>iojs 1.0</td>
+                    <td>2015</td>
+                </tr>
+                <tr class="fragment">
+                    <td>node 0.12</td>
+                    <td>2015</td>
+                </tr>
+                <tr class="fragment">
+                    <td>iojs 3.0</td>
+                    <td>2015</td>
+                </tr>
+                <tr class="fragment">
+                    <td>node 6.0</td>
+                    <td>2016</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</section>
+
+<section>
+    <h4>JavaScript</h4>
+
+    <ul>
+        <li>Браузер</li>
+        <li>Сервер</li>
+        <li class="fragment">Базы данных</li>
+    </ul>
+    <div class="fragment">
+        <img src="images/MongoDB-Logo.png" alt="MongoDB-Logo" style="background: none;" />
+
+    </div>
+</section>
+
+<section>
+    <section>
+        <h4>Основы языка</h4>
+        <h4>Типы данных</h4>
+    </section>
+
+    <section>
+        <h4>Типы данных</h4>
+        <ul>
+            <li class="fragment">числа</li>
+            <li class="fragment">строки</li>
+            <li class="fragment">булевые величины</li>
+            <li class="fragment">объекты* и массивы*</li>
+            <li class="fragment">функции*</li>
+            <li class="fragment">неопределённые величины</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Числовой</h4>
+        <pre class="size-L"><code data-trim>
+123     // 123
+        </code></pre>
+        <pre class="size-L fragment"><code data-trim>
+12.3    // 12.3
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Числовой. <span class="green">Системы счисления</span></h4>
+        <pre class="size-L js"><code data-trim>
+0x11    // 17
+0b11    // 3
+0o11    // 9
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Числовой. <span class="green">Экспонента</span></h4>
+        <p>64 бит</p>
+
+        <pre class="size-M js fragment"><code data-trim>
+2^64 = 18446744073709552000
+        </code></pre>
+
+        <pre class="size-M js fragment"><code data-trim>
+Number.MAX_SAFE_INTEGER
+// 9007199254740991
+        </code></pre>
+        <pre class="size-M js fragment"><code data-trim>
+2.998e8
+// 2.998 × 10^8
+// 299800000
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Числовой. <span class="green">Бесконечность</span></h4>
+        <pre class="size-L js"><code data-trim>
+Infinity
+-Infinity
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+Infinity - 1 === Infinity // true
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Числовой. <span class="green">Не число</span></h4>
+        <pre class="size-L js"><code data-trim>
+NaN
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+0/0 // NaN
+Infinity - Infinity // NaN
+'один' / 'два' // NaN
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Строковый</h4>
+        <pre class="size-M javascript"><code data-trim>
+'строка текста'
+"строка текста"
+'中文 español русский \' '
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>Логический</h4>
+    <pre class="size-L javascript"><code data-trim>
+true
+false
+    </code></pre>
+</section>
+
+<section>
+    <h4>Hеопределенное значение</h4>
+    <pre class="size-M javascript"><code data-trim>
+undefined
+null
+    </code></pre>
+
+    <pre class="size-M javascript fragment"><code data-trim>
+var a;
+console.log(a); // undefined
+    </code></pre>
+</section>
+
+<section>
+    <h4>typeof</h4>
+
+    <pre class="size-M javascript"><code data-trim>
+typeof 0;
+// 'number'
+    </code></pre>
+
+    <pre class="size-M javascript"><code data-trim>
+typeof '0';
+// 'string'
+    </code></pre>
+</section>
+
+<section>
+    <section>
+        <h4>Основы языка</h4>
+        <h4>Переменные</h4>
+    </section>
+
+    <section>
+        <h4>Переменные</h4>
+        <pre class="size-M javascript"><code data-trim>
+var studentsCount;
+studentsCount = 98;
+        </code></pre>
+        <pre class="size-M javascript fragment"><code data-trim>
+var studentsCount = 98;
+        </code></pre>
+        <pre class="size-M javascript fragment"><code data-trim>
+var studentsCount = 98,
+language = 'JavaScript';
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Именование переменных</h4>
+        <pre class="size-M javascript">
+<mark>o</mark>neMoment
+a-z _ $
+<div class="fragment"><span style="background: red;">1</span>moment</div>
+        </pre>
+    </section>
+
+    <section>
+        <h4>Именование переменных</h4>
+        <pre class="size-M javascript">
+s<mark>oSo</mark>
+A-Z a-z 0-9 _ $
+<div class="fragment">so<span style="background: red;">-</span>so</div></pre>
+        </pre>
+    </section>
+
+    <section>
+        <h4>Именование переменных</h4>
+        <pre class="size-M javascript"><code data-trim>
+// Переменная
+var currentTime;
+        </code></pre>
+
+        <pre class="size-M javascript fragment"><code data-trim>
+// Константа
+var MILLISECONDS_IN_DAY;
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Зарезервированные слова</h4>
+        <pre class="size-S css"><code data-trim>
+break    do       try       while
+case     else     new       with
+catch    finally  return
+continue for      switch
+debugger function this
+default  if       throw
+delete   in       instanceof
+typeof   var      void
+        </code></pre>
+        <a href="https://clck.ru/9auhk">https://clck.ru/9auhk</a>
+    </section>
+
+
+    <section>
+        <h4>Зарезервированные слова</h4>
+        <pre class="size-S css"><code data-trim>
+class enum   extends super
+const export import
+        </code></pre>
+        <a href="https://clck.ru/9auhk">https://clck.ru/9auhk</a>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Комментарии</h4>
+        <pre class="size-S javascript"><code data-trim>
+// это короткий комментарий
+        </code></pre>
+
+        <pre class="size-S javascript"><code data-trim>
+/* а это длинный комментарий
+написаный в несколько строк */
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Комментарии</h4>
+
+        <pre class="javascript"><code data-trim>
+/* ах этот длинный комментарий ... */
+var weather = 'cold';
+
+console.log(weather); // cold
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Комментарии</h4>
+
+        <pre class="javascript"><code data-trim>
+var weather = 'sunny';
+
+/*/* ах этот длинный комментарий ... */
+var weather = 'cold';*/
+
+console.log(weather);
+// SyntaxError: Unexpected token *
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>Основы языка</h4>
+    <h4>Операторы</h4>
+</section>
+
+<section>
+    <section>
+        <h4>Унарные</h4>
+        <pre class="size-M javascript">
+++ (инкремент)
+-- (декремент)
+-  (унарный минус)
+!  (логическое НЕ)
+        </pre>
+    </section>
+
+    <section>
+        <h4>Инкремент</h4>
+        <pre class="size-S javascript"><code data-trim>
+var a = 1;
+var b = a++;  // b === 1, a === 2
+        </code></pre>
+        <pre class="size-S javascript fragment"><code data-trim>
+var a = 1;
+var b = ++a;  // b === 2, a === 2
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>Бинарные</h4>
+</section>
+
+<section>
+    <h4>Арифметические</h4>
+    <pre class="size-M javascript">
+* (умножение)
+/ (деление)
+% (остаток от деления)
+    </pre>
+    <pre class="size-M javascript fragment">
++ (сложение)
+- (вычитание)
++ (сложение строк)
+    </pre>
+</section>
+
+<section>
+    <h4>Сложение</h4>
+    <pre class="js"><code data-trim>
+2 + 3 = 5
+    </code></pre>
+
+    <pre class="js"><code data-trim>
+'«JavaScript — это простой, но ' +
+'изящный язык, который является ' +
+'невероятно мощным для решения ' +
+'многих задач» © Джон Резиг'
+    </code></pre>
+</section>
+
+<section>
+    <h4>Сравнения</h4>
+    <pre class="size-S javascript">
+<  (меньше)
+<= (меньше или равно)
+>  (больше)
+>= (больше или равно)
+    </pre>
+    <pre class="size-S javascript fragment">
+==  (проверка на равенство)
+!=  (проверка на неравенство)
+=== (проверка на идентичность)
+!== (проверка на неидентичность)
+    </pre>
+</section>
+
+<section>
+    <h4>Логические</h4>
+    <pre class="size-S javascript fragment">&& (И)</pre>
+    <pre class="size-S javascript fragment">|| (ИЛИ)</pre>
+</section>
+
+<section>
+    <h4>Присваиваивание</h4>
+    <pre class="size-M javascript">= (присваивание)</pre>
+    <pre class="size-M javascript fragment">*=, /=, +=, -=, &=, ^=, |= <br/>(присваивание с операцией)</pre>
+    <pre class="size-M javascript fragment"><code data-trim>
+var a = 1;
+a += 1;
+a = a + 1;
+    </code></pre>
+</section>
+
+<section>
+    <h4>Условные операторы</h4>
+    <pre class="size-S javascript"><code data-trim>
+if (language === 'JavaScript') {
+    likes = likes + 1;
+} else {
+    likes = likes - 1;
+}
+    </code></pre>
+    <pre class="size-S javascript fragment"><code data-trim>
+likes = language === 'JavaScript' ?
+    likes + 1 :
+    likes - 1;
+    </code></pre>
+</section>
+
+<section>
+    <h4>Условные операторы</h4>
+    <pre class="size-S javascript"><code data-trim>
+switch (language) {
+    case 'JavaScript':
+        likes++;
+        break;
+    case 'C++':
+    case 'Java':
+        break;
+    default:
+        likes--;
+}
+    </code></pre>
+</section>
+
+<section>
+    <h4>Statement</h4>
+    <pre class="size-L"><code data-trim>
+a = b * 2;
+    </code></pre>
+</section>
+
+<section>
+    <h4>Expression</h4>
+    <pre class="size-S"><code data-trim>
+a = b * 2;
+
+// 2 - это выражение литерала
+// b - это выражение переменной
+// b * 2 - это арифметическое выражение
+// a = b * 2 - это выражение присвоения
+    </code></pre>
+</section>
+
+<section>
+    <h4>;</h4>
+    <pre class="size-S"><code data-trim>
+function getTrue() {
+    return true;
+}
+
+getTrue();    // true
+    </code></pre>
+</section>
+
+<section>
+    <h4>;</h4>
+    <pre class="size-S"><code data-trim>
+function getTrue() {
+    return
+    true;
+}
+
+getTrue();    // undefined
+    </code></pre>
+</section>
+
+<section>
+    <h4>Основы языка</h4>
+    <h4>Строгий режим</h4>
+</section>
+
+<section>
+    <h4>Строгий режим</h4>
+    <pre class="size-S"><code data-trim>
+'use strict';
+
+// этот код будет работать
+// по современному стандарту ES5
+    </code></pre>
+
+    <p><a href="http://ecma262-5.com/ELS5_HTML.htm#Annex_C">Спецификация</a></p>
+</section>
+
+
+<section>
+    <h4>Пример запуска</h4>
+    <pre class="size-M"><code data-trim>
+console.log('Hello, world!');
+    </code></pre>
+</section>
+
+<section>
+    <h4>В браузере</h4>
+    <pre class="size-M"><code data-trim>
+// Ctrl + Alt + J
+
+console.log('Hello, world!');
+    </code></pre>
+</section>
+
+<section>
+    <h4><a href="https://nodejs.org/">https://nodejs.org</a></h4>
+</section>
+
+<section>
+    <h4>NodeJS</h4>
+    <pre class="size-M javascript"><code data-trim>
+// index.js
+console.log('Hello, world!');
+    </code></pre>
+
+    <pre class="size-M fragment"><code data-trim>
+$ node index.js
+    </code></pre>
+</section>
+
+<section>
+    <section>
+        <h4>Редакторы кода</h4>
+        <ul>
+            <li><a href="http://www.sublimetext.com/">Sublime</a></li>
+            <li><a href="https://atom.io/">Atom</a></li>
+            <li><a href="https://notepad-plus-plus.org/">Notepad++</a></li>
+            <li><a href="http://www.vim.org/">vim</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>WebStorm</h4>
+        <img src="images/webStorm.png" alt="WebStorm"/>
+    </section>
+
+    <section>
+        <h4>Лицензия для WebStorm</h4>
+        <ol>
+            <li>завести <a href="https://https://account.jetbrains.com/login">JetBrains Account</a></li>
+            <li>подтвердить статус студента:
+                <ul>
+                    <li>при помощи карточки <a href="https://www.isic.org/">ISIC</a></li>
+                    <li>при электронной почты университета (в домене .edu)</li>
+                    <li>при помощи скана студенческого билета</li>
+                </ul>
+            </li>
+        </ol>
+        <p>Подать заявку можно <a href="https://www.jetbrains.com/shop/eform/students">здесь</a></p>
+    </section>
+</section>
+
+<section data-background='images/github-octocat.png'>
+</section>
+
+<section>
+    <section>
+        <h4>0. Регистрация</h4>
+    </section>
+
+    <section>
+        <h5>Регистрируемся по ссылке <a href="http://github.com/join">http://github.com/join</a></h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19113852/eb2681b6-8b24-11e6-8e88-8ff18e122b1b.jpg" alt="Регистрация"/>
+    </section>
+
+    <!-- <section>
+        <h5>Шаг 2</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114406/477f5792-8b27-11e6-9854-247f39b01322.jpg" alt="Шаг 2"/>
+    </section> -->
+
+    <!-- <section>
+        <h5>Шаг 3</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114478/8fe90550-8b27-11e6-947e-2d9eb4efcc02.jpg" alt="Шаг 3"/>
+    </section> -->
+
+    <section>
+        <h5>Подтверждение почты</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114521/c89c39e4-8b27-11e6-9b9d-5cdf7d093536.jpg" alt="Подтверждение почты"/>
+    </section>
+
+    <section>
+        <h5>Подтверждение почты</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114663/5bc6f772-8b28-11e6-997c-88913f75418e.jpg" alt="Подтверждение почты"/>
+    </section>
+
+    <section>
+        <h5>Заполнение профиля</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19147734/f6e8712c-8bd2-11e6-8e55-c654fd955c78.jpg" alt="Заполнение профиля" />
+    </section>
+
+    <section>
+        <h5>Указываем ФИО и группу</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19147812/4754da42-8bd3-11e6-9450-165b4a79569b.jpg" alt="Указываем ФИО и группу" />
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>1. Делаем Fork</h4>
+    </section>
+
+    <section>
+        <h5>Переходим по ссылке <a href="https://github.com/urfu-2016/demo-task-1">https://github.com/urfu-2016/demo-task-1</a></h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114810/f4ba61da-8b28-11e6-88e6-15c29707845e.jpg" alt="Переходим на демонстрационный таск"/>
+    </section>
+
+
+    <section>
+        <h5>Нажимаем на кнопку Fork</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114894/52fbc252-8b29-11e6-8f9b-a738d7262122.jpg" alt="Нажимаем на кнопку Fork"/>
+    </section>
+
+    <section>
+        <h5>Редирект на форк</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19114976/ae57833e-8b29-11e6-9221-1cfadb1d242c.jpg" alt="Редирект на форк"/>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>2. Устанавливаем git</h5>
+    </section>
+
+    <section>
+        <h5>Переходим на <a href="https://git-scm.com/download">https://git-scm.com/download</a></h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19116970/ce67823a-8b30-11e6-83da-7f44dd0f72b9.jpg" alt="Переходим на git-scm.com/download"/>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>2.1. Устанавливаем git <span class="green">Windows</span></h5>
+    </section>
+
+    <section>
+        <h5>Запускаем "Git.exe"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19142603/16028f2c-8bb8-11e6-820f-8c123c3f323a.png" alt="Запускаем Git.exe"/>
+    </section>
+
+    <section>
+        <h5>Выбираем "Use Windows' defaults console"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19142629/48974d2e-8bb8-11e6-8ae5-958d36b7bbc5.png" alt="Выбираем 'Use Windows' defaults console'"/>
+    </section>
+
+    <section>
+        <h5>Открываем cmd. Готово к использованию</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19143288/6aaf34c2-8bbc-11e6-9cba-eab0fb7d232d.png" alt="Готово"/>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>2.2. Устанавливаем git <span class="green">Ubuntu</span></h5>
+    </section>
+
+    <section>
+        <h5>Выполняем в консоли</h5>
+        <pre><code data-trim>$ apt-get install git</code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>2.2. Устанавливаем git <span class="green">Mac OS</span></h5>
+    </section>
+
+    <section>
+        <h5>Выполняем в консоли</h5>
+        <pre><code data-trim>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code></pre>
+        <pre><code data-trim>$ brew install git</code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>3. Решаем задачу</h5>
+    </section>
+
+    <section>
+        <h5>Нажимаем "Clone or Download"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19143461/8b90d3f2-8bbd-11e6-8aa0-98978af9c99a.jpg" alt="Нажимаем 'Clone or Download'"/>
+    </section>
+
+    <section>
+        <h5>Выполняем в консоли</h5>
+        <pre class="bash"><code data-trim>
+# Клонируем репозиторий
+git clone https://github.com/login/demo-task-1.git
+        </code></pre>
+
+        <pre class="bash fragment"><code data-trim>
+# Решаем задачу в любимом редакторе
+        </code></pre>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+# Посмотреть список измененных файлов
+git status
+        </code></pre>
+
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19149656/7553c422-8bdc-11e6-9ea6-c0488361394b.jpg" alt="git status" />
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+git add math.js
+git status
+        </code></pre>
+
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19149720/c65b5b6e-8bdc-11e6-9a47-174fbc3fb591.jpg" alt="git status" />
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+# Правим код в любимом редакторе
+
+git status
+        </code></pre>
+
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19149762/fa8b1104-8bdc-11e6-9494-0e728ab3e107.jpg" alt="git status" />
+    </section>
+
+    <section>
+        <h5>Выполняем в консоли</h5>
+        <pre class="bash"><code data-trim>
+# Клонируем репозиторий
+git clone https://github.com/login/demo-task-1.git
+        </code></pre>
+
+        <pre class="bash"><code data-trim>
+# Решаем задачу в любимом редакторе
+        </code></pre>
+
+        <pre class="bash"><code data-trim>
+# Добавляем измененные файлы
+git add math.js
+        </code></pre>
+
+        <pre class="bash fragment"><code data-trim>
+# Фиксируем изменения
+git commit -m 'Сложение двух чисел'
+        </code></pre>
+
+        <br>
+        <br>
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+# Представляемся git
+git config --global user.email "sergey@zhigalov.com"
+git config --global user.name "Zhigalov Sergey"
+        </code></pre>
+
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145090/a6c59db6-8bc6-11e6-852b-9cccacf11d4e.png" alt="Представиться  git" />
+    </section>
+
+    <section>
+        <h5>Выполняем в консоли</h5>
+        <pre class="bash"><code data-trim>
+# Клонируем репозиторий
+git clone https://github.com/login/demo-task-1.git
+        </code></pre>
+
+        <pre class="bash"><code data-trim>
+# Решаем задачу в любимом редакторе
+        </code></pre>
+
+        <pre class="bash"><code data-trim>
+# Добавляем измененные файлы
+git add math.js
+        </code></pre>
+
+        <pre class="bash"><code data-trim>
+# Фиксируем изменения
+git commit -m 'Сложение двух чисел'
+        </code></pre>
+
+        <pre class="bash fragment"><code data-trim>
+# Публикуем изменения в удалённый репозиторий
+git push origin master
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+# Вводим логин и пароль
+Username for 'https://github.com': zhigalov-sergey
+Password for 'https://zhigalov-sergey@github.com':
+        </code></pre>
+
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145485/93a79c64-8bc8-11e6-8b8e-c64f5d2281b2.png" alt="Авторизоваться в git" />
+    </section>
+
+    <section>
+        <h4><a href="https://help.github.com/articles/caching-your-github-password-in-git">Caching your GitHub password</a></h4>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>4. Отправляем решение на проверку</h4>
+    </section>
+
+    <section>
+        <h5>Выбираем "Pull Requests"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145706/ab808a2a-8bc9-11e6-832f-d730e70bda41.jpg" alt="Выбираем вкладку 'Pull Requests'" />
+    </section>
+
+    <section>
+        <h5>Нажимаем "New pull request"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145661/6a744f12-8bc9-11e6-8e27-2c69efc05954.jpg" alt="Нажимаем 'New pull request'" />
+    </section>
+
+    <section>
+        <h5>Нажимаем "Create pull request"</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145770/f89a8a9a-8bc9-11e6-8038-554762e24cdc.jpg" alt="Нажимаем 'Create pull request'" />
+    </section>
+
+    <section>
+        <h5>Указываем фамилию и имя</h5>
+        <h5>Create pull request</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145811/2e8af540-8bca-11e6-8827-df0ea07d4d71.jpg" alt="Указываем фамилию и имя" />
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>5.1 Проверка Travis CI</h4>
+    </section>
+
+    <section>
+        <h5>Переходим в Travis CI</h5>
+        <img src="https://cloud.githubusercontent.com/assets/4534405/19022765/ead12c6c-88f8-11e6-9500-3dc6e27b15d5.png" alt="Переходим в Travis CI" />
+    </section>
+
+    <section>
+        <h5>Ищем строку с ошибкой</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19147015/8a953b5c-8bcf-11e6-8600-3894cfced050.jpg" alt="Ищем строку с ошибкой" />
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>5.2 Проверка Хрюнделем</h4>
+    </section>
+
+    <section>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19145963/da2736d4-8bca-11e6-986b-56a643cd0357.jpg" alt="PR проверки" />
+    </section>
+
+    <section>
+        <h5>Линтинг не пройден</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19146629/bfc13f12-8bcd-11e6-83bd-7032d8d34c44.jpg" alt="Линтинг не пройден" />
+    </section>
+
+    <section>
+        <h5>Тесты не пройдены</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19146645/d1c38576-8bcd-11e6-8513-6d06ee435364.jpg" alt="Тесты не пройдены" />
+    </section>
+
+    <section>
+        <h5>Всё хорошо</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19146663/e833f2d2-8bcd-11e6-9c62-c6d992fc2e26.jpg" alt="Всё хорошо" />
+    </section>
+
+    <section>
+        <h5>Итог</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19146707/214662bc-8bce-11e6-8937-ebb087ca0317.jpg" alt="Итог" />
+    </section>
+
+    <section>
+        <h5>Статусы</h5>
+        <ul>
+            <li>accepted - 1 балл</li>
+            <li>half-accepted - 0.5 балла</li>
+            <li>failed - 0 баллов</li>
+            <li>duplicate - 0 баллов</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>5.3 Проверка студентором/ментором</h4>
+    </section>
+
+    <section>
+        <h5>Комментарий на доработку</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19149461/4bdb98aa-8bdb-11e6-8fb2-e7075b0da0c0.jpg" alt="Комментарий на доработку" />
+    </section>
+
+    <section>
+        <h5>Успешный комментарий</h5>
+        <img src="https://cloud.githubusercontent.com/assets/1654243/19149521/a7a122e0-8bdb-11e6-8dd0-daf10c8795dd.jpg" alt="Успешный комментарий" />
+    </section>
+</section>
+
+<section>
+    <section>
+        <h5>6. Доработка</h5>
+    </section>
+
+    <section>
+        <pre class="bash"><code data-trim>
+# Правим код в любимом редакторе
+        </code></pre>
+
+        <pre class="bash fragment"><code data-trim>
+# Добавляем все измененные файлы
+git add math.js
+        </code></pre>
+
+        <pre class="bash fragment"><code data-trim>
+# Фиксируем изменения
+git commit -m "Добавил преобразование типов"
+        </code></pre>
+
+        <pre class="r size-XS fragment"><code data-trim>
+# Отправляем изменения в удалённый репозиторий
+git push origin master
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4><a href="https://github.com/urfu-2016/guides">https://github.com/urfu-2016/guides</a></h4>
+</section>
+
+<section>
+    <h4>Регистрация</h4>
+    <h5><a href="http://bit.ly/urfu2016reg">http://bit.ly/urfu2016reg</a></h5>
+</section>
+
+<section>
+    <h4>Домашнее задание</h4>
+    <h4><a href="https://github.com/urfu-2016/javascript-task-1">XXL</a></h4>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
