@@ -1,0 +1,36 @@
+h4 span {
+    color: #a0a0f0 !important;
+}
+
+.red {
+    color: #ab4642;
+}
+
+.green {
+    color: #a1b56c !important;
+}
+
+.magenta {
+    color: #a0a0f0 !important;
+}
+
+.grey {
+    color: #777;
+}
+
+.hljs-comment {
+    color: #999 !important;
+}
+
+.hljs-string {
+    color: #a1b56c !important;
+}
+
+.left {
+    text-align: left;
+}
+
+section .strike {
+    text-decoration: line-through;
+    color: #888;
+}
