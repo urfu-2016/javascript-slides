@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, Intro</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+    <section>
+        <h2>Типы данных</h2>
+        <p class="author"><small>Чистяков Денис</small></p>
+    </section>
+
+    <section>
+        <h4>Содержание</h4>
+        <ul>
+            <li>Строки</li>
+            <li>Массивы</li>
+            <li>Объекты</li>
+            <li>Функции</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Строки</h4>
+        <blockquote>
+            Строки полезны для хранения данных, которые можно представить в текстовой форме.
+        </blockquote>
+        <small class="grey">Mozilla Developer Network</small>
+    </section>
+
+    <section>
+        <h4>Создание строки</h4>
+
+        <div class="multiple-pre">
+<pre><code>
+// Пустая строка
+var emptyString = '';
+</code></pre>
+<pre class="fragment"><code>
+// Длина строки
+emptyString.length; // 0
+
+</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Создание строки</h4>
+
+        <pre><code>
+// Можно использовать одинарные кавычки
+var russianString = 'строка текста';
+
+russianString.length; // 13
+        </code></pre>
+
+        <pre class="fragment"><code>
+// Можно использовать двойные кавычки
+var russianString = "строка текста";
+
+russianString.length; // 13
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Создание строки</h4>
+
+        <pre><code>
+var escapeCodesString = 'a\'b' // a'b
+
+escapeCodesString.length; // 3
+        </code></pre>
+
+        <pre class="fragment"><code>
+var escapeCodesString = 'a\\b' // a\b
+
+escapeCodesString.length; // 3
+        </code></pre>
+        <pre class="fragment"><code>
+var escapeCodesString = 'a\n\tb' // a
+                                 //     b
+
+escapeCodesString.length; // 4
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Создание строки</h4>
+
+        <pre class="size-XXS"><code>
+var utf8String = '中文 español English বাংলা русский 日本語 ਪੰਜਾਬੀ 한국어 தமிழ்';
+
+utf8String.length; // 53
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строки являются незаписываемыми</h4>
+
+        <pre><code>
+var russianString = 'кот';
+
+// Возможно обращение к символу по индексу
+russianString[1]; // 'о'
+
+// Редактирование невозможно
+russianString[1] = 'и';
+russianString; // 'кот'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Срезы из строк</h4>
+
+        <pre class="size-XS"><code>
+// Обрежем строку до 140 символов под длину твита
+var longString = 'Очевидно проверяется, что математический анализ \
+существенно масштабирует интеграл по поверхности, что неудивительно. \
+Первая производная, очевидно, позиционирует ортогональный определитель.'
+
+var shortString = longString;
+if (longString.length > 140) {
+  shortString = longString.slice(0, 139) + '…';
+}
+
+shortString; // 'Очевидно проверяется, что математический анализ
+// существенно масштабирует интеграл по поверхности, что неудивительно.
+// Первая производная, оч…'
+shortString.length; // 140
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Поиск в строке</h4>
+
+        <pre class="size-XS"><code>
+var tweet = 'PWA. Что это такое? Третий доклад на WSD в Питере Сергея ' +
+  'Густуна #wstdays';
+
+// Находим индекс первого вхождения подстроки в строке
+tweet.indexOf('#wstdays'); // 65
+
+// Искомая подстрока отсутствует
+tweet.indexOf('#fronttalks'); // -1
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Массивы</h4>
+
+        <blockquote class="size-XS">
+            Массивы являются спископодобными объектами, чьи прототипы содержат методы для операций обхода и изменения массива. Ни размер JavaScript-массива, ни типы его элементов не являются фиксированными.
+        </blockquote>
+        <small class="grey">Mozilla Developer Network</small>
+    </section>
+
+    <section>
+        <h4>Создание массива</h4>
+
+        <div class="multiple-pre">
+<pre><code>
+// Пустой массив
+var emptyArray = [];
+</code></pre>
+<pre class="fragment"><code>
+emptyArray.length; // 0
+</code></pre>
+<pre class="fragment"><code>
+// Массив чисел
+var arrayOfNumbers = [1, 2, 3, 4];
+</code></pre>
+<pre class="fragment"><code>
+arrayOfNumbers.length; // 4
+</code></pre>
+<pre class="fragment"><code>
+// Массив строк
+var arrayOfStrings = ['a', 'b', 'c'];
+</code></pre>
+<pre class="fragment"><code>
+arrayOfStrings.length; // 3
+
+</code></pre>
+
+        </div>
+    </section>
+
+    <section>
+        <h4>Итерирование по массиву</h4>
+
+        <pre class="size-XXS"><code>
+var tweets = [
+  'Я и ИоТ, пятый доклад на WSD в Питере Вадима Макеев #wstdays',
+  'Вёрстка писем. Развенчиваем мифы. Четвёртый доклад на WSD в Питере Артура Коха #wstdays',
+  'PWA. Что это такое? Третий доклад на WSD в Питере Сергея Густуна #wstdays',
+  'Pokémon GO на веб-технологиях, второй доклад на WSD в Питере Егора Коновалова #wstdays',
+  'Ого сколько фронтендеров. #wstdays',
+  '&lt;head&gt; — всему голова, первый доклад на WSD в Питере Романа Ганина #wstdays',
+  'Доброе утро! WSD в Питере начинается через 30 минут: программа, трансляция и хештег #wstdays',
+  'Наглядная таблица доступности возможностей веб-платформы Пола Айриша: Can I use + StatCounter, от CSS до JS',
+  'Node.js, TC-39 и модули, Джеймс Снел о проблемах Node.js с асинхронными модулями ES и вариантах выхода из ситуации',
+  'Всегда используйте &lt;label&gt;, перевод статьи Адама Сильвера в блоге Академии HTML',
+  'JSX: антипаттерн или нет? Заметка Бориса Сердюка на Хабре',
+  'Как прятать инлайновые SVG-иконки от читалок, Роджер Йохансен объясняет, зачем это нужно'
+];
+
+tweets.length; // 12
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Итерирование по массиву</h4>
+
+        <pre><code>
+for (var i = 0; i < tweets.length; i++) {
+  var tweet = tweets[i];
+
+  // Что-то делаем с конкретным твитом
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Добавление / удаление из массива</h4>
+        <div class="multiple-pre">
+
+<pre><code>
+var emptyArray = [];
+
+// Добавляем элементы
+emptyArray.push('a');
+emptyArray.push('b');
+emptyArray; // ['a', 'b']
+
+emptyArray.length; // 2
+</code></pre>
+<pre class="fragment"><code>
+// Удаляем последний элемент
+emptyArray.pop(); // 'b'
+emptyArray; // ['a']
+
+emptyArray.length; // 1
+
+</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Объединение массивов</h4>
+
+        <pre><code>
+var concatedArray = arrayOfNumbers.concat(arrayOfStrings);
+
+concatedArray; // [1, 2, 3, 4, 'a', 'b', 'c']
+
+arrayOfNumbers; // [1, 2, 3, 4]
+arrayOfStrings; // ['a', 'b', 'c']
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Поиск в массиве твитов</h4>
+
+        <pre><code>
+// Найдем все строки содержашие хештег #wstdays в массиве
+var result = [];
+
+for (var i = 0; i < tweets.length; i++) {
+  var tweet = tweets[i];
+
+  if (tweet.indexOf('#wstdays') !== -1) {
+    result.push(tweet);
+  }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Операции с массивом твитов</h4>
+
+        <div class="multiple-pre">
+<pre class="size-S"><code>
+// Копируем оригинальную ленту в новый массив
+var tweetsWithAdv = tweets.slice();
+</code></pre>
+
+<pre class="fragment size-S"><code>
+// Добавим немного рекламы в ленту, изменяя копию
+tweetsWithAdv.splice(4, 0, 'Покупайте наших слонов!');
+tweetsWithAdv.splice(9, 0, 'И натяжные потолки тоже у нас отличные!');
+
+tweets.length; // 12
+tweetsWithAdv.length; // 14
+
+</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Операции с массивом твитов</h4>
+
+        <pre><code>
+// Постраничная навигация
+var tweetsByPage = tweetsWithAdv.slice(5, 10);
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Объекты</h4>
+
+        <blockquote class="size-XS">
+            Список, состоящий из пар с именем свойства и связанного с ним значения, которое может быть произвольного типа.
+        </blockquote>
+        <small class="grey">Mozilla Developer Network</small>
+    </section>
+
+    <section>
+        <h4>Создание объекта</h4>
+
+        <pre class="size-XS"><code>
+// Пустой объект
+var emptyObject = {};
+        </code></pre>
+
+        <pre class="fragment size-XS"><code>
+// Объект с предопределенным набором свойств
+var tweet = {
+  createdAt: 'Sat Oct 01 12:01:08 +0000 2016',
+  id: 782188596690350100,
+  text: 'Я и ИоТ, пятый доклад на WSD в Питере Вадима Макеева #wstdays',
+  user: {
+    id: 42081171,
+    name: 'Веб-стандарты',
+    screenName: 'webstandards_ru',
+    followersCount: 6443
+  },
+  hashtags: ['wstdays']
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Обращение к свойствам объекта</h4>
+
+        <pre class="size-S"><code>
+// Получение значения свойства через точечную нотацию
+emptyObject.propertyName = 'foo'; // { propertyName: 'foo' }
+emptyObject.propertyName; // 'foo'
+        </code></pre>
+
+        <pre class="fragment size-S"><code>
+// Удаление свойства
+delete emptyObject.propertyName; // {}
+        </code></pre>
+
+        <pre class="fragment size-S"><code>
+tweet.id; // 782188596690350100
+tweet.user.screenName; // 'webstandards_ru'
+        </code></pre>
+
+        <pre class="fragment size-S"><code>
+// Получение значения свойства через квадратные скобки
+tweet['i' + 'd']; // 782188596690350100
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Итерирование по ключам объекта</h4>
+
+        <pre><code>
+var keys = Object.keys(tweet);
+
+keys; // ['createdAt', 'id', 'text', 'user', 'hashtags']
+
+for (var i = 0; i < keys.length; i++) {
+  var key = keys[i];
+  var value = tweet[key];
+
+  // Что-то делаем с ключом и со значением
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Проверка наличия свойства у объекта</h4>
+
+        <pre><code>
+tweet.hasOwnProperty('text'); // true
+        </code></pre>
+        <pre class="fragment"><code>
+tweet.hasOwnProperty('text'); // true
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Функции</h4>
+
+        <blockquote class="size-XS">
+            Именованый блок кода, который позволяет переиспользовать существующий код.
+        </blockquote>
+        <blockquote class="size-XS">
+            Может иметь входные параметры и возвращать значение.
+        </blockquote>
+        <blockquote class="size-XS">
+            Является объектом высшего порядка.
+        </blockquote>
+    </section>
+
+    <section>
+        <h4>Декларация функции</h4>
+
+        <pre><code>
+function getFollowersCount() {
+  return 6443;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Декларация функции</h4>
+
+        <pre><code>
+function noop() {
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Декларация функции</h4>
+
+        <pre><code>
+function noop() {
+  return undefined;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Декларация функции</h4>
+
+        <pre><code>
+function getAuthor(tweet) {
+  return tweet.user.screen_name;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача по значению и по ссылке</h4>
+
+        <pre><code>
+tweet.user.followersCount; // 6443
+
+function incrementFollowersCount(count) {
+  count++; // 6444
+}
+
+incrementFollowersCount(tweet.user.followersCount);
+
+tweet.user.followersCount; // 6443
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача по значению и по ссылке</h4>
+
+        <pre><code>
+tweet.user; // { id: 42081171, name: 'Веб-стандарты',
+// screenName: 'webstandards_ru', followersCount: 6443 }
+
+function incrementFollowersCount(user) {
+  user.followersCount++;
+}
+
+incrementFollowersCount(tweet.user);
+tweet.user; // { id: 42081171, name: 'Веб-стандарты',
+// screenName: 'webstandards_ru', followersCount: 6444 }
+        </code></pre>
+    </section>
+
+    <section>
+        <blockquote class="size-XS">
+            Функции — объекты высшего порядка.
+        </blockquote>
+        <p class="grey size-XS">
+            Они могут быть переданы в другие функции в качестве аргумента, а так же могут
+            иметь личные свойства, как и другие объекты.
+        </p>
+    </section>
+
+    <section>
+        <h4>Передача функций в качестве аргументов</h4>
+
+        <pre class="size-XS"><code>
+var tweets = [
+  { hashtags: ['wstdays'], likes: 16, text: 'Я и ИоТ, пятый…' },
+  { hashtags: ['wstdays', 'mails'], likes: 33, text: 'Вёрстка писем…' },
+  { hashtags: ['wstdays'], likes: 7, text: 'PWA. Что это…' },
+  { hashtags: ['wstdays', 'pokemongo'], likes: 12, text: 'Pokémon GO на…' },
+  { hashtags: ['wstdays'], likes: 15, text: 'Ого сколько фронт…' },
+  { hashtags: ['wstdays', 'html'], likes: 22, text: '&lt;head&gt; — всему…' },
+  { hashtags: ['wstdays'], likes: 8, text: 'Доброе утро! WSD…' },
+  { likes: 9, text: 'Наглядная таблица доступности…' },
+  { hashtags: ['nodejs'], likes: 7, text: 'Node.js, TC-39 и модули,…' },
+  { hashtags: ['html'], likes: 28, text: 'Всегда используйте &lt;label&gt;…' },
+  { likes: 18, text: 'JSX: антипаттерн или нет?…' },
+  { hashtags: ['svg'], likes: 19, text: 'Как прятать инлайновые…' }
+];
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача функций в качестве аргументов</h4>
+
+        <pre class="size-S"><code data-noescape>
+var result;
+
+// Теперь в result лежат отфильтрованные твиты
+tweets.forEach(filterWithWstdaysHashtag);
+
+// Выбираем только твиты с хештегом #wstdays
+function filterWithWstdaysHashtag(tweet, index) {
+  var hashtags = tweet.hashtags;
+  if (<span class="fragment highlight blue init_visible" data-fragment-index="1">Array.isArray(hashtags)</span> && <span class="fragment highlight blue init_visible" data-fragment-index="2">hashtags.indexOf('wstdays') !== -1</span>) {
+    result.push(tweet);
+  }
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача функций в качестве аргументов</h4>
+
+        <pre class="size-XS"><code data-noescape>
+// Теперь в result лежит HTML c деревом твитов
+var result = '&lt;dl&gt;' + tweets<span class="fragment highlight blue init_visible" data-fragment-index="1">.filter(filterWithWstdaysHashtag)</span>
+                            <span class="fragment highlight blue init_visible" data-fragment-index="1">.map(render)</span>
+                            .join('\n') + '&lt;/dl&gt;';
+
+// Выбираем только твиты с хештегом #wstdays
+function filterWithWstdaysHashtag(tweet, index) {
+  var hashtags = tweet.hashtags;
+  return Array.isArray(hashtags) && hashtags.indexOf('wstdays') !== -1;
+}
+
+// Превращаем массив объектов твитов в HTML-строки
+function render(tweet, index) {
+  return '&lt;dt&gt;' + tweet.text + '&lt;/dt&gt;' +
+    '&lt;dd&gt;' + tweet.user + '&lt;/dd&gt;' +
+    '&lt;dd&gt;' + tweet.hashtags.join(', ') + '&lt;/dd&gt;';
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Полезные функции для работы со строками</h4>
+
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/toLowerCase">toLowerCase</a>
+            — приводим строку к нижнему регистру
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/Trim">trim</a>
+            — удаляет пробельные символы с обеих сторон
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith">startsWith</a>
+            — начинается ли строка с подстроки
+        </p>
+        <br>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String">
+                Все функции для работы со строками
+            </a>
+        </p>
+    </section>
+
+    <section>
+        <h4>Полезные функции для работы с массивами</h4>
+
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">
+                reduce
+            </a>
+            — аккумулируем значения из массива к одному значению
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">
+                sort
+            </a>
+            — сортируем массив
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/every">
+                every
+            </a>
+            — удовлетворяют ли <b>все элементы</b> массива условию
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/some">
+                some
+            </a>
+            — удовлетворяет ли <b>хотя бы один элемент</b> массива условию
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/shift">
+                shift
+            </a>
+            — выталкивает из массива первый элемент и возвращает его
+        </p>
+        <br>
+
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array">
+                Все функции для работы с массивами
+            </a>
+        </p>
+    </section>
+
+    <section>
+        <h4>Домашнее задание</h4>
+        <h4><a href="https://github.com/urfu-2016/javascript-task-2">Телефонная книга</a></h4>
+    </section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
