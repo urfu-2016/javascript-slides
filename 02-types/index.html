@@ -27,6 +27,12 @@
     </section>
 
     <section>
+        <h2>Who are you to lecture me? <sup>*</sup></h2>
+        <p>&nbsp;</p>
+        <small class="grey"><sup>*</sup> Кто ты такой, чтобы читать мне лекции?</small>
+    </section>
+
+    <section>
         <h4>Содержание</h4>
         <ul>
             <li>Строки</li>
@@ -48,11 +54,11 @@
         <h4>Создание строки</h4>
 
         <div class="multiple-pre">
-<pre><code>
+<pre class="js"><code>
 // Пустая строка
 var emptyString = '';
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 // Длина строки
 emptyString.length; // 0
 
@@ -63,14 +69,14 @@ emptyString.length; // 0
     <section>
         <h4>Создание строки</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 // Можно использовать одинарные кавычки
 var russianString = 'строка текста';
 
 russianString.length; // 13
         </code></pre>
 
-        <pre class="fragment"><code>
+        <pre class="fragment js"><code>
 // Можно использовать двойные кавычки
 var russianString = "строка текста";
 
@@ -81,18 +87,18 @@ russianString.length; // 13
     <section>
         <h4>Создание строки</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 var escapeCodesString = 'a\'b' // a'b
 
 escapeCodesString.length; // 3
         </code></pre>
 
-        <pre class="fragment"><code>
+        <pre class="fragment js"><code>
 var escapeCodesString = 'a\\b' // a\b
 
 escapeCodesString.length; // 3
         </code></pre>
-        <pre class="fragment"><code>
+        <pre class="fragment js"><code>
 var escapeCodesString = 'a\n\tb' // a
                                  //     b
 
@@ -103,7 +109,8 @@ escapeCodesString.length; // 4
     <section>
         <h4>Создание строки</h4>
 
-        <pre class="size-XXS"><code>
+        <pre class="size-XXS js"><code>
+// Поддерживаются все символы из Unicode
 var utf8String = '中文 español English বাংলা русский 日本語 ਪੰਜਾਬੀ 한국어 தமிழ்';
 
 utf8String.length; // 53
@@ -113,7 +120,7 @@ utf8String.length; // 53
     <section>
         <h4>Строки являются незаписываемыми</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 var russianString = 'кот';
 
 // Возможно обращение к символу по индексу
@@ -128,8 +135,8 @@ russianString; // 'кот'
     <section>
         <h4>Срезы из строк</h4>
 
-        <pre class="size-XS"><code>
-// Обрежем строку до 140 символов под длину твита
+        <pre class="size-XS js"><code>
+// Обрезаем строку до 140 символов под длину твита
 var longString = 'Очевидно проверяется, что математический анализ \
 существенно масштабирует интеграл по поверхности, что неудивительно. \
 Первая производная, очевидно, позиционирует ортогональный определитель.'
@@ -149,7 +156,7 @@ shortString.length; // 140
     <section>
         <h4>Поиск в строке</h4>
 
-        <pre class="size-XS"><code>
+        <pre class="size-XS js"><code>
 var tweet = 'PWA. Что это такое? Третий доклад на WSD в Питере Сергея ' +
   'Густуна #wstdays';
 
@@ -174,25 +181,25 @@ tweet.indexOf('#fronttalks'); // -1
         <h4>Создание массива</h4>
 
         <div class="multiple-pre">
-<pre><code>
+<pre class="js"><code>
 // Пустой массив
 var emptyArray = [];
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 emptyArray.length; // 0
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 // Массив чисел
 var arrayOfNumbers = [1, 2, 3, 4];
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 arrayOfNumbers.length; // 4
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 // Массив строк
 var arrayOfStrings = ['a', 'b', 'c'];
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 arrayOfStrings.length; // 3
 
 </code></pre>
@@ -203,7 +210,7 @@ arrayOfStrings.length; // 3
     <section>
         <h4>Итерирование по массиву</h4>
 
-        <pre class="size-XXS"><code>
+        <pre class="size-XXS js"><code>
 var tweets = [
   'Я и ИоТ, пятый доклад на WSD в Питере Вадима Макеев #wstdays',
   'Вёрстка писем. Развенчиваем мифы. Четвёртый доклад на WSD в Питере Артура Коха #wstdays',
@@ -226,7 +233,7 @@ tweets.length; // 12
     <section>
         <h4>Итерирование по массиву</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 for (var i = 0; i < tweets.length; i++) {
   var tweet = tweets[i];
 
@@ -239,7 +246,7 @@ for (var i = 0; i < tweets.length; i++) {
         <h4>Добавление / удаление из массива</h4>
         <div class="multiple-pre">
 
-<pre><code>
+<pre class="js"><code>
 var emptyArray = [];
 
 // Добавляем элементы
@@ -249,7 +256,7 @@ emptyArray; // ['a', 'b']
 
 emptyArray.length; // 2
 </code></pre>
-<pre class="fragment"><code>
+<pre class="fragment js"><code>
 // Удаляем последний элемент
 emptyArray.pop(); // 'b'
 emptyArray; // ['a']
@@ -263,7 +270,7 @@ emptyArray.length; // 1
     <section>
         <h4>Объединение массивов</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 var concatedArray = arrayOfNumbers.concat(arrayOfStrings);
 
 concatedArray; // [1, 2, 3, 4, 'a', 'b', 'c']
@@ -276,8 +283,8 @@ arrayOfStrings; // ['a', 'b', 'c']
     <section>
         <h4>Поиск в массиве твитов</h4>
 
-        <pre><code>
-// Найдем все строки содержашие хештег #wstdays в массиве
+        <pre class="js"><code>
+// Найдем все строки, содержашие хештег #wstdays в массиве
 var result = [];
 
 for (var i = 0; i < tweets.length; i++) {
@@ -294,12 +301,12 @@ for (var i = 0; i < tweets.length; i++) {
         <h4>Операции с массивом твитов</h4>
 
         <div class="multiple-pre">
-<pre class="size-S"><code>
+<pre class="size-S js"><code>
 // Копируем оригинальную ленту в новый массив
 var tweetsWithAdv = tweets.slice();
 </code></pre>
 
-<pre class="fragment size-S"><code>
+<pre class="fragment size-S js"><code>
 // Добавим немного рекламы в ленту, изменяя копию
 tweetsWithAdv.splice(4, 0, 'Покупайте наших слонов!');
 tweetsWithAdv.splice(9, 0, 'И натяжные потолки тоже у нас отличные!');
@@ -314,7 +321,7 @@ tweetsWithAdv.length; // 14
     <section>
         <h4>Операции с массивом твитов</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 // Постраничная навигация
 var tweetsByPage = tweetsWithAdv.slice(5, 10);
         </code></pre>
@@ -332,12 +339,12 @@ var tweetsByPage = tweetsWithAdv.slice(5, 10);
     <section>
         <h4>Создание объекта</h4>
 
-        <pre class="size-XS"><code>
+        <pre class="size-XS js"><code>
 // Пустой объект
 var emptyObject = {};
         </code></pre>
 
-        <pre class="fragment size-XS"><code>
+        <pre class="fragment size-XS js"><code>
 // Объект с предопределенным набором свойств
 var tweet = {
   createdAt: 'Sat Oct 01 12:01:08 +0000 2016',
@@ -357,23 +364,23 @@ var tweet = {
     <section>
         <h4>Обращение к свойствам объекта</h4>
 
-        <pre class="size-S"><code>
+        <pre class="size-S js"><code>
 // Получение значения свойства через точечную нотацию
 emptyObject.propertyName = 'foo'; // { propertyName: 'foo' }
 emptyObject.propertyName; // 'foo'
         </code></pre>
 
-        <pre class="fragment size-S"><code>
+        <pre class="fragment size-S js"><code>
 // Удаление свойства
 delete emptyObject.propertyName; // {}
         </code></pre>
 
-        <pre class="fragment size-S"><code>
+        <pre class="fragment size-S js"><code>
 tweet.id; // 782188596690350100
 tweet.user.screenName; // 'webstandards_ru'
         </code></pre>
 
-        <pre class="fragment size-S"><code>
+        <pre class="fragment size-S js"><code>
 // Получение значения свойства через квадратные скобки
 tweet['i' + 'd']; // 782188596690350100
         </code></pre>
@@ -382,7 +389,7 @@ tweet['i' + 'd']; // 782188596690350100
     <section>
         <h4>Итерирование по ключам объекта</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 var keys = Object.keys(tweet);
 
 keys; // ['createdAt', 'id', 'text', 'user', 'hashtags']
@@ -399,11 +406,11 @@ for (var i = 0; i < keys.length; i++) {
     <section>
         <h4>Проверка наличия свойства у объекта</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 tweet.hasOwnProperty('text'); // true
         </code></pre>
-        <pre class="fragment"><code>
-tweet.hasOwnProperty('text'); // true
+        <pre class="fragment js"><code>
+tweet.hasOwnProperty('nonExistantProperty'); // false
         </code></pre>
     </section>
 
@@ -424,7 +431,7 @@ tweet.hasOwnProperty('text'); // true
     <section>
         <h4>Декларация функции</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 function getFollowersCount() {
   return 6443;
 }
@@ -434,7 +441,7 @@ function getFollowersCount() {
     <section>
         <h4>Декларация функции</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 function noop() {
 }
         </code></pre>
@@ -443,7 +450,7 @@ function noop() {
     <section>
         <h4>Декларация функции</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 function noop() {
   return undefined;
 }
@@ -453,7 +460,7 @@ function noop() {
     <section>
         <h4>Декларация функции</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 function getAuthor(tweet) {
   return tweet.user.screen_name;
 }
@@ -463,7 +470,7 @@ function getAuthor(tweet) {
     <section>
         <h4>Передача по значению и по ссылке</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 tweet.user.followersCount; // 6443
 
 function incrementFollowersCount(count) {
@@ -479,7 +486,7 @@ tweet.user.followersCount; // 6443
     <section>
         <h4>Передача по значению и по ссылке</h4>
 
-        <pre><code>
+        <pre class="js"><code>
 tweet.user; // { id: 42081171, name: 'Веб-стандарты',
 // screenName: 'webstandards_ru', followersCount: 6443 }
 
@@ -506,7 +513,7 @@ tweet.user; // { id: 42081171, name: 'Веб-стандарты',
     <section>
         <h4>Передача функций в качестве аргументов</h4>
 
-        <pre class="size-XS"><code>
+        <pre class="size-XS js"><code>
 var tweets = [
   { hashtags: ['wstdays'], likes: 16, text: 'Я и ИоТ, пятый…' },
   { hashtags: ['wstdays', 'mails'], likes: 33, text: 'Вёрстка писем…' },
@@ -527,7 +534,7 @@ var tweets = [
     <section>
         <h4>Передача функций в качестве аргументов</h4>
 
-        <pre class="size-S"><code data-noescape>
+        <pre class="size-S js"><code data-noescape>
 var result;
 
 // Теперь в result лежат отфильтрованные твиты
@@ -536,7 +543,7 @@ tweets.forEach(filterWithWstdaysHashtag);
 // Выбираем только твиты с хештегом #wstdays
 function filterWithWstdaysHashtag(tweet, index) {
   var hashtags = tweet.hashtags;
-  if (<span class="fragment highlight blue init_visible" data-fragment-index="1">Array.isArray(hashtags)</span> && <span class="fragment highlight blue init_visible" data-fragment-index="2">hashtags.indexOf('wstdays') !== -1</span>) {
+  if (<span class="fragment highlight blue init_visible" data-fragment-index="1">Array.isArray(hashtags)</span> &amp;&amp; <span class="fragment highlight blue init_visible" data-fragment-index="2">hashtags.indexOf('wstdays') !== -1</span>) {
     result.push(tweet);
   }
 }
@@ -546,16 +553,16 @@ function filterWithWstdaysHashtag(tweet, index) {
     <section>
         <h4>Передача функций в качестве аргументов</h4>
 
-        <pre class="size-XS"><code data-noescape>
+        <pre class="size-XS js"><code data-noescape>
 // Теперь в result лежит HTML c деревом твитов
 var result = '&lt;dl&gt;' + tweets<span class="fragment highlight blue init_visible" data-fragment-index="1">.filter(filterWithWstdaysHashtag)</span>
-                            <span class="fragment highlight blue init_visible" data-fragment-index="1">.map(render)</span>
-                            .join('\n') + '&lt;/dl&gt;';
+                            <span class="fragment highlight blue init_visible" data-fragment-index="2">.map(render)</span>
+                            <span class="fragment highlight blue init_visible" data-fragment-index="3">.join('\n')</span> + '&lt;/dl&gt;';
 
 // Выбираем только твиты с хештегом #wstdays
 function filterWithWstdaysHashtag(tweet, index) {
   var hashtags = tweet.hashtags;
-  return Array.isArray(hashtags) && hashtags.indexOf('wstdays') !== -1;
+  return Array.isArray(hashtags) &amp;&amp; hashtags.indexOf('wstdays') !== -1;
 }
 
 // Превращаем массив объектов твитов в HTML-строки
@@ -564,6 +571,47 @@ function render(tweet, index) {
     '&lt;dd&gt;' + tweet.user + '&lt;/dd&gt;' +
     '&lt;dd&gt;' + tweet.hashtags.join(', ') + '&lt;/dd&gt;';
 }
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача функций в качестве аргументов</h4>
+
+        <pre class="size-XS js"><code data-noescape>
+var likesCount = tweets.reduce(getTotalLikes, 0)
+
+function getTotalLikes(acc, item) {
+  return acc + item.likes;
+}
+
+likesCount; // 194
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Передача функций в качестве аргументов</h4>
+
+        <pre class="size-XXS js"><code data-noescape>
+var hashtagsStat = tweets<span class="fragment highlight blue init_visible" data-fragment-index="1">.reduce(flattenHashtags, [])</span>
+    // ['wstdays', 'wstdays', 'mails', 'wstdays', 'wstdays', 'pokemongo',
+    // 'wstdays', 'wstdays', 'html', 'wstdays', 'nodejs', 'html', 'svg']
+                         <span class="fragment highlight blue init_visible" data-fragment-index="2">.reduce(getHashtagsStats, {})</span>;
+
+function flattenHashtags(acc, item) {
+  return acc.concat(item.hashtags || []);
+}
+
+function getHashtagsStats(acc, item) {
+  if (!acc.hasOwnProperty(item)) {
+    acc[item] = 0;
+  }
+
+  acc[item]++;
+
+  return acc;
+}
+
+hashtagsStats; // { html: 2, mails: 1, nodejs: 1, pokemongo: 1, svg: 1, wstdays: 7 }
         </code></pre>
     </section>
 
@@ -594,12 +642,6 @@ function render(tweet, index) {
         <h4>Полезные функции для работы с массивами</h4>
 
         <p class="left size-XS">
-            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce">
-                reduce
-            </a>
-            — аккумулируем значения из массива к одному значению
-        </p>
-        <p class="left size-XS">
             <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">
                 sort
             </a>
@@ -622,6 +664,12 @@ function render(tweet, index) {
                 shift
             </a>
             — выталкивает из массива первый элемент и возвращает его
+        </p>
+        <p class="left size-XS">
+            <a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift">
+                unshift
+            </a>
+            — добавляет элемент в начало массива
         </p>
         <br>
 
