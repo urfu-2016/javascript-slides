@@ -1,0 +1,757 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, Intro</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+    <section>
+        <h2>Типы данных. Продолжение</h2>
+        <p class="author"><small>Чистяков Денис</small></p>
+    </section>
+
+    <section>
+        <h4>В прошлой лекции мы обсудили:</h4>
+        <ul>
+            <li>Строки, массивы, объекты и функции</li>
+            <li>Отличия примитивных типов данных от сложных</li>
+            <li>Основные методы для работы со строками и массивами</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Содержание</h4>
+        <ul>
+            <li>Объекты и методы</li>
+            <li>Нестрогое сравнение</li>
+            <li>Даты</li>
+            <li>Регулярные выражения</li>
+            <li>Math</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Методы объекта</h4>
+        <!-- Узнать, можно ли выключать предыдущую подсветку -->
+        <pre class="size-XS js"><code data-noescape>
+// Объект с предопределенным набором свойств
+var tweet = <span class="fragment highlight mark init_visible" data-fragment-index="3">{</span>
+  <!--
+  createdAt: 'Sat Oct 01 12:01:08 +0000 2016',
+  text: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+  user: {
+    name: 'Веб-стандарты',
+    screenName: 'webstandards_ru',
+    followersCount: 6443
+  },
+  hashtags: ['wstdays'],
+  -->…
+  likes: 16,
+  <span class="fragment highlight blue init_visible" data-fragment-index="1">getLikes: function()</span> {
+    return <span class="fragment highlight blue init_visible" data-fragment-index="2">this</span>.likes;
+  },
+  setLikes: function(value) {
+    this.likes = parseInt(value) || 0;
+    return <span class="fragment highlight blue init_visible" data-fragment-index="5">this</span>;
+  },
+  getAuthor: function() {
+    return <span class="fragment highlight blue init_visible" data-fragment-index="4">this.user.screenName</span>;
+  }
+<span class="fragment highlight mark init_visible" data-fragment-index="3">}</span>;
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Методы объекта</h4>
+        <pre class="js"><code>
+tweet.getLikes(); // 16
+        </code></pre>
+        <pre class="fragment js"><code>
+tweet.setLikes(17) // { … }
+     .getLikes();  // 17
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Методы объекта</h4>
+        <pre class="size-XS js"><code data-noescape>
+// Объект с предопределенным набором свойств
+var tweet = {
+  <!--
+  createdAt: 'Sat Oct 01 12:01:08 +0000 2016',
+  text: 'Я и ИоТ, пятый доклад на WSD в Питере Вадима Макеева #wstdays',
+  user: {
+    name: 'Веб-стандарты',
+    screenName: 'webstandards_ru',
+    followersCount: 6443
+  },
+  hashtags: ['wstdays'],
+  -->…
+  _likes: 16,
+  <span class="fragment highlight blue init_visible" data-fragment-index="1">get likes()</span> {
+    return <span class="fragment highlight blue init_visible" data-fragment-index="2">this</span>._likes;
+  },
+  <span class="fragment highlight blue init_visible" data-fragment-index="3">set likes(value)</span> {
+    this._likes = parseInt(value) || 0;
+  },
+  getAuthor: function() {
+    return this.user.screenName;
+  }
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Методы объекта</h4>
+        <pre class="js"><code>
+tweet.likes; // 16
+        </code></pre>
+        <pre class="fragment js"><code>
+tweet.likes = 17;
+tweet.likes; // 17
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Обработка исключений</h4>
+        <pre class="size-XS js"><code data-noescape>
+// Объект с предопределенным набором свойств
+var tweet = {
+  …
+  _likes: 16,
+  get likes() {
+    return this._likes;
+  },
+  set likes(value) {
+    var likes = parseInt(value);
+
+    if (isNaN(likes) || likes < 0) {
+        <span class="fragment highlight blue init_visible" data-fragment-index="1">throw new TypeError('Передано неверное значение')</span>;
+    }
+
+    this._likes = likes;
+  },
+  getAuthor: function() {
+    return this.user.screenName;
+  }
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Обработка исключений</h4>
+        <pre class="js"><code data-noescape>
+<span class="fragment highlight blue init_visible" data-fragment-index="1">try {</span>
+  tweet.likes = 'foo';
+<span class="fragment highlight blue init_visible" data-fragment-index="1">}</span> <span class="fragment highlight mark init_visible" data-fragment-index="2">catch (e) {</span>
+  if (<span class="fragment highlight blue init_visible" data-fragment-index="3">e instanceof TypeError</span>) {
+    tweet.likes = 0;
+  }
+  console.error(e);
+<span class="fragment highlight mark init_visible" data-fragment-index="2">}</span>
+
+tweet.likes; // 0
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>TypeError</h4>
+        <pre class="js"><code>
+// Имя типа ошибки
+e.name; // 'TypeError'
+        </code></pre>
+        <pre class="fragment js"><code>
+// Сообщение ошибки
+e.message; // 'Передано неверное значение'
+        </code></pre>
+        <pre class="fragment js"><code>
+// Стек вызовов
+e.stack;
+// TypeError: Передано неверное значение
+//     at Object.set likes [as likes] (&lt;anonymous&gt;:10:15)
+//     at &lt;anonymous&gt;:18:15
+        </code></pre>
+    </section>
+
+    <!--
+    <section>
+        <h4>🐼 == 128055?</h4>
+        <ul>
+            <li>Операнды одного типа?</li>
+            <li>Один из операндов примитив?</li>
+            <li>valueOf()</li>
+            <li>toString()</li>
+        </ul>
+    </section>
+    -->
+
+    <section>
+        <h4>🐼 == 128055?</h4>
+        <pre class="size-S js"><code data-noescape>
+var panda = {
+  valueOf: function() {
+    return 128060;
+  },
+  toString: function() {
+    return '&amp;#x1F43C;';
+  }
+}
+        </code></pre>
+
+        <pre class="size-S fragment js" data-fragment-index="1"><code data-noescape>
+var pigCode = 128055;
+        </code></pre>
+
+        <pre class="size-S fragment js" data-fragment-index="3"><code data-noescape>
+panda == pigCode; // ???
+        </pre></code>
+    </section>
+
+    <section>
+        <h4>🐼 == 128055?</h4>
+        <pre class="size-S js"><code data-noescape>
+isPrimitive(panda); // false
+        </pre></code>
+        <pre class="size-S fragment js"><code data-noescape>
+isPrimitive(pigCode); // true
+        </pre></code>
+        <pre class="size-S fragment js"><code data-noescape>
+typeof panda.valueOf === 'function'; // true
+        </pre></code>
+        <pre class="size-S fragment js"><code data-noescape>
+panda.valueOf() === pigCode; // false
+        </pre></code>
+        <pre class="size-S fragment js"><code data-noescape>
+128060 === 128055; // false
+        </pre></code>
+        <pre class="size-XS fragment js"><code data-noescape>
+panda == pigCode; // false
+        </pre></code>
+        <p class="left size-XXS fragment">
+            <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3" target="_blank">Абстрактный Алгоритм Эквивалентного Сравнения</a>
+        </p>
+    </section>
+
+
+    <section>
+        <h4>Операция сравнения двух сложных типов вернет истину только в том случае,
+            если внутренние ссылки обоих объектов ссылаются на один и тот же
+            объект в памяти</h4>
+        <p class="green fragment"><code>{} == {}; // false</code></p>
+    </section>
+
+    <section>
+        <h4>🐼 == 128060?</h4>
+        <pre class="size-XS js"><code data-noescape>
+var panda = {
+  valueOf: function() {
+    return <span class="fragment highlight blue init_visible" data-fragment-index="2">128060</span>;
+  },
+  toString: function() {
+    return '&amp;#x1F43C;';
+  }
+}
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="1"><code data-noescape>
+var pandaCode = <span class="fragment highlight blue init_visible" data-fragment-index="2">128060</span>
+        </code></pre>
+
+        <pre class="size-XS fragment js"><code data-noescape>
+panda == pandaCode; // true
+        </pre></code>
+    </section>
+
+    <section class="__multiple-pre">
+        <h4>Приведение объекта к числу</h4>
+        <pre class="size-XXS js"><code>var panda = {
+  valueOf: function() { return 128060; },
+  toString: function() { return '&amp;#x1F43C;'; }
+}</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="1"><code data-noescape><span class="fragment highlight blue init_visible" data-fragment-index="9">Number(panda); // 128060</span></code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code>+panda; // 128060</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="3"><code>~~panda; // 128060</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="4"><code>panda == 128060; // true</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="5"><code>panda === 128060; // false</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code>parseInt(panda); // NaN</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="7"><code>parseFloat(panda); // NaN</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="8"><code>panda.valueOf(); // 128060</code></pre>
+    </section>
+
+    <section class="__multiple-pre">
+        <h4>Приведение объекта к строке</h4>
+        <pre class="size-XXS js"><code data-noescape>var panda = {
+  valueOf: function() { return 128060; },
+  toString: function() { return '&amp;#x1F43C;'; }
+}</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="1"><code data-noescape><span class="fragment highlight mark init_visible" data-fragment-index="8">String(panda)</span>; // '&amp;#x1F43C;'</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>'' + panda; // <span class="fragment highlight blue init_visible" data-fragment-index="3">'128060'</span></code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="4"><code data-noescape>panda == <span class="fragment highlight blue init_visible" data-fragment-index="5">'128060'</span>; // true</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code data-noescape>panda === '128060'; // false</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="7"><code data-noescape><span class="fragment highlight mark init_visible" data-fragment-index="9">panda.toString()</span>; // '&amp;#x1F43C;'</code></pre>
+    </section>
+
+    <section data-background-image="images/8f53282bbacb29f43ca839b39e10f2ab.jpeg">
+    </section>
+
+    <section>
+        <h4>Не&nbsp;определяейте <code>valueOf</code>&nbsp;и <code>toString</code>
+            одновременно. По&nbsp;возможности определяйте только <code>toString</code>.
+            Его поведение более предсказуемо.</h4>
+    </section>
+
+    <section class="__multiple-pre">
+        <h4>Приведение объекта к строке</h4>
+        <pre class="size-XXS js"><code data-noescape>var panda = {
+  toString: function() { return '&amp;#x1F43C;'; }
+}</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="1"><code data-noescape>String(panda); // '&amp;#x1F43C;'</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>'' + panda; // <span class="fragment highlight blue init_visible" data-fragment-index="3">'&amp;#x1F43C;'</span></code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="4"><code data-noescape>panda == <span class="fragment highlight blue init_visible" data-fragment-index="5">'&amp;#x1F43C;'</span>; // true</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code data-noescape>panda === '&amp;#x1F43C;'; // false</code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="7"><code data-noescape>panda.toString(); // '&amp;#x1F43C;'</code></pre>
+    </section>
+
+    <section>
+        <h4>Скрытые методы</h4>
+        <pre class="size-XS js"><code>
+var panda = {
+  valueOf: function() { return 128060; },
+  toString: function() { return '&amp;#x1F43C;'; }
+}
+        </code></pre>
+        <pre class="size-XS fragment js"><code>
+Object.keys(panda); // ['valueOf', 'toString']
+        </code></pre>
+        <pre class="size-XS fragment js"><code>
+var emptyObject = {};
+        </code></pre>
+        <pre class="size-XS fragment js"><code>
+Object.keys(emptyObject); // []
+        </code></pre>
+        <pre class="size-XS fragment js"><code>
+typeof panda.valueOf === 'function'; // true
+        </code></pre>
+        <pre class="size-XS fragment js"><code>
+typeof emptyObject.valueOf === 'function'; // true
+        </code></pre>
+    </section>
+
+    <!--
+    <section data-background-image="images/8f53282bbacb29f43ca839b39e10f2ab.jpeg">
+    </section>
+    -->
+
+    <section>
+        <h4>Объявление методов объекта</h4>
+        <pre class="size-XXS js"><code>
+var panda = {};
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="1"><code data-noescape>
+<span class="fragment highlight blue init_visible" data-fragment-index="2">Object.defineProperty</span>(panda, <span class="fragment highlight blue init_visible" data-fragment-index="3">'valueOf'</span>, {
+  <span class="fragment highlight blue init_visible" data-fragment-index="4">value</span>: function() {
+    return 128060;
+  },
+  writable: true,
+  <span class="fragment highlight blue init_visible" data-fragment-index="5">enumerable: false</span>,
+  configurable: true
+});
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code data-noescape>
+Object.defineProperty(panda, 'toString', {
+  value: function() {
+    return '&amp;#x1F43C;';
+  },
+  writable: true,
+  enumerable: false,
+  configurable: true
+});
+        </code></pre>
+        <p class="left size-XXS fragment"><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperties">Object.defineProperties</a></p>
+    </section>
+
+    <section class="multiple-pre">
+        <h4>Объявление методов объекта. <code>writable</code></h4>
+        <pre class="size-S js"><code>var tweet = {};</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="1"><code>
+Object.defineProperty(tweet, 'text', {
+    value: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+    writable: false
+}
+ </code></pre>
+        <pre class="size-S fragment js" data-fragment-index="2"><code data-noescape><span class="fragment highlight blue init_visible" data-fragment-index="3">Object.getOwnPropertyDescriptor</span>(tweet, 'text');
+// { value: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+//   writable: false,
+//   <span class="fragment highlight blue init_visible" data-fragment-index="4">enumerable: false</span>,
+//   <span class="fragment highlight blue init_visible" data-fragment-index="4">configurable: false</span> }
+
+</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="5"><code>tweet.text; // 'Я и ИоТ, пятый доклад на #wstdays в Питере'</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="6"><code>tweet.text = 'Вёрстка писем. Развенчиваем мифы. … #wstdays';</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="7"><code>tweet.text; // 'Я и ИоТ, пятый доклад на #wstdays в Питере'</code></pre>
+    </section>
+
+    <section>
+        <h4>Значения параметров <code>writable</code>, <code>enumerable</code>
+            и <code>configurable</code> по&nbsp;умолчанию&nbsp;— <code>false</code>.</h4>
+    </section>
+
+    <section class="multiple-pre">
+        <h4>Объявление методов объекта. <code>configurable</code></h4>
+        <pre class="size-S js"><code>var tweet = {};</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="1"><code>
+Object.defineProperty(tweet, 'text', {
+    value: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+    configurable: false
+});</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="2"><code data-noescape>
+Object.getOwnPropertyDescriptor(tweet, 'text');
+// { value: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+//   writable: false,
+//   enumerable: false,
+//   configurable: false }</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="2"><code>&nbsp;</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="4"><code>tweet.text; // 'Я и ИоТ, пятый доклад на #wstdays в Питере'</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="5"><code>tweet.hasOwnProperty('text'); // true</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="6"><code data-noescape>delete tweet.text; // <span class="fragment highlight blue init_visible" data-fragment-index="7">false</span></code></pre>
+        <pre class="size-S fragment js" data-fragment-index="8"><code>tweet.text; // 'Я и ИоТ, пятый доклад на #wstdays в Питере'</code></pre>
+        <pre class="size-S fragment js" data-fragment-index="9"><code>tweet.hasOwnProperty('text'); // true</code></pre>
+    </section>
+
+    <section data-background-image="images/freeze.png">
+    </section>
+
+    <section>
+        <h4>Заморозка</h4>
+        <pre class="size-XS js"><code data-noescape>
+var tweet = {
+  <!--
+  createdAt: 'Sat Oct 01 12:01:08 +0000 2016',
+  text: 'Я и ИоТ, пятый доклад на #wstdays в Питере',
+  user: {
+    name: 'Веб-стандарты',
+    screenName: 'webstandards_ru',
+    followersCount: 6443
+  },
+  hashtags: ['wstdays'],
+  -->…
+  likes: 16,
+  getLikes: function() {
+    return this.likes;
+  }
+<!--,
+  setLikes: function setLikes(value) {
+    this.likes = parseInt(value) || 0;
+    return this;
+  },
+  getAuthor: function getAuthor() {
+    return this.user.screenName;
+}
+-->};
+        </code></pre>
+
+        <pre class="size-XS fragment js"><code data-noescape>
+Object.isFrozen(tweet); // false
+        </code></pre>
+
+        <pre class="size-XS fragment js"><code data-noescape>
+Object.getOwnPropertyDescriptor(tweet, 'likes')
+// { value: 16,
+//   writable: true,
+//   enumerable: true,
+//   configurable: true }
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Заморозка</h4>
+        <pre class="size-XS js"><code data-noescape>
+Object.freeze(tweet);
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="1"><code data-noescape>
+Object.isFrozen(tweet); // true
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="2"><code data-noescape>
+Object.getOwnPropertyDescriptor(tweet, 'likes')
+// { value: 16,
+//   <span class="fragment highlight blue init_visible" data-fragment-index="3">writable: false</span>,
+//   enumerable: true,
+//   <span class="fragment highlight blue init_visible" data-fragment-index="3">configurable: false</span> }
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="4"><code data-noescape>
+tweet.likes = 17;
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="5"><code data-noescape>
+tweet.likes; // 16
+        </code></pre>
+
+        <pre class="size-XS fragment js" data-fragment-index="6"><code data-noescape>
+delete tweet.likes; // false
+        </code></pre>
+    </section>
+
+    <section class="multiple-pre">
+        <h4>Объект Даты</h4>
+        <pre class="size-XXS js"><code>// Создает объект с текущей датой в системном часовом поясе
+new Date(); // Mon Oct 17 2016 09:37:20 GMT+0500 (YEKT)
+        </code></pre>
+        <pre class="size-XXS fragment js"><code>tweet.createdAt; // 'Sat Oct 01 12:01:08 +0000 2016'
+// Пытаемся сконвертировать строку в дату
+new Date(tweet.createdAt); // Sat Oct 01 2016 17:01:08 GMT+0500 (YEKT)
+        </code></pre>
+        <pre class="size-XXS fragment js"><code>// Создаем дату из UNIX Timestamp
+new Date(1475323268000); // Sat Oct 01 2016 17:01:08 GMT+0500 (YEKT)
+        </code></pre>
+        <pre class="size-XXS fragment js"><code>// Создаем дату из набора параметров
+new Date(2016, 9, 1, 17, 1, 8); // Sat Oct 01 2016 17:01:08 GMT+0500 (YEKT)
+        </code></pre>
+        <pre class="size-XXS fragment js"><code>// Получаем UNIX Timestamp из даты
+(new Date(2016, 9, 1, 17, 1, 8)).valueOf(); // 1475323268000
+        </code></pre>
+        <pre class="size-XXS fragment js"><code>// Получаем текущее значение UNIX Timestamp
+Date.now(); // 1476680054602
+        </code></pre>
+
+        <p class="left size-XXS fragment"><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Date">Date</a></p>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <h5>Имеют стандартный PCRE-синтаксис</h5>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+        <p class="left size-XS"><a href="https://ru.wikipedia.org/wiki/PCRE">PCRE (Perl Compatible Regular Expressions)</a></p>
+        <p class="left size-XS"><a href="https://learn.javascript.ru/regular-expressions-javascript">Руководство по регулярным выражениям</a></p>
+    </section>
+
+    <section>
+        <img src="images/regexp.png" alt="">
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XXS js"><code data-noescape>
+tweet.text; // 'Node.js, и модули, Джеймс о проблемах Node.js <span class="fragment highlight blue init_visible" data-fragment-index="1">#</span><span class="fragment highlight blue init_visible" data-fragment-index="3"><span class="fragment highlight blue init_visible" data-fragment-index="2">n</span>odejs</span> <span class="fragment highlight blue init_visible" data-fragment-index="4">#modules</span>'
+
+// Проверяем содержится ли указанное регулярное выражение в строке
+/<span class="fragment highlight blue init_visible" data-fragment-index="1">#</span><span class="fragment highlight blue init_visible" data-fragment-index="2">[a-z0-9]</span><span class="fragment highlight blue init_visible" data-fragment-index="3">+</span>/<span class="fragment highlight mark init_visible" data-fragment-index="4">g</span><span class="fragment highlight mark init_visible" data-fragment-index="5">i</span>.test(tweet.text); // true
+        </code></pre>
+        <p class="left fragment size-XS" data-fragment-index="4"><code>g</code> — глобальное сопоставление</p>
+        <p class="left fragment size-XS" data-fragment-index="5"><code>i</code> — игнорирование регистра при сопоставлении</p>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code>
+var tweetWithoutHashtag; // 'Я и ИоТ, пятый доклад на WSD в Питере'
+
+/#[a-z0-9]+/gi.test(tweetWithoutHashtag); // false
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XXS js"><code data-noescape>
+var tweet = {
+  text: 'Node.js, и модули, Джеймс о проблемах Node.js #nodejs #modules #модули'
+};
+        </code></pre>
+        <pre class="size-XS fragment js" data-fragment-index="1"><code data-noescape>
+Object.defineProperty(tweet, 'linkify', {
+  <span class="fragment highlight blue init_visible" data-fragment-index="2">get</span>: function() {
+    return this.text.<span class="fragment highlight blue init_visible" data-fragment-index="3">replace</span>(/#[a-z0-9]+/gi, '&lt;a href="<span class="fragment highlight blue init_visible" data-fragment-index="4">$1</span>"&gt;<span class="fragment highlight blue init_visible" data-fragment-index="4">$1</span>&lt;/a&gt;');
+  }
+});
+        </code></pre>
+        <pre class="size-XS fragment js" data-fragment-index="5"><code>
+Object.getOwnPropertyDescriptor(tweet, 'linkify');
+// { get: [Function: get],
+//   set: undefined,
+//   enumerable: false,
+//   configurable: false }
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="6"><code data-noescape>
+tweet.linkify;
+// 'Node.js, и модули, Джеймс о проблемах Node.js
+// &lt;a href="$1"&gt;$1&lt;/a&gt; &lt;a href="$1"&gt;$1&lt;/a&gt; <span class="fragment highlight blue init_visible" data-fragment-index="7">#модули</span>'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XS js"><code data-noescape>
+return this.text.replace(
+  /#[a-z0-9<span class="fragment highlight blue init_visible" data-fragment-index="1">а-я</span>]+/gi,
+  '&lt;a href="$1"&gt;$1&lt;/a&gt;'
+);
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>
+tweet.linkify;
+// 'Node.js, и модули, Джеймс о проблемах Node.js
+// &lt;a href="$1"&gt;$1&lt;/a&gt; &lt;a href="$1"&gt;$1&lt;/a&gt; <span class="fragment highlight blue init_visible" data-fragment-index="3">&lt;a href="$1"&gt;$1&lt;/a&gt;</span>'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XS js"><code data-noescape>
+return this.text.replace(
+  /<span class="fragment highlight blue init_visible" data-fragment-index="1">(</span>#[a-z0-9а-я]+<span class="fragment highlight blue init_visible" data-fragment-index="1">)</span>/gi,
+  '&lt;a href="$1"&gt;$1&lt;/a&gt;'
+);
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>
+tweet.linkify;
+// 'Node.js, и модули, Джеймс о проблемах Node.js
+// &lt;a href="#nodejs"&gt;#nodejs&lt;/a&gt; &lt;a href="#modules"&gt;#modules&lt;/a&gt; &lt;a href="#модули"&gt;#модули&lt;/a&gt;'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XS js"><code data-noescape>
+return this.text.replace(
+  /<span class="fragment highlight blue init_visible" data-fragment-index="4">(#<span class="fragment highlight blue init_visible" data-fragment-index="1">(</span><span class="fragment highlight blue init_visible" data-fragment-index="3">[a-z0-9а-я]+</span><span class="fragment highlight blue init_visible" data-fragment-index="1">)</span>)</span>/gi,
+  '&lt;a href="<span class="fragment highlight blue init_visible" data-fragment-index="3">$2</span>"&gt;<span class="fragment highlight blue init_visible" data-fragment-index="4">$1</span>&lt;/a&gt;'
+);
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>
+tweet.linkify;
+// 'Node.js, и модули, Джеймс о проблемах Node.js
+// &lt;a href="<span class="fragment highlight blue init_visible" data-fragment-index="3">nodejs</span>"&gt;<span class="fragment highlight blue init_visible" data-fragment-index="4">#nodejs</span>&lt;/a&gt; &lt;a href="<span class="fragment highlight blue init_visible" data-fragment-index="3">modules</span>"&gt;<span class="fragment highlight blue init_visible" data-fragment-index="4">#modules</span>&lt;/a&gt; &lt;a href="<span class="fragment highlight blue init_visible" data-fragment-index="3">модули</span>"&gt;<span class="fragment highlight blue init_visible" data-fragment-index="4">#модули</span>&lt;/a&gt;'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Регулярные выражения</h4>
+        <pre class="size-XS js"><code data-noescape>
+return this.text.replace(
+  /(#([<span class="fragment highlight blue init_visible" data-fragment-index="1">\w</span>]+))/gi,
+  '&lt;a href="$2"&gt;$1&lt;/a&gt;'
+);
+        </code></pre>
+        <pre class="size-XXS fragment js" data-fragment-index="2"><code data-noescape>
+tweet.linkify;
+// 'Node.js, и модули, Джеймс о проблемах Node.js
+// &lt;a href="nodejs"&gt;#nodejs&lt;/a&gt; &lt;a href="modules"&gt;#modules&lt;/a&gt; <span class="fragment highlight blue init_visible" data-fragment-index="3">#модули</span>'
+        </code></pre>
+        <p class="left fragment size-XS" data-fragment-index="4"><code>\w</code> — соотвествует любому цифробуквенному символу, включая нижнее подчеркивание. </p>
+        <p class="left fragment size-XS" data-fragment-index="5">Эквивалентен <code>[A-Za-z0-9_]</code></p>
+        <p class="left fragment size-XS" data-fragment-index="6">Судя по всему, буквами они называют только латинский алфавит :)</p>
+    </section>
+
+    <section>
+        <h4><code>Math</code> — библиотека математических функций и констант</h4>
+        <pre class="size-S js"><code data-noescape>
+// Генерируем случайное число от 0 до 1
+Math.random(); // 0.4468546273336771
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Определяем меньшее из чисел
+Math.min(1, 5); // 1
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Определяем большее из чисел
+Math.max(1, 5, 10); // 10
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><code>Math</code> — библиотека математических функций и констант</h4>
+        <pre class="size-S js"><code data-noescape>
+// Округляем число до ближайшего целого
+Math.round(2.7); // 3
+Math.round(2.3); // 2
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Округляем число до целого в меньшую сторону
+Math.floor(2.7); // 2
+Math.floor(2.3); // 2
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Округляем число до целого в большую сторону
+Math.ceil(2.7); // 3
+Math.ceil(2.3); // 3
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><code>Math</code> — библиотека математических функций и констант</h4>
+        <pre class="size-S js"><code data-noescape>
+// Возвращает натуральный (по основанию e) логарифм числа
+Math.log(10); // 2.302585092994046
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Возвращает основание, возведённое в степень
+Math.pow(2, 5); // 32
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Возвращает синус угла в радианах
+Math.sin(1); // 0.8414709848078965
+        </code></pre>
+        <pre class="size-S fragment js"><code data-noescape>
+// Возвращает тангенс угла в радианах
+Math.tan(1); // 1.5574077246549023
+        </code></pre>
+        <p class="left fragment size-XS"><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Math">Math</a></p>
+    </section>
+
+    <section>
+        <h4>Домашнее задание</h4>
+        <h4><a href="https://github.com/urfu-2016/javascript-task-3"><code>0b11</code> друзей Оушена</a></h4>
+    </section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
