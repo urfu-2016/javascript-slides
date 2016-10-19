@@ -1,0 +1,61 @@
+.reveal .grey {
+    color: grey;
+}
+
+.reveal .red {
+    color: red;
+}
+
+.reveal .green {
+    color: green;
+}
+
+.reveal .info {
+    font-style: italic;
+    font-size: xx-large;
+}
+
+.reveal .info::before {
+    font-style: normal;
+    content: 'ℹ️';
+}
+
+.reveal pre.compile code{
+    background: rgba(255, 180, 0, 0.3);
+}
+
+.reveal .code-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.reveal .lexical-envorinment,
+.reveal .hoisting,
+.reveal .closure {
+    margin-left: 30px;
+}
+
+.reveal .lexical-envorinment::before,
+.reveal .hoisting::before,
+.reveal .closure::before {
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .lexical-envorinment::before {
+    content: 'Область видимости:';
+}
+
+.reveal .hoisting::before {
+    content: 'Значение переменных:';
+}
+
+.reveal .closure::before {
+    content: 'Счётчик ссылок:';
+}
+
+.reveal .code::before {
+    content: 'Код:';
+    font-style: italic;
+    font-family: sans-serif;
+}
