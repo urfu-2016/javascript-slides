@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, function</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+<section class="large">
+    <h1>Функции</h1>
+    <h4>Аргументы. Область видимости. Всплытие. Замыкание</h4>
+    <p class="author"><small>Жигалов Сергей</small></p>
+</section>
+
+<section>
+    <h3>Функции</h3>
+    <ul>
+        <li>Не повторять код (DRY)</li>
+        <li>Объединить группу действий</li>
+        <li>Рекурсивный вызов</li>
+        <li>Создать область видимости*</li>
+    </ul>
+</section>
+
+<section>
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628680/bc297358-997c-11e6-8169-380e1fe23f0d.jpg'>
+        <h4>Аргументы</h4>
+        <small class="description">Васнецов. "Три богатыря"</small>
+    </section>
+
+    <section>
+       <h4>Аргументы</h4>
+       <pre class="size-M js"><code data-trim>
+function min(a, b) {
+    return a < b ? a : b;
+}
+       </code></pre>
+       <pre class="size-M js fragment"><code data-trim>
+min(2, 7);    // 2
+min(3, 4, 2); // 3
+min(13);      // undefined
+       </code></pre>
+    </section>
+
+    <section>
+        <h4>Аргументы</h4>
+        <pre class="size-M js"><code data-trim>
+function min(a, b) {
+   return a > b ? b : a;
+}
+      </code></pre>
+      <pre class="size-M js fragment"><code data-trim>
+min(2, 7);    // 2
+min(13);      // 13
+        </code></pre>
+    </section>
+
+    <section>
+         <h4>Аргументы</h4>
+         <pre class="size-M js"><code data-trim>
+function min(a, b) {
+    if (b === undefined) {
+        return a;
+    }
+
+    return a < b ? a : b;
+}
+       </code></pre>
+       <pre class="size-M js fragment"><code data-trim>
+min(2, 7);    // 2
+min(13);      // 13
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+         <h4><span class="grey">Аргументы.</span> Значения по умолчанию</h4>
+         <pre class="size-M js"><code data-trim>
+function min(a, b) {
+    b = b || Infinity;
+
+    return a < b ? a : b;
+}
+       </code></pre>
+       <pre class="size-M js fragment"><code data-trim>
+min(2, 7);    // 2
+min(13);      // 13
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Аргументы.</span> Значения по умолчанию</h4>
+        <pre class="size-S js"><code data-trim>
+function getCartSum(price, count) {
+    count = count || 1;
+
+    return price * count;
+}
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+getCartSum(27.70, 10); // 🍏 277₽
+getCartSum(49.90);     // 🍅 49.9₽
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+getCartSum(99999, 0);  // 🚀 99999₽ ???
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Аргументы.</span> Значения по умолчанию</h4>
+        <pre class="size-S js"><code data-trim>
+function getCartSum(price, count) {
+    if (count === undefined) {
+        count = 1;
+    }
+
+    return price * count;
+}
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+getCartSum(27.70, 10); // 🍏 277₽
+getCartSum(49.90);     // 🍅 49.9₽
+getCartSum(99999, 0);  // 🚀 0₽
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Именованные аргументы</h4>
+        <pre class="size-XS js"><code data-trim>
+function BMI(params) {
+    var height = params.height;
+
+    return params.weight / (height * height);
+}
+        </code></pre>
+
+        <pre class="size-XS js fragment"><code data-trim>
+BMI({ weight: 60, height: 1.7 }) // 20.7
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Именованные аргументы.</span> <span class="green">Достоинства</span></h4>
+        <ul>
+            <li>Удобно, если несколько необязательных аргументов</li>
+            <li>Неважен порядок аргументов</li>
+            <li>Неограниченное число аргументов</li>
+            <li>Легко рефакторить код</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="grey">Именованные аргументы.</span> <span class="red">Недостатки</span></h4>
+        <ul>
+            <li>Неявный интерфейс</li>
+            <li>Неудобно работать с аргументами</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>arguments</h3>
+    </section>
+
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/arguments">
+            Объект arguments - это подобный массиву объект, который содержит аргументы, переданные в функцию.
+        </blockquote>
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/arguments">Arguments object. MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="size-S js"><code data-trim>
+function example() {
+    arguments[1]; // 12
+    arguments.length; // 2
+}
+
+example(3, 12);
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>arguments</h4>
+        <pre class="size-S js"><code data-trim>
+function sum() {
+    var a = arguments[0] || 0;
+    var b = arguments[1] || 0;
+
+    return a + b;
+}
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+sum(3, 12);     // 15
+sum(45);        // 45
+sum(2, 4, 8);   // 6
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>arguments</h4>
+        <pre class="js"><code data-trim>
+function sum() {
+    var sum = 0;
+
+    for(var i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
+    }
+
+    return sum;
+}
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+sum(2, 4, 8);   // 14
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>arguments</h4>
+        <pre class="js"><code data-trim>
+function sum() {
+    var args = [].slice.call(arguments);
+
+    return args.reduce(function (sum, item) {
+        return sum + item;
+    });
+}
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+sum(2, 4, 8);   // 14
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Методы функции.</span> Call</h4>
+
+        <pre class="js"><code data-trim>
+function example() {
+    [1, 2].slice();           // [1, 2]
+    [].slice.call([3, 4]);    // [3, 4]
+
+    [].slice.call(arguments); // [5, 6]
+}
+
+example(5, 6);
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628747/192706fa-997e-11e6-94d2-0f9f9bf23e32.jpg'>
+        <h3>Объявление функции</h3>
+        <small class="description">Васнецов. "Витязь на распутье"</small>
+    </section>
+
+    <section>
+        <h4>Объявление функции</h4>
+
+        <pre class="size-S js"><code data-trim>
+// function declaration
+function add(a, b) {
+    return a + b;
+}
+        </code></pre>
+
+        <pre class="size-S js"><code data-trim>
+// function expression
+var add = function (a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Объявление функции.</span> function declaration</h4>
+
+        <pre class="size-S js"><code data-trim>
+add(2, 3);  // 5
+
+function add(a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">Объявление функции.</span> function expression</h4>
+
+        <pre class="size-S js"><code data-trim>
+add(2, 3);  // TypeError
+
+var add = function (a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Named function expression</h4>
+
+        <pre class="size-S js"><code data-trim>
+var factorial = function inner(n) {
+    return n === 1 ?
+        1 : n * inner(n - 1);
+}
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+typeof factorial; // 'function'
+typeof inner;     // ReferenceError
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+factorial(3);    // 6
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Конструктор Function</h4>
+
+        <pre class="js"><code data-trim>
+var add = new Function('a', 'b', 'return a + b');
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+add(2, 3);  // 5
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Область видимости</h3>
+    </section>
+
+    <section>
+        <h4>Глобальный объект</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code data-trim>
+var text = 'Привет';
+
+function greet() {
+}
+        </code></pre>
+        <pre class="js left lexical-envorinment fragment"><code data-trim>
+┌{ text, greet }
+│
+│
+│
+        </code></pre>
+        </div>
+
+        <pre class="js fragment"><code data-trim>
+global.text; // 'Привет'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Создание области видимости</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+    text; // 'Привет'
+}
+
+text;   // ReferenceError:
+        //    text is not defined</code></pre>
+        <pre class="js left lexical-envorinment fragment"><code data-trim>
+┌{ greet }
+├─┬{ text }
+│ │
+│ │
+│
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>❌ Нет блочной области видимости*</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    if (true) {
+        var text = 'Привет';
+    }
+
+    text; // 'Привет'
+}</code></pre>
+
+        <pre class="js left lexical-envorinment fragment"><code data-trim>
+┌{ greet }
+├─┬{ text }
+│ │
+│ │
+│ │
+│ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Вложенные функции</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+
+    function nested() {
+        text; // 'Привет'
+    }
+}</code></pre>
+
+        <pre class="js left lexical-envorinment fragment"><code data-trim>
+┌{ greet }
+├─┬{ text, nested }
+│ │
+│ │
+│ ├─┬{ }
+│ │ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Затенение</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+
+    function nested() {
+        var text = 'Пока';
+        text; // 'Пока'
+    }
+
+    text; // 'Привет'
+}</code></pre>
+        <pre class="js left lexical-envorinment fragment"><code data-trim>
+┌{ greet }
+├─┬{ text: Привет, nested }
+│ │
+│ │
+│ ├─┬{ text: Пока }
+│ │ │
+│ │ │
+│ │
+│ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628722/985d0bc8-997d-11e6-940a-0c3bcba03942.jpg'>
+        <h3>Всплытие</h3>
+        <small class="description">Репин. "Бурлаки на Волге"</small>
+    </section>
+
+    <section>
+        <h4>Выполнение кода</h4>
+
+        <ol class="fragment">
+            <li>
+                Инициализация
+                <ol class="fragment">
+                    <li><code>function declaration</code></li>
+                    <li><code>var</code></li>
+                </ol>
+            </li>
+            <li>Собственно выполнение</li>
+        </ol>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие функций</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3);
+
+function add(a, b) {
+    return a + b;
+}</code></pre>
+        <pre class="js left hoisting fragment"><code>{ add: function }
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие функций</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3);  // 5
+
+function add(a, b) {
+    return a + b;
+}</code></pre>
+        <pre class="js left hoisting"><code>
+{ add: function }
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3);
+
+var add = function (a, b) {
+    return a + b;
+}       </code></pre>
+<pre class="js left hoisting fragment"><code>{ add: undefined }
+
+
+
+
+
+</code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3); // TypeError
+
+var add = function (a, b) {
+    return a + b;
+}       </code></pre>
+<pre class="js left hoisting"><code>
+{ add: undefined }
+
+
+
+
+</code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3); // TypeError
+
+var add = function (a, b) {
+    return a + b;
+}       </code></pre>
+<pre class="js left hoisting"><code>
+
+{ add: undefined }
+
+
+
+</code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+add(2, 3); // TypeError
+
+var add = function (a, b) {
+    return a + b;
+}       </code></pre>
+<pre class="js left hoisting"><code>
+
+
+{ add: function }
+
+
+</code></pre>
+        </div>
+    </section>
+
+
+
+    <section>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>{ milk: undefined, beans: undefined }
+
+
+
+
+        </code></pre>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>
+{ milk: undefined, beans: undefined }
+
+
+
+        </code></pre>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>
+
+{ milk: 270, beans: undefined }
+
+
+        </code></pre>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>
+
+
+{ milk: 270, beans: undefined }
+
+        </code></pre>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>
+
+
+
+{ milk: 270, beans: undefined }
+        </code></pre>
+    </section>
+
+    <section class="no-transition">
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+if (true) {
+    var milk = 270;
+}
+
+var beans = 30;</code></pre>
+        <pre class="js left hoisting"><code>
+
+
+
+
+{ milk: 270, beans: 30 }</code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628842/6d7e0fee-9980-11e6-853e-33cd0db27317.jpg'>
+        <h3>Замыкание</h3>
+        <small class="description">Микеланджело. "Сотворение Адама"</small>
+    </section>
+
+    <section>
+        <blockquote cite="https://learn.javascript.ru/closures">
+            Замыкание – это функция вместе со всеми внешними переменными,
+            которые ей доступны.
+        </blockquote>
+    </section>
+
+    <section class="no-transition">
+        <h4>Ссылка на переменные</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+function greet() {
+    var text = 'Привет';
+}
+
+greet();
+</code></pre>
+        <pre class="js closure fragment"><code>
+{ text: 1 }
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Ссылка на переменные</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+function greet() {
+    var text = 'Привет';
+}
+
+greet();
+</code></pre>
+        <pre class="js closure"><code>
+
+
+
+{ text: 0 }</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Ссылка на переменные</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+function makeCounter() {
+    var currentCount = 0;
+
+    return function () {
+        return currentCount++;
+    };
+}
+
+var counter = makeCounter();
+</code></pre>
+        <pre class="js closure"><code>
+{ currentCount: 1 }
+
+
+
+
+
+
+
+</code></pre>
+        </div>
+    </section>
+
+    <section class="no-transition">
+        <h4>Ссылка на переменные</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+function makeCounter() {
+    var currentCount = 0;
+
+    return function () {
+        return currentCount++;
+    };
+}
+
+var counter = makeCounter();
+</code></pre>
+        <pre class="js closure"><code>
+
+
+
+
+
+
+
+{ currentCount: 1 }
+</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>Замыкание</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>
+function makeCounter() {
+    var currentCount = 0;
+
+    return function () {
+        return currentCount++;
+    };
+}</code></pre>
+        <pre class="js lexical-envorinment"><code data-trim>
+┌{ makeCounter } // 1
+├─┬{ currentCount } // 2
+│ │
+│ │
+│ ├─┬{ } // 3
+│ │ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+var counter = makeCounter();
+counter(); // 0
+counter(); // 1
+counter(); // 2
+
+var yetAnother = makeCounter();
+yetAnother(); // 0
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Замыкание</h4>
+
+        <pre class="js size-S"><code data-trim>
+function greet(name) {
+    return function () {
+        return 'Привет, ' + name;
+    }
+}
+
+var helloWorld = greet('мир!');
+        </code></pre>
+        <pre class="js size-S fragment"><code data-trim>
+helloWorld(); // "Привет, мир!"
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Модуль</h3>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function format(date) {
+    return date.toGMTString()
+}
+
+function getDateString(date) {
+    date = date || new Date();
+    return format(date);
+}
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+getDateString();
+// "Thu, 27 Oct 2016 10:56:52 GMT"
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function format() {
+    return '💥';
+}
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+getDateString();
+// "💥"
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>IIFE</h4>
+        <blockquote cite="https://en.wikipedia.org/wiki/Immediately-invoked_function_expression">
+            immediately-invoked function expression
+        </blockquote>
+    </section>
+
+    <section>
+        <h4>IIFE</h4>
+        <pre class="js"><code data-trim>
+var getDateString = (function () {
+    function format(date) {
+        return date.toGMTString()
+    }
+
+    return function(date) {
+        date = date || new Date();
+        return format(date);
+    }
+}());
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>IIFE</h4>
+        <pre class="size-S js"><code data-trim>
+(function () {
+}());
+        </code></pre>
+        <pre class="size-S js fragment"><code data-trim>
+(function () {
+})();
+        </code></pre>
+        <pre class="size-S js fragment"><code data-trim>
+!function () {
+}(); // ❌
+        </code></pre>
+        <pre class="size-S js fragment"><code data-trim>
+void function () {
+}(); // ❌
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>Почитать</h4>
+
+    <ul>
+        <li><a href="https://habrahabr.ru/post/127482/">Область видимости в JavaScript ...</a></li>
+        <li><a href="https://habrahabr.ru/post/38642/">Замыкания в JavaScript</a></li>
+        <li><a href="https://learn.javascript.ru/functions-closures">Замыкания, область видимости</a></li>
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Closures">Лексическая область видимости</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
