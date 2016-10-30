@@ -275,6 +275,571 @@ year2016.isLeapYear; // true;
 
 <section>
     <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    return this;
+}
+
+getSelf(); // global
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+return ???.innerHeight;
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+block.getHeight(); // 300</code></pre>
+        <pre class="js this"><code>
+
+
+
+return block.innerHeight;
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+var getHeight = block.getHeight;
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+return ???.innerHeight;
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+var getHeight = block.getHeight;
+getHeight(); // 1280</code></pre>
+        <pre class="js this"><code>
+
+
+
+return window.innerHeight;
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Заимствование метода</h3>
+        <h4>call</h4>
+    </section>
+
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/call">
+            Метод <mark><code>call()</code></mark> вызывает функцию с указанным
+            значением this и индивидуально предоставленными аргументами.
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/call">Function.prototype.call() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.call(thisArg, arg1, arg2, ...);
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var sergey = {
+    age: 30,
+
+    getAge: function () {
+        return this.age;
+    }
+}
+
+var oleg = {
+    age: 25
+}
+
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+return ???.age;
+
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var sergey = {
+    age: 30,
+
+    getAge: function () {
+        return this.age;
+    }
+}
+
+var oleg = {
+    age: 25
+}
+
+sergey.getAge.call(oleg); // 25</code></pre>
+        <pre class="js this"><code>
+
+
+
+return oleg.age;
+
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+  var args = Array.prototype.slice.call(arguments);
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">
+            Метод <mark><code>apply()</code></mark> вызывает функцию с указанным
+            значением this и аргументами, предоставленными в виде массива.
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">Function.prototype.apply() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <h4>apply</h4>
+
+        <pre class="js size-S"><code data-trim>
+Math.min(4, 7, 2, 9); // 2
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+var arr = [4, 7, 2, 9];
+Math.min(arr); // NaN
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+Math.min.apply(Math, arr); // 2
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+Math.min.apply(null, arr); // 2
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        });
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+???.items
+    ???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+    ???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+    global.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍅 Результат</h4>
+        <pre class="js"><code data-trim>
+'undefined has keys'
+'undefined has phone'
+'undefined has banana'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        var _this = this;
+
+        this.items.forEach(function (item) {
+            _this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+        </code></pre>
+        <pre class="js lexical-envorinment fragment"><code data-trim>
+┌{ person }
+│
+│
+│
+├─┬{ _this }
+│ │
+│ │
+│ ├─┬{ item }
+│ │ │
+│ │ │
+│ │
+│
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628842/6d7e0fee-9980-11e6-853e-33cd0db27317.jpg'>
+        <h3 class="black">Замыкание!</h3>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        }, <mark>this</mark>);
+    }
+}
+
+
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+???.items
+    ???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        }, <mark>this</mark>);
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+    person.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">
+            Метод <mark><code>bind()</code></mark> создаёт новую функцию,
+            которая при вызове устанавливает в качестве контекста выполнения
+            this предоставленное значение. <...>
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">Function.prototype.bind() - JavaScript | MDN</a></small>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        }<mark>.bind(this)</mark>);
+    }
+}
+
+
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+???.items
+    ???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.forEach(function (item) {
+            this.name + ' has ' + item;
+        }<mark>.bind(this)</mark>);
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+    person.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
         <h3>Строгий режим</h3>
     </section>
 
