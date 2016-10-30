@@ -22,9 +22,95 @@
 
 <body class="yandex"><div class="reveal"><div class="slides">
 <section class="large">
-    <h1>Контекст исполнения</h1>
-    <h4></h4>
+    <h1>this</h1>
+    <h4>Контекст исполнения</h4>
     <p class="author"><small>Жигалов Сергей</small></p>
+</section>
+
+<section>
+    <section>
+        <h4><span class="grey">this</span> C++</h4>
+
+        <pre class="cpp"><code data-trim>
+class User {
+public:
+    int age=30;
+
+    void showAge() {
+        std::cout << this->age;
+    };
+};
+
+int main() {
+    User* sergey = new User;
+
+    sergey->showAge(); // 30
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> Java</h4>
+
+        <pre class="java"><code data-trim>
+public class User {
+    private int age = 30;
+
+    public void showAge() {
+        System.out.println(this.age);
+    }
+}
+
+public static void main(String []args){
+    User sergey = new User();
+
+    sergey.showAge();
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> JavaScript</h4>
+
+        <pre class="js"><code data-trim>
+function User () {
+    return {
+        age: 30,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+var sergey = new User();
+
+sergey.showAge();
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Свойства this</h4>
+
+        <ul>
+            <li>ключевое слово</li>
+            <li>указывает на текущий объект</li>
+            <li>нельзя перезаписать</li>
+            <li>можно использовать за пределом объекта*</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> за пределом объекта</h4>
+
+        <pre class="js"><code data-trim>
+this.innerWidth; // 300
+        </code></pre>
+
+        <pre class="js"><code data-trim>
+this.process.version; // v7.0.0
+        </code></pre>
+    </section>
 </section>
 
 </div></div>
