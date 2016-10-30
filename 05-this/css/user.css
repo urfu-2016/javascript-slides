@@ -31,3 +31,7 @@
     font-style: italic;
     font-family: sans-serif;
 }
+
+.reveal ul.no-bullet li {
+    list-style-type: none;
+}

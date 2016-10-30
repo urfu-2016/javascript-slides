@@ -174,12 +174,102 @@ sum (1, 2); </code></pre>
         </code></pre>
         </div>
     </section>
+</section>
+
+<section>
+    <h4>Значение this зависит от:</h4>
+
+    <ul class="no-bullet">
+        <li>I. Типа участка кода</li>
+        <li>II. Как мы попали на этот участок</li>
+        <li>III. Режима работы интерпретатора</li>
+    </ul>
+</section>
+
+<section>
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this.innerWidth; // 1280
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+window.innerWidth; // 1280
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+innerWidth; // 1280
+        </code></pre>
+    </section>
 
     <section>
-        <blockquote>
-            Значентие <code>this</code> определяется перед тем,
-            как участок кода интерпретируется
-        </blockquote>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this.process.version; // "v7.0.0"
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+global.process.version; // "v7.0.0"
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+process.version; // "v7.0.0"
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+console.log('Hello!');
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+global.console.log('Hello!');
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+this.console.log('Hello!');
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this === global;
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Node.js модуль</h4>
+
+        <pre class="js"><code data-trim>
+// year-2016.js
+
+module.exports.days = 366;
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+this.isLeapYear = true;
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Node.js модуль</h4>
+
+        <pre class="js"><code data-trim>
+// index.js
+
+var year2016 = require('./year-2016');
+
+year2016.days; // 366;
+year2016.isLeapYear; // true;
+        </code></pre>
     </section>
 </section>
 
