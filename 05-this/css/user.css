@@ -1,3 +1,33 @@
 .reveal .grey {
     color: grey;
 }
+
+.reveal .code-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.reveal .execution-context,
+.reveal .lexical-envorinment {
+    margin-left: 30px;
+}
+
+.reveal .execution-context::before,
+.reveal .lexical-envorinment::before {
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .lexical-envorinment::before {
+    content: 'Область видимости:';
+}
+
+.reveal .execution-context::before {
+    content: 'Контекст исполнения:';
+}
+
+.reveal .code::before {
+    content: 'Код:';
+    font-style: italic;
+    font-family: sans-serif;
+}

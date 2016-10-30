@@ -113,6 +113,76 @@ this.process.version; // v7.0.0
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Контекст исполнения</h3>
+    </section>
+
+    <section>
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum (1, 2); </code></pre>
+        <pre class="js lexical-envorinment fragment"><code data-trim>
+┌{ sum } // 1
+├─┬{ a, b } // 2
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition="slide-in">
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum (1, 2); </code></pre>
+        <pre class="js execution-context"><code data-trim>
+┌{ lE: { sum }            }
+├─┬{ lE: { a, b}            }
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition="slide-out">
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum (1, 2); </code></pre>
+        <pre class="js execution-context"><code data-trim>
+┌{ lE: { sum }, this: ... }
+├─┬{ lE: { a, b}, this: ... }
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <blockquote>
+            Значентие <code>this</code> определяется перед тем,
+            как участок кода интерпретируется
+        </blockquote>
+    </section>
+</section>
+
 </div></div>
 
 <script src="../lib/js/head.min.js"></script>
