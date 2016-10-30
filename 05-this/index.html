@@ -273,6 +273,68 @@ year2016.isLeapYear; // true;
     </section>
 </section>
 
+<section>
+    <section>
+        <h3>Строгий режим</h3>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+'use strict';
+
+function sum(a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function sum(a, b) {
+    'use strict';
+
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+    var eval = 42; // OK
+}
+
+function strictFunc() {
+    'use strict';
+
+    var eval = 42; // SyntaxError
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+    randomNumber = 4; // OK
+}
+
+function strictFunc() {
+    'use strict';
+
+    randomNumber = 4; // ReferenceError
+}
+        </code></pre>
+    </section>
+</section>
+
 </div></div>
 
 <script src="../lib/js/head.min.js"></script>
