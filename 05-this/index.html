@@ -125,7 +125,7 @@ function sum(a, b) {
     return a + b;
 }
 
-sum (1, 2); </code></pre>
+sum(1, 2); </code></pre>
         <pre class="js lexical-envorinment fragment"><code data-trim>
 ┌{ sum } // 1
 ├─┬{ a, b } // 2
@@ -144,10 +144,10 @@ function sum(a, b) {
     return a + b;
 }
 
-sum (1, 2); </code></pre>
+sum(1, 2); </code></pre>
         <pre class="js execution-context"><code data-trim>
 ┌{ lE: { sum }            }
-├─┬{ lE: { a, b}            }
+├─┬{ lE: { a, b }            }
 │ │
 │ │
 │
@@ -163,10 +163,10 @@ function sum(a, b) {
     return a + b;
 }
 
-sum (1, 2); </code></pre>
+sum(1, 2); </code></pre>
         <pre class="js execution-context"><code data-trim>
 ┌{ lE: { sum }, this: ... }
-├─┬{ lE: { a, b}, this: ... }
+├─┬{ lE: { a, b }, this: ... }
 │ │
 │ │
 │
@@ -533,8 +533,8 @@ Math.min.apply(null, arr); // 2
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         });
     }
 }
@@ -565,8 +565,8 @@ Math.min.apply(null, arr); // 2
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         });
     }
 }
@@ -597,8 +597,8 @@ person.items
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         });
     }
 }
@@ -641,8 +641,8 @@ var person = {
     showItems: function () {
         var _this = this;
 
-        this.items.forEach(function (item) {
-            _this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return _this.name + ' has ' + item;
         });
     }
 }
@@ -690,8 +690,8 @@ person.showItems();
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         }, <mark>this</mark>);
     }
 }
@@ -722,8 +722,8 @@ person.showItems();
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         }, <mark>this</mark>);
     }
 }
@@ -773,8 +773,8 @@ person.items
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         }<mark>.bind(this)</mark>);
     }
 }
@@ -805,8 +805,8 @@ person.items
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.forEach(function (item) {
-            this.name + ' has ' + item;
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
         }<mark>.bind(this)</mark>);
     }
 }
@@ -830,11 +830,117 @@ person.items
 
     <section>
         <h4>🍏 Результат</h4>
+
         <pre class="js"><code data-trim>
 'Sergey has keys'
 'Sergey has phone'
 'Sergey has banana'
         </code></pre>
+    </section>
+
+    <section>
+        <h4>myBind</h4>
+
+        <pre class="js"><code data-trim>
+Function.prototype.myBind = function(_this) {
+    var fn = this;
+    var args = [].slice.call(arguments, 1);
+
+    return function () {
+       var curArgs = [].slice.call(arguments);
+
+       return fn.apply(_this, args.concat(curArgs));
+    };
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Частичное применение</h4>
+
+        <pre class="js"><code data-trim>
+Math.pow(2, 3);  // 8
+Math.pow(2, 10); // 1024
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+var binPow = Math.pow.bind(null, 2);
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+binPow(3);  // 8
+binPow(10); // 1024
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function User () {
+    return {
+        age: 30,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+???.age
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section  data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function User () {
+    return {
+        age: 30,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+var sergey = new User();
+
+sergey.showAge(); // 30
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+sergey.age
+
+
+
+
+
+
+        </code></pre>
+        </div>
     </section>
 </section>
 
@@ -898,6 +1004,33 @@ function strictFunc() {
 }
         </code></pre>
     </section>
+
+    <section>
+        <h4><span class="grey">III. Режим работы интерпретатора.</span> Режим совместимости</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    return this;
+}
+
+getSelf(); // global
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">III. Режим работы интерпретатора.</span> Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    'use strict';
+
+    return this;
+}
+
+getSelf(); // undefined
+        </code></pre>
+    </section>
+
 </section>
 
 </div></div>
