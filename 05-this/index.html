@@ -1,0 +1,1397 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, this</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+<section class="large">
+    <h1>this</h1>
+    <h4>Контекст исполнения</h4>
+    <p class="author"><small>Жигалов Сергей</small></p>
+</section>
+
+<section>
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Объявление функции</h4>
+
+        <pre class="size-S js"><code data-trim>
+// function declaration
+function add(a, b) {
+    return a + b;
+}
+        </code></pre>
+
+        <pre class="size-S js"><code data-trim>
+// function expression
+var add = function (a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Область видимости</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+    text; // 'Привет'
+}
+
+text;   // ReferenceError:
+        //    text is not defined</code></pre>
+        <pre class="js left lexical-envorinment"><code data-trim>
+┌{ greet }
+├─┬{ text }
+│ │
+│ │
+│
+│
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+            <li>Всплытие переменных</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+            <li>Всплытие переменных</li>
+            <li>Замыкание</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Замыкание</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>
+function makeCounter() {
+    var currentCount = 0;
+
+    return function () {
+        return currentCount++;
+    };
+}</code></pre>
+        <pre class="js lexical-envorinment"><code data-trim>
+┌{ makeCounter } // 1
+├─┬{ currentCount } // 2
+│ │
+│ │
+│ ├─┬{ } // 3
+│ │ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section class="large">
+        <h1>this</h1>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> C#</h4>
+
+        <pre class="csharp"><code data-trim>
+class User
+{
+    private int age = 24;
+
+    public void ShowAge()
+    {
+        Console.WriteLine(this.age);
+    }
+}
+
+static void Main()
+{
+    User mike = new User();
+
+    mike.ShowAge(); // 24
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> Java</h4>
+
+        <pre class="java"><code data-trim>
+public class User {
+    private int age = 24;
+
+    public void showAge() {
+        System.out.println(this.age);
+    }
+}
+
+public static void main(String []args){
+    User mike = new User();
+
+    mike.showAge();
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Свойства this</h4>
+
+        <ul>
+            <li>ключевое слово</li>
+            <li>указывает на текущий объект</li>
+            <li>нельзя перезаписать</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> JavaScript</h4>
+
+        <pre class="js"><code data-trim>
+function User () {
+    return {
+        age: 24,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+var mike = new User();
+
+mike.showAge(); // 24
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Свойства this</h4>
+
+        <ul>
+            <li>ключевое слово</li>
+            <li>указывает на текущий объект</li>
+            <li>нельзя перезаписать</li>
+            <li>можно использовать за пределом объекта*</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="grey">this</span> за пределом объекта</h4>
+
+        <pre class="js"><code data-trim>
+this.innerWidth; // 1280
+        </code></pre>
+
+        <pre class="js"><code data-trim>
+this.process.version; // v7.0.0
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Контекст исполнения</h3>
+    </section>
+
+    <section>
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum(1, 2); </code></pre>
+        <pre class="js lexical-envorinment fragment"><code data-trim>
+┌{ sum } // 1
+├─┬{ a, b } // 2
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition="slide-in">
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum(1, 2); </code></pre>
+        <pre class="js execution-context"><code data-trim>
+┌{ lE: { sum }            }
+├─┬{ lE: { a, b }            }
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition="slide-out">
+        <div class="code-container">
+        <pre class="js code"><code>
+function sum(a, b) {
+    return a + b;
+}
+
+sum(1, 2); </code></pre>
+        <pre class="js execution-context"><code data-trim>
+┌{ lE: { sum }, this: ??? }
+├─┬{ lE: { a, b }, this: ??? }
+│ │
+│ │
+│
+│
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <h4>Значение this зависит от:</h4>
+
+    <ul class="no-bullet">
+        <li>I. Типа участка кода</li>
+        <li>II. Как мы попали на этот участок</li>
+        <li>III. Режима работы интерпретатора</li>
+    </ul>
+</section>
+
+<section>
+    <section>
+        <h3>I. Тип участка кода</h3>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this.innerWidth;   // 1280
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+window.innerWidth; // 1280
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+innerWidth;        // 1280
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this.process.version;   // "v7.0.0"
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+global.process.version; // "v7.0.0"
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+process.version;        // "v7.0.0"
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+console.log('Hello!');
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+global.console.log('Hello!');
+        </code></pre>
+
+        <pre class="js size-S fragment"><code data-trim>
+this.console.log('Hello!');
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
+
+        <pre class="js size-S"><code data-trim>
+this === global; // true
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Node.js модуль</h4>
+
+        <pre class="js"><code data-trim>
+// year-2016.js
+
+module.exports.days = 366;
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+this.isLeapYear = true;
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">I. Тип участка кода.</span> Node.js модуль</h4>
+
+        <pre class="js"><code data-trim>
+// index.js
+
+var year2016 = require('./year-2016');
+
+year2016.days; // 366;
+year2016.isLeapYear; // true;
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    return this;
+}
+
+getSelf(); // global
+        </code></pre>
+    </section>
+
+    <section data-transition="slide-in">
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code>// year-2016.js
+
+module.exports.days = 366;
+
+function getSelf() {
+    return this;
+}
+
+        </code></pre>
+    </section>
+
+    <section data-transition="slide-out">
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code data-trim>
+// year-2016.js
+
+module.exports.days = 366;
+
+function getSelf() {
+    return this;
+}
+
+getSelf(); // { days: 366 }</code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+???.innerHeight;
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+block.getHeight(); // 300</code></pre>
+        <pre class="js this"><code>
+
+
+
+block.innerHeight;
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+var getHeight = block.getHeight;
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+???.innerHeight;
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Метод объекта</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var block = {
+    innerHeight: 300,
+
+    getHeight: function () {
+        return this.innerHeight;
+    }
+}
+
+var getHeight = block.getHeight;
+getHeight(); // 1280</code></pre>
+        <pre class="js this"><code>
+
+
+
+window.innerHeight;
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Заимствование метода</h3>
+        <h4>call</h4>
+    </section>
+
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/call">
+            Метод <mark><code>call()</code></mark> вызывает функцию с указанным
+            значением this и индивидуально предоставленными аргументами.
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/call">Function.prototype.call() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.call(thisArg, arg1, arg2, ...);
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var mike = {
+    age: 24,
+
+    getAge: function () {
+        return this.age;
+    }
+}
+
+var anna = {
+    age: 21
+}
+
+        </code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+???.age;
+
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var mike = {
+    age: 24,
+
+    getAge: function () {
+        return this.age;
+    }
+}
+
+var anna = {
+    age: 21
+}
+
+mike.getAge.call(anna); // 21</code></pre>
+        <pre class="js this"><code>
+
+
+
+anna.age;
+
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+  var args = Array.prototype.slice.call(arguments);
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">
+            Метод <mark><code>apply()</code></mark> вызывает функцию с указанным
+            значением this и аргументами, предоставленными в виде массива.
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">Function.prototype.apply() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.apply(thisArg, [arg1, arg2]);
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>apply</h4>
+
+        <pre class="js size-S"><code data-trim>
+Math.min(4, 7, 2, 9); // 2
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+var arr = [4, 7, 2, 9];
+Math.min(arr); // NaN
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+Math.min.apply(Math, arr); // 2
+        </code></pre>
+
+        <pre class="js fragment size-S"><code data-trim>
+Math.min.apply(null, arr); // 2
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        });
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+???.items
+???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+global.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍅 Результат</h4>
+        <pre class="js"><code data-trim>
+'undefined has keys'
+'undefined has phone'
+'undefined has banana'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-trim>
+var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        var _this = this;
+
+        this.items.map(function (item) {
+            return _this.name + ' has ' + item;
+        });
+    }
+}
+
+person.showItems();
+        </code></pre>
+        <pre class="js lexical-envorinment fragment"><code data-trim>
+┌{ person }
+│
+│
+│
+├─┬{ _this }
+│ │
+│ │
+│ ├─┬{ item }
+│ │ │
+│ │ │
+│ │
+│
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628842/6d7e0fee-9980-11e6-853e-33cd0db27317.jpg'>
+        <h3 class="black">Замыкание!</h3>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        }, <mark>this</mark>);
+    }
+}
+
+
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+???.items
+???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        }, <mark>this</mark>);
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+person.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+
+    <section>
+        <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">
+            Метод <mark><code>bind()</code></mark> создаёт новую функцию,
+            которая при вызове устанавливает в качестве контекста выполнения
+            this предоставленное значение. <...>
+        </blockquote>
+
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">Function.prototype.bind() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.bind(thisArg, arg1, arg2, ...);
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        }<mark>.bind(this)</mark>);
+    }
+}
+
+
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+???.items
+???.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>var person = {
+    name: 'Sergey',
+    items: ['keys', 'phone', 'banana'],
+
+    showItems: function () {
+        this.items.map(function (item) {
+            return this.name + ' has ' + item;
+        }<mark>.bind(this)</mark>);
+    }
+}
+
+person.showItems();
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+person.items
+person.name
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h4>🍏 Результат</h4>
+
+        <pre class="js"><code data-trim>
+'Sergey has keys'
+'Sergey has phone'
+'Sergey has banana'
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>myBind</h4>
+
+        <pre class="js"><code data-trim>
+Function.prototype.myBind = function(_this) {
+    var fn = this;
+    var args = [].slice.call(arguments, 1);
+
+    return function () {
+       var curArgs = [].slice.call(arguments);
+
+       return fn.apply(_this, args.concat(curArgs));
+    };
+};
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Частичное применение</h4>
+
+        <pre class="js"><code data-trim>
+Math.pow(2, 3);  // 8
+Math.pow(2, 10); // 1024
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+var binPow = Math.pow.bind(null, 2);
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+binPow(3);  // 8
+binPow(10); // 1024
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function User () {
+    return {
+        age: 24,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+???.age
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section  data-transition='slide-out'>
+        <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function User () {
+    return {
+        age: 24,
+
+        showAge: function () {
+            console.log(this.age);
+        }
+    }
+}
+
+var mike = new User();
+
+mike.showAge(); // 24
+</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+mike.age
+
+
+
+
+
+
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Строгий режим</h3>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+'use strict';
+
+function sum(a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function sum(a, b) {
+    'use strict';
+
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+    var eval = 42; // OK
+}
+
+function strictFunc() {
+    'use strict';
+
+    var eval = 42; // SyntaxError
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function func() {
+    randomNumber = 4; // OK
+}
+
+function strictFunc() {
+    'use strict';
+
+    randomNumber = 4; // ReferenceError
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">III. Режим работы интерпретатора.</span> Режим совместимости</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    return this;
+}
+
+getSelf(); // global
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="grey">III. Режим работы интерпретатора.</span> Строгий режим</h4>
+
+        <pre class="js"><code data-trim>
+function getSelf() {
+    'use strict';
+
+    return this;
+}
+
+getSelf(); // undefined
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>eval</h3>
+    </section>
+
+    <section>
+        <h4>eval</h4>
+
+        <pre class="js"><code data-trim>
+var temerature = 12;
+
+eval('temerature + 5'); // 17
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        return eval('this.name');
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+???.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        return eval('this.name');
+    }
+}
+
+person.showName(); // Sergey</code></pre>
+        <pre class="js this"><code>
+
+
+
+person.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        var evil = eval;
+
+        return evil('this.name');
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+
+???.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        var evil = eval;
+
+        return evil('this.name');
+    }
+}
+
+person.showName(); // ''</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+
+general.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Сегодня</h3>
+
+        <ul>
+            <li class="fragment">Контекст исполнения</li>
+            <li class="fragment">
+                this
+                <ul>
+                    <li class="fragment">Определяется в момент интерпретации</li>
+                    <li class="fragment">Тип участка кода</li>
+                    <li class="fragment">Как мы на него попали</li>
+                    <li class="fragment">Режим интерпретатора</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>

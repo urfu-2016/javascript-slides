@@ -1,0 +1,51 @@
+.reveal .grey {
+    color: grey;
+}
+
+.reveal .black {
+    color: black;
+}
+
+.reveal mark, .reveal mark * {
+    color: black !important;
+}
+
+.reveal .code-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.reveal .execution-context,
+.reveal .lexical-envorinment,
+.reveal .this {
+    margin-left: 30px;
+}
+
+.reveal .execution-context::before,
+.reveal .lexical-envorinment::before,
+.reveal .this::before {
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .lexical-envorinment::before {
+    content: 'Область видимости:';
+}
+
+.reveal .execution-context::before {
+    content: 'Контекст исполнения:';
+}
+
+.reveal .this::before {
+    content: 'Значение this:';
+}
+
+.reveal .code::before {
+    content: 'Код:';
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal ul.no-bullet li {
+    list-style-type: none;
+}
