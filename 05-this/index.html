@@ -29,22 +29,148 @@
 
 <section>
     <section>
-        <h4><span class="grey">this</span> C++</h4>
+        <h3>В прошлой лекции</h3>
 
-        <pre class="cpp"><code data-trim>
-class User {
-public:
-    int age=30;
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+        </ul>
+    </section>
 
-    void showAge() {
-        std::cout << this->age;
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Объявление функции</h4>
+
+        <pre class="size-S js"><code data-trim>
+// function declaration
+function add(a, b) {
+    return a + b;
+}
+        </code></pre>
+
+        <pre class="size-S js"><code data-trim>
+// function expression
+var add = function (a, b) {
+    return a + b;
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Область видимости</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+    text; // 'Привет'
+}
+
+text;   // ReferenceError:
+        //    text is not defined</code></pre>
+        <pre class="js left lexical-envorinment"><code data-trim>
+┌{ greet }
+├─┬{ text }
+│ │
+│ │
+│
+│
+│
+│
+        </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+            <li>Всплытие переменных</li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>В прошлой лекции</h3>
+
+        <ul>
+            <li>Функции. Аргументы. arguments</li>
+            <li>Объявление функций</li>
+            <li>Область видимости</li>
+            <li>Всплытие переменных</li>
+            <li>Замыкание</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>Замыкание</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>
+function makeCounter() {
+    var currentCount = 0;
+
+    return function () {
+        return currentCount++;
     };
-};
+}</code></pre>
+        <pre class="js lexical-envorinment"><code data-trim>
+┌{ makeCounter } // 1
+├─┬{ currentCount } // 2
+│ │
+│ │
+│ ├─┬{ } // 3
+│ │ │
+│ │
+│
+        </code></pre>
+        </div>
+    </section>
+</section>
 
-int main() {
-    User* sergey = new User;
+<section>
+    <section class="large">
+        <h1>this</h1>
+    </section>
 
-    sergey->showAge(); // 30
+    <section>
+        <h4><span class="grey">this</span> C#</h4>
+
+        <pre class="csharp"><code data-trim>
+class User
+{
+    private int age=24;
+
+    public void showAge()
+    {
+        Console.WriteLine(this.age);
+    }
+}
+
+static void Main()
+{
+    User mike = new User();
+
+    mike.showAge(); // 24
 }
         </code></pre>
     </section>
@@ -54,7 +180,7 @@ int main() {
 
         <pre class="java"><code data-trim>
 public class User {
-    private int age = 30;
+    private int age = 24;
 
     public void showAge() {
         System.out.println(this.age);
@@ -62,11 +188,21 @@ public class User {
 }
 
 public static void main(String []args){
-    User sergey = new User();
+    User mike = new User();
 
-    sergey.showAge();
+    mike.showAge();
 }
         </code></pre>
+    </section>
+
+    <section>
+        <h4>Свойства this</h4>
+
+        <ul>
+            <li>ключевое слово</li>
+            <li>указывает на текущий объект</li>
+            <li>нельзя перезаписать</li>
+        </ul>
     </section>
 
     <section>
@@ -75,7 +211,7 @@ public static void main(String []args){
         <pre class="js"><code data-trim>
 function User () {
     return {
-        age: 30,
+        age: 24,
 
         showAge: function () {
             console.log(this.age);
@@ -83,9 +219,9 @@ function User () {
     }
 }
 
-var sergey = new User();
+var mike = new User();
 
-sergey.showAge();
+mike.showAge(); // 24
         </code></pre>
     </section>
 
@@ -104,7 +240,7 @@ sergey.showAge();
         <h4><span class="grey">this</span> за пределом объекта</h4>
 
         <pre class="js"><code data-trim>
-this.innerWidth; // 300
+this.innerWidth; // 1280
         </code></pre>
 
         <pre class="js"><code data-trim>
@@ -165,8 +301,8 @@ function sum(a, b) {
 
 sum(1, 2); </code></pre>
         <pre class="js execution-context"><code data-trim>
-┌{ lE: { sum }, this: ... }
-├─┬{ lE: { a, b }, this: ... }
+┌{ lE: { sum }, this: ??? }
+├─┬{ lE: { a, b }, this: ??? }
 │ │
 │ │
 │
@@ -188,10 +324,14 @@ sum(1, 2); </code></pre>
 
 <section>
     <section>
+        <h3>I. Тип участка кода</h3>
+    </section>
+
+    <section>
         <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
 
         <pre class="js size-S"><code data-trim>
-this.innerWidth; // 1280
+this.innerWidth;   // 1280
         </code></pre>
 
         <pre class="js size-S fragment"><code data-trim>
@@ -199,7 +339,7 @@ window.innerWidth; // 1280
         </code></pre>
 
         <pre class="js size-S fragment"><code data-trim>
-innerWidth; // 1280
+innerWidth;        // 1280
         </code></pre>
     </section>
 
@@ -207,7 +347,7 @@ innerWidth; // 1280
         <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
 
         <pre class="js size-S"><code data-trim>
-this.process.version; // "v7.0.0"
+this.process.version;   // "v7.0.0"
         </code></pre>
 
         <pre class="js size-S fragment"><code data-trim>
@@ -215,7 +355,7 @@ global.process.version; // "v7.0.0"
         </code></pre>
 
         <pre class="js size-S fragment"><code data-trim>
-process.version; // "v7.0.0"
+process.version;        // "v7.0.0"
         </code></pre>
     </section>
 
@@ -239,7 +379,7 @@ this.console.log('Hello!');
         <h4><span class="grey">I. Тип участка кода.</span> Глобальный</h4>
 
         <pre class="js size-S"><code data-trim>
-this === global;
+this === global; // true
         </code></pre>
     </section>
 </section>
@@ -285,6 +425,35 @@ function getSelf() {
 getSelf(); // global
         </code></pre>
     </section>
+
+    <section data-transition="slide-in">
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code>// year-2016.js
+
+module.exports.days = 366;
+
+function getSelf() {
+    return this;
+}
+
+        </code></pre>
+    </section>
+
+    <section data-transition="slide-out">
+        <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
+
+        <pre class="js"><code data-trim>
+// year-2016.js
+
+module.exports.days = 366;
+
+function getSelf() {
+    return this;
+}
+
+getSelf(); // { days: 366 }</code></pre>
+    </section>
 </section>
 
 <section>
@@ -305,7 +474,7 @@ getSelf(); // global
 
 
 
-return ???.innerHeight;
+???.innerHeight;
 
 
 
@@ -330,7 +499,7 @@ block.getHeight(); // 300</code></pre>
 
 
 
-return block.innerHeight;
+block.innerHeight;
 
 
 
@@ -356,7 +525,7 @@ var getHeight = block.getHeight;
 
 
 
-return ???.innerHeight;
+???.innerHeight;
 
 
 
@@ -383,7 +552,7 @@ getHeight(); // 1280</code></pre>
 
 
 
-return window.innerHeight;
+window.innerHeight;
 
 
 
@@ -418,16 +587,16 @@ fun.call(thisArg, arg1, arg2, ...);
         <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
 
         <div class="code-container">
-        <pre class="js code"><code>var sergey = {
-    age: 30,
+        <pre class="js code"><code>var mike = {
+    age: 24,
 
     getAge: function () {
         return this.age;
     }
 }
 
-var oleg = {
-    age: 25
+var anna = {
+    age: 21
 }
 
         </code></pre>
@@ -435,7 +604,7 @@ var oleg = {
 
 
 
-return ???.age;
+???.age;
 
 
 
@@ -451,24 +620,24 @@ return ???.age;
         <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
 
         <div class="code-container">
-        <pre class="js code"><code>var sergey = {
-    age: 30,
+        <pre class="js code"><code>var mike = {
+    age: 24,
 
     getAge: function () {
         return this.age;
     }
 }
 
-var oleg = {
-    age: 25
+var anna = {
+    age: 21
 }
 
-sergey.getAge.call(oleg); // 25</code></pre>
+mike.getAge.call(anna); // 21</code></pre>
         <pre class="js this"><code>
 
 
 
-return oleg.age;
+anna.age;
 
 
 
@@ -499,6 +668,12 @@ function func() {
         </blockquote>
 
         <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/apply">Function.prototype.apply() - JavaScript | MDN</a></small>
+    </section>
+
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.apply(thisArg, [arg1, arg2]);
+        </code></pre>
     </section>
 
     <section>
@@ -547,7 +722,7 @@ Math.min.apply(null, arr); // 2
 
 
 ???.items
-    ???.name
+???.name
 
 
 
@@ -579,7 +754,7 @@ person.showItems();
 
 
 person.items
-    ???.name
+???.name
 
 
 
@@ -611,7 +786,7 @@ person.showItems();
 
 
 person.items
-    global.name
+global.name
 
 
 
@@ -704,7 +879,7 @@ person.showItems();
 
 
 ???.items
-    ???.name
+???.name
 
 
 
@@ -736,7 +911,7 @@ person.showItems();
 
 
 person.items
-    person.name
+person.name
 
 
 
@@ -764,6 +939,12 @@ person.items
         <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Function/bind">Function.prototype.bind() - JavaScript | MDN</a></small>
     </section>
 
+    <section>
+        <pre class="js size-S"><code data-trim>
+fun.bind(thisArg, arg1, arg2, ...);
+        </code></pre>
+    </section>
+
     <section data-transition='slide-in'>
         <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
 
@@ -787,7 +968,7 @@ person.items
 
 
 ???.items
-    ???.name
+???.name
 
 
 
@@ -819,7 +1000,7 @@ person.showItems();
 
 
 person.items
-    person.name
+person.name
 
 
 
@@ -881,7 +1062,7 @@ binPow(10); // 1024
         <div class="code-container">
         <pre class="js code"><code data-noescape>function User () {
     return {
-        age: 30,
+        age: 24,
 
         showAge: function () {
             console.log(this.age);
@@ -915,7 +1096,7 @@ binPow(10); // 1024
         <div class="code-container">
         <pre class="js code"><code data-noescape>function User () {
     return {
-        age: 30,
+        age: 24,
 
         showAge: function () {
             console.log(this.age);
@@ -923,16 +1104,16 @@ binPow(10); // 1024
     }
 }
 
-var sergey = new User();
+var mike = new User();
 
-sergey.showAge(); // 30
+mike.showAge(); // 24
 </code></pre>
         <pre class="js this"><code>
 
 
 
 
-sergey.age
+mike.age
 
 
 
@@ -1030,7 +1211,151 @@ function getSelf() {
 getSelf(); // undefined
         </code></pre>
     </section>
+</section>
 
+<section>
+    <section>
+        <h3>eval</h3>
+    </section>
+
+    <section>
+        <h4>eval</h4>
+
+        <pre class="js"><code data-trim>
+var temerature = 12;
+
+eval('temerature + 5'); // 17
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        return eval('this.name');
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+???.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        return eval('this.name');
+    }
+}
+
+person.showName(); // Sergey</code></pre>
+        <pre class="js this"><code>
+
+
+
+person.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        var evil = eval;
+
+        return evil('this.name');
+    }
+}
+
+
+</code></pre>
+        <pre class="js this fragment"><code>
+
+
+
+
+
+???.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>eval</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>var person = {
+    name: 'Sergey',
+
+    showName: function () {
+        var evil = eval;
+
+        return evil('this.name');
+    }
+}
+
+person.showName(); // ''</code></pre>
+        <pre class="js this"><code>
+
+
+
+
+
+general.name
+
+
+
+        </code></pre>
+        </div>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Сегодня</h3>
+
+        <ul>
+            <li class="fragment">Контекст исполнения</li>
+            <li class="fragment">
+                this
+                <ul>
+                    <li class="fragment">Определяется в момент интерпретации</li>
+                    <li class="fragment">Тип участка кода</li>
+                    <li class="fragment">Как мы на него попали</li>
+                    <li class="fragment">Режим интерпретатора</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
 </section>
 
 </div></div>
