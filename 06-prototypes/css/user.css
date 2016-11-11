@@ -1,0 +1,139 @@
+body {
+    background: #000;
+}
+
+@font-face {
+    font-family: textbook-light;
+    font-weight: 200;
+    src: local(textbook-light);
+    src: url('../../css/textbook-light.woff'),
+    url('../../css/textbook-light.ttf');
+}
+
+.reveal h2,
+.reveal h4,
+.reveal h5,
+.reveal h6,
+.reveal p,
+.reveal li
+{
+    font-family: 'textbook-light';
+}
+
+.progress
+{
+    height: 8px !important;
+}
+
+.slide-number
+{
+    font-family: 'sourcecodepro-light' !important;
+    font-size: 35px !important;
+}
+
+pre,
+pre code {
+    font-size: 26px !important;
+    font-family: 'sourcecodepro-light' !important;
+}
+
+pre {
+    margin: 10px 15px !important;
+    width: 100% !important;
+}
+
+.reveal pre code {
+    padding: 12px 25px !important;
+    line-height: 35px !important;
+    border: 3px solid rgba(63, 63, 63, 0.3) !important;
+    background: rgba(63, 63, 63, 0.2) !important;
+    max-height: 100% !important;
+}
+
+pre.flat code {
+    padding: 0 0 !important;
+    border: 0 !important;
+    background: none !important;
+}
+
+.author {
+    text-align: center;
+}
+
+.author small::first-letter {
+    color: red;
+}
+
+.reveal section .fragment.init_visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.reveal section .fragment.highlight {
+    transition-duration: .3s;
+}
+
+.highlight.fragment.visible,
+.highlight.static {
+    color: #000;
+}
+
+.highlight.yellow.fragment.visible,
+.highlight.yellow.static {
+    background-color: #a0a0f0;
+}
+
+.highlight.red.fragment.visible,
+.highlight.red.static {
+    color: #ab4642;
+}
+
+.highlight.rat.fragment.visible,
+.highlight.rat.static {
+    color: #ab4642;
+}
+
+.column {
+    display:inline-block;
+    margin-bottom: 10px !important;
+    width: 49%;
+    vertical-align: top !important;
+}
+
+section.size-XXS,
+section .size-XXS {
+    font-size: 28px;
+    line-height: 45px;
+}
+
+h4 span {
+    color: #a0a0f0 !important;
+}
+
+.red {
+    color: #ab4642;
+}
+
+.green {
+    color: #a1b56c !important;
+}
+
+.magenta {
+    color: #a0a0f0 !important;
+}
+
+.grey {
+    color: #777;
+}
+
+.hljs-comment {
+    color: #999 !important;
+}
+
+.hljs-string {
+    color: #a1b56c !important;
+}
+
+.left {
+    text-align: left;
+}
