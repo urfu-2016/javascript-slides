@@ -1,0 +1,1346 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Конструкторы</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="./css/user.css">
+</head>
+<body class="yandex"><div class="reveal"><div class="slides">
+
+<section class="large">
+<h2>Конструкторы</h2>
+<p><small>Гоголев Сергей</small></p>
+</section>
+
+<section>
+<h4>Неделей ранее ...</h4>
+</section>
+
+<section>
+<h4>Объекты <span>студента</span> и <span>предподавателя</span></h4>
+<div class="column"><pre class="javascript"><code data-noescape>var student = {
+    name: 'Billy',
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="1">type: 'human',</span>
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="1">getName: function() {},</span>
+    sleep: function() {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-noescape>var lecturer = {
+    name: 'Sergey',
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="1">type: 'human',</span>
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="1">getName: function() {}</span>
+    talk: function() {}
+};
+</code></pre></div>
+<p class="fragment" data-fragment-index="1"><span class="red">Проблема:</span> дублирование кода</p>
+</section>
+
+<section>
+<h4>Объект <span>«Личность»</span></h4>
+<div class="column"><pre class="javascript"><code data-trim>
+var student = {
+    name: 'Billy',
+    sleep: function () {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-trim>
+var lecturer = {
+    name: 'Sergey',
+    talk: function () {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-trim>
+var person = {
+    type: 'human',
+    getName: function () {}
+};
+</code></pre></div>
+</section>
+
+<section>
+<h4>Делегирование</h4>
+<div class="column"><pre class="javascript"><code data-trim>
+var student = {
+    name: 'Billy',
+    sleep: function () {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-trim>
+var person = {
+    type: 'human',
+    getName: function () {}
+};
+</code></pre></div>
+<pre class="javascript"><code data-trim>
+student.getName();
+// Billy
+</code></pre>
+</section>
+
+<section>
+<h4>Внутреннее поле <span>[[Prototype]]</span></h4>
+<pre class="javascript"><code data-trim>
+var student = {
+    name: 'Billy',
+    sleep: function () {}
+    [[Prototype]]: <ссылка на объект>
+};
+</code></pre>
+</section>
+
+<section>
+<h4>Способы связывания</h4>
+<div class="column"><pre class="javascript"><code data-trim >
+var student = {
+    name: 'Billy',
+    sleep: function () {},
+    [[Prototype]]: &lt;person&gt;
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code>var person = {
+    type: 'human',
+    getName: function () {}
+};
+
+</code></pre></div>
+<pre class="javascript fragment"><code data-trim>
+student.__proto__ = person;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.setPrototypeOf(student, person);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var student = Object.create(person);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+student.name = 'Billy';
+student.sleep = function () {};
+</code></pre>
+</section>
+
+<section>
+<h4>Цепочка прототипов</h4>
+<pre class="javascript"><code data-trim>
+student.getName();
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var student = {
+    name: 'Billy',
+    [[Prototype]]: &lt;person&gt;
+};
+</code></pre>
+<pre class="javascript fragment"><code>var person = {
+    getName: function () { console.info(this.name); },
+    [[Prototype]]: &lt;Object.prototype&gt;
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.prototype = {
+    toString: function () {},
+    [[Prototype]]: null
+};
+</code></pre>
+</section>
+
+<section>
+<h4>Глобальные прототипы</h4>
+<div><pre class="javascript"><code data-trim>
+Object.prototype = {
+    toString: function () {},
+    hasOwnProperty: function () {},
+    [[Prototype]]: null
+};
+</code></pre></div>
+<div class="fragment"><pre class="javascript"><code data-trim>
+Array.prototype = {
+    forEach: function () {},
+    [[Prototype]]: &lt;Object.prototype&gt;
+};
+</code></pre></div>
+<div class="fragment"><pre class="javascript"><code data-trim>
+Function.prototype = {
+    call: function () {},
+    [[Prototype]]: &lt;Object.prototype&gt;
+};
+</code></pre></div>
+</section>
+
+<section>
+<h4>Object<span>.getPrototypeOf()</h4>
+<div class="column"><pre class="javascript"><code data-trim >
+var student = {
+    name: 'Billy',
+    sleep: function () {},
+    [[Prototype]]: &lt;person&gt;
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code>var person = {
+    type: 'human',
+    getName: function () {}
+};
+
+</code></pre></div>
+<div><pre class="javascript"><code data-trim>
+Object.getPrototypeOf(student) === person;
+// true
+</code></pre></div>
+</section>
+
+<section>
+<h4>Эффект затенения</h4>
+<div class="column"><pre class="javascript"><code data-trim >
+var student = {
+    name: 'Billy',
+    sleep: function () {},
+    [[Prototype]]: &lt;person&gt;
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code>var person = {
+    type: 'human',
+    getName: function () {}
+};
+
+</code></pre></div>
+<div><pre class="javascript fragment" data-fragment-index="0"><code data-trim>
+student.type = 'robot';
+</code></pre></div>
+<div class="column fragment" data-fragment-index="1"><pre class="javascript"><code data-trim data-noescape>var student = {
+    type: 'robot',
+    name: 'Billy',
+    sleep: function () {},
+    [[Prototype]]: &lt;person&gt;
+};
+</code></pre></div>
+<div class="column fragment" data-fragment-index="1"><pre class="javascript"><code>var person = {
+    type: 'human',
+    getName: function () {}
+};
+
+
+</code></pre></div>
+</section>
+
+<section data-background="images/prototypes-chain.png" data-background-size="85%"></section>
+
+<section>
+<ol class="left" style="font-size: .8em">
+<li class="left">Чтобы переиспользовать код, любой объект можно сделать <span class="magenta">прототипом</span> для другого</li>
+<li class="fragment left">Для этого во внутреннее поле <span class="magenta">[[Prototype]]</span> записываем ссылку на прототип одним из способов</li>
+<li class="fragment left">У всех объектов есть прототип по умолчанию
+    – <span class="magenta">Object.prototype</span> с общими методами</li>
+<li class="fragment left">Даже у массивов
+    – <span class="magenta">Array.prototype</span></li>
+<li class="fragment left">И у функций
+    – <span class="magenta">Function.prototype</span></li>
+<li class="fragment left">Если интерпретатор не находит поля у объекта,
+    он ищет его по всей <span class="magenta">цепочке прототипов</span>, пока не наткнётся на <span class="red">null</span> во внутреннем поле <span class="magenta">[[Prototype]]</span></li>
+<li class="fragment left">При попытке зациклить цепочку<br> интерпретатор сразу бросит ошибку</li>
+</ol>
+</section>
+
+<section>
+<h4>Наши дни ...</h4>
+</section>
+
+<section>
+<h4>Один объект</h4>
+<div class="column"><pre class="javascript"><code data-trim >
+var student = {
+    name: 'Billy',
+    sleep: function () {}
+};
+</code></pre></div>
+<div class="column fragment"><pre class="javascript"><code>var person = {
+    type: 'human',
+    getName: function () {}
+};
+</code></pre></div>
+<pre class="javascript fragment"><code data-trim>
+Object.setPrototypeOf(student, person);
+</code></pre>
+</section>
+
+<section>
+<h4>Много объектов одного типа</h4>
+<div class="column"><pre class="javascript"><code data-trim>
+var billy = {
+    name: 'Billy',
+    sleep: function () {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript fragment"><code data-trim>
+var willy = {
+    name: 'Willy',
+    sleep: function () {}
+};
+</code></pre></div>
+</section>
+
+<section>
+<h4>Много объектов одного типа</h4>
+<p class="left"><span class="red" style="float: left; height: 100px; width: 25%;">
+    Проблема:</span> дублирование кода <br>при создании объекта</p>
+<p class="left fragment"><span class="green" style="float: left; height: 100px; width: 25%">
+    Решение:</span> использовать <br>конструктор объектов</p>
+</section>
+
+<section>
+<h4>Самодельный конструктор</h4>
+<pre class="javascript"><code data-trim>
+function createStudent(name) {
+    return {
+        name: name,
+        sleep: function () {
+            console.info('zzzZZ ...');
+        }
+    };
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = createStudent('Billy');
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var willy = createStudent('Willy');
+</code></pre>
+</section>
+
+<section>
+<h4>Самодельный конструктор</h4>
+<p class="left" style="clear:both; overflow:hidden;"><span class="red" style="float: left; height: 100px; width: 25%;">
+    Проблема:</span> каждый раз создаём метод <span class="magenta">sleep()</span></p>
+<!-- ask -->
+<p class="left fragment"><span class="green" style="float: left; height: 100px; width: 25%">
+    Решение:</span> вынести этот метод в прототип</p>
+</section>
+
+<section>
+<h4>Самодельный конструктор</h4>
+<pre class="javascript"><code data-trim>
+var studentProto = {
+    sleep: function () {
+        console.info('zzzZZ ...');
+    }
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+function createStudent(name) {
+    var student = {
+        name: name
+    };
+
+    Object.setPrototypeOf(student, studentProto);
+
+    return student;
+}
+</code></pre>
+</section>
+
+<section>
+<h4>Самодельный конструктор</h4>
+<pre class="javascript"><code data-trim>
+var billy = createStudent('Billy');
+var willy = createStudent('Willy');
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+billy.sleep();
+// zzzZZ ...
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+willy.sleep();
+// zzzZZ ...
+</code></pre>
+</section>
+
+<section>
+<h4>Конструктор «из коробки»</h4>
+<p class="fragment" data-fragment-index="0">Любая функция, вызванная оператором <span class="magenta">new</span></p>
+<pre class="javascript fragment" data-fragment-index="1"><code data-trim>
+var billy = new createStudent('Billy');
+</code></pre>
+<div class="fragment" data-fragment-index="2"><pre data-fragment-index="3" class="javascript fragment highlight highlight-opacity init_visible"><code data-trim>
+function createStudent(name) {
+    this.name = name;
+}
+</code></pre></div>
+<pre class="javascript fragment" data-fragment-index="3"><code data-trim>
+function createStudent(name) {
+    // var this = {};
+    this.name = name;
+    // return this;
+}
+</code></pre>
+<p class="fragment" data-fragment-index="4"><span class="magenta">this</span> указывает на создаваемый объект</p>
+</section>
+
+<section>
+<h4>Конструктор «из коробки»</h4>
+<pre class="javascript"><code data-trim>
+function createStudent(name) {
+    this.name = name;
+}
+
+var billy = new createStudent('Billy');
+</code></pre>
+<p class="fragment">Чуть больше <span class="green">семантики</span></p>
+<pre class="javascript fragment"><code data-trim>
+function student(name) {
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new student('Billy');
+</code></pre>
+</section>
+
+<section>
+<h4>Правило именования конструкторов</h4>
+<p class="fragment left">Чтобы отличить <span class="magenta">функцию-конструктор</span>
+    от <span class="magenta">обычной</span>,
+    их именуют с заглавной буквы.
+</p>
+<pre class="javascript fragment"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+var billy = new Student('Billy');
+</code></pre>
+</section>
+
+<section>
+<h4>Зачем отличать конструкторы от обычных?</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = Student('Billy');
+</code></pre>
+<!-- ask -->
+<p class="fragment"><span class="red">Поле появится в глобальном объекте!</span></p>
+<pre class="javascript fragment"><code data-trim>
+window.name === 'Billy'; // true
+</code></pre>
+<!-- ask -->
+<p><span class="fragment grey">use strict;</span><br><span class="fragment green">TypeError: Cannot set property 'name' of undefined</span><p>
+</section>
+
+<section>
+<h4>Возвращаем значение из конструктора</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+
+    return {
+        name: 'Muahahahahaha!'
+    };
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+console.info(billy.name);
+// Muahahahahaha
+</code></pre>
+</section>
+
+<section>
+<h4>Возвращаем значение из конструктора</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+
+    return null; // Evil mode on!
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+console.info(billy.name);
+</code></pre>
+<!-- ask -->
+<pre class="javascript fragment"><code data-trim>
+// Billy
+</code></pre>
+</section>
+
+<section>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+</code></pre>
+<h4 class="fragment">А как же метод <span>.sleep()</span> в прототипе?</h4>
+<pre class="javascript fragment"><code data-trim>
+var studentProto = {
+    sleep: function () {}
+}
+
+function createStudent(name) {
+    var student = { name: name };
+
+    Object.setPrototypeOf(student, studentProto);
+
+    return student;
+}
+</code></pre>
+</section>
+
+<section>
+<h4>Автоматическая привязка прототипа</h4>
+<pre data-fragment-index="2" class="javascript fragment highlight highlight-opacity init_visible"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment" data-fragment-index="1"><code data-trim>
+Student.prototype = {
+    sleep: function () {}
+};
+</code></pre>
+<pre class="javascript fragment" data-fragment-index="2"><code data-trim>
+function Student(name) {
+    // var this = {};
+    this.name = name;
+    // Object.setPrototypeOf(this, Student.prototype);
+    // return this;
+}
+</code></pre>
+</section>
+
+<section>
+<h4>Автоматическая привязка прототипа</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+Student.prototype = {
+    sleep: function () {}
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = {
+    name: 'Billy',
+    [[Prototype]]: &lt;Student.prototype&gt;
+};
+</code></pre>
+<p class="fragment">Прямо как <span class="magenta">Object.prototype</span>!<p>
+</section>
+
+<section>
+<p>billy</p>
+<p class="green">⇣</p>
+<p>Student.prototype</p>
+<p class="green">⇣</p>
+<p>Object.prototype</p>
+<p class="green">⇣</p>
+<p class="magenta">null</p>
+</section>
+
+<section>
+<h4>Особое поле <span>.prototype</span></h4>
+<p class="left">1. Есть у каждой функции</p>
+<pre class="javascript"><code data-trim>
+function kawabanga(name) {
+    console.info('kawabanga!');
+}
+</code></pre>
+<p class="fragment left">2. Хранит объект</p>
+
+<ol class="fragment left" start="3"><li>Имеет смысл только при вызове функции как конструктора</li></ol>
+<ol class="fragment left" start="4" style="width: 100%"><li>Имеет вложенное поле <span class="magenta">.constructor</span></li></ol>
+</section>
+
+<section>
+<h4>Особое поле <span>.constructor</span></h4>
+<p class="fragment left" style="margin-left: 50px;"><span class="green">–</span> неперечисляемое</p>
+<p class="fragment left" style="margin-left: 50px;"><span class="green">–</span> хранит ссылку на саму функцию</p>
+<pre class="javascript fragment"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype.constructor === Student; // true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+console.info(billy.constructor.name); // ?
+</code></pre>
+<!-- ask -->
+<pre class="javascript fragment"><code data-trim>
+// Student
+</code></pre>
+</section>
+
+<section>
+<h4>Конструктор «из коробки»</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype = {
+    sleep: function () {}
+};
+</code></pre>
+<p class="left fragment" style="height:80px;"><span class="red" style="float: left; height: 100px; width: 25%;">
+    Проблема:</span> уничтожаем поле <span class="magenta">.constructor</span></p>
+<p class="left fragment"><span class="green" style="float: left; height: 100px; width: 25%">
+    Решение:</span> не перезаписывать <span class="magenta">.prototype</span></p>
+</section>
+
+<section>
+<h4>Конструктор «из коробки»</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype.sleep = function () {
+    console.info('zzzZZ ...');
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+billy.sleep(); // zzzZZ ...
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+billy.constructor === Student; // true
+</code></pre>
+</section>
+
+<section>
+<h4>Много объектов одного типа</h4>
+<div class="column"><pre class="javascript"><code data-trim>
+var billy = {
+    name: 'Billy',
+    sleep: function () {}
+};
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-trim>
+var willy = {
+    name: 'Willy',
+    sleep: function () {}
+};
+</code></pre></div>
+<pre class="javascript fragment"><code data-trim>
+Object.setPrototypeOf(billy, person);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.setPrototypeOf(willy, person);
+</code></pre>
+</section>
+
+<section>
+<h4>Строим цепочку прототипов</h4>
+<pre class="javascript"><code data-trim>
+var personProto = {
+    type: 'human',
+    getName: function () {
+        console.info(this.name);
+    }
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+function Person() {
+    this.type = 'human';
+}
+
+Person.prototype.getName = function () {
+    console.info(this.name);
+}
+</code></pre>
+</section>
+
+<section>
+<h4>Строим цепочку прототипов</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype = Person.prototype;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.sleep = function () {};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+billy.getName();
+// Billy
+</code></pre>
+</section>
+
+<section>
+<h4>Строим цепочку прототипов</h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype = Person.prototype;
+Student.prototype.sleep = function () {};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+function Lecturer(name) {
+    this.name = name;
+}
+
+Lecturer.prototype = Person.prototype;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var sergey = new Lecturer('Sergey');
+
+sergey.sleep(); // zzzZZ ...
+</code></pre>
+</section>
+
+<section>
+<p>billy</p>
+<p class="green">⇣</p>
+<p>Student.prototype === Person.prototype</p>
+<p class="green">⇣</p>
+<p>Object.prototype</p>
+<p class="green">⇣</p>
+<p class="magenta">null</p>
+</section>
+
+<section style="font-size: 1.5em">
+<p>billy</p>
+<p class="green">⇣</p>
+<p>Student.prototype</p>
+<p class="green">⇣</p>
+<p>Person.prototype</p>
+<p class="green">⇣</p>
+<p>Object.prototype</p>
+<p class="green">⇣</p>
+<p class="magenta">null</p>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.sleep = function () {};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+function Lecturer(name) {
+    this.name = name;
+}
+Lecturer.prototype = Object.create(Person.prototype);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var sergey = new Lecturer('Sergey');
+sergey.sleep();
+</code></pre>
+<p class="green fragment">TypeError: sergey.sleep is not a function</p>
+</section>
+
+<section style="font-size: 1.5em">
+<div class="column">
+    <p>billy</p>
+    <p class="green">⇣</p>
+    <p>Student.prototype</p>
+    <p class="green">⇣</p>
+    <p>Person.prototype</p>
+    <p class="green">⇣</p>
+    <p>Object.prototype</p>
+    <p class="green">⇣</p>
+    <p class="magenta">null</p>
+</div>
+<div class="column fragment" data-fragment-index="1">
+    <p>sergey</p>
+    <p class="green">⇣</p>
+    <p>Lecturer.prototype</p>
+    <p class="green">⇣</p>
+    <p>Person.prototype</p>
+    <p class="green">⇣</p>
+    <p>Object.prototype</p>
+    <p class="green">⇣</p>
+    <p class="magenta">null</p>
+</div>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<p>Создаёт пустой объект, прототипом которого становится объект, переданный первым аргументом</p>
+<pre class="javascript fragment"><code data-trim>
+var fruitProto = {
+    isUsefull: true
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var apple = Object.create(fruitProto);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+apple.isUsefull; // true
+</code></pre>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+var apple = Object.create(fruitProto);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.create = function(prototype) {
+    // Простейший конструктор пустых объектов
+    function emptyFunction() {};
+
+    emptyFunction.prototype = prototype;
+
+    return new emptyFunction();
+};
+</code></pre>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+Student.prototype = Object.create(Person.prototype);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.create = function(prototype) {
+    function emptyFunction() {};
+
+    emptyFunction.prototype = prototype;
+
+    return new emptyFunction();
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype = {
+    [[Prototype]]: &lt;Person.prototype&gt;
+}
+</code></pre>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+var foreverAlone = Object.create(null);
+</code></pre>
+<pre class="javascript fragment" data-fragment-index=0><code data-trim>
+foreverAlone.hasOwnProperty; // undefined
+</code></pre>
+<div class="fragment" data-fragment-index=1>
+    <p>foreverAlone</p>
+    <p class="green">⇣</p>
+    <p class="magenta">null</p>
+</div>
+<img class="fragment" data-fragment-index=1 width="150" style="background: none" src="images/alone.png">
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.sleep = function () {};
+</code></pre>
+<div>
+    <p>Student.prototype</p>
+    <p class="green">⇣</p>
+    <p>Person.prototype</p>
+</div>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.sleep = function () {};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.constructor = Student;
+</code></pre>
+</section>
+
+<section>
+<h4>Итак, общее решение</h4>
+<pre class="javascript"><code data-trim>
+function Person() {
+    this.type = 'human';
+}
+Person.prototype.getName = function () {
+    console.info(this.name);
+};
+</code></pre>
+<pre class="javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+Student.prototype = Object.create(Person.prototype);
+Student.prototype.sleep = function () {};
+Student.prototype.constructor = Student;
+</code></pre>
+<pre class="javascript"><code data-trim>
+var billy = new Student('Billy');
+</code></pre>
+</section>
+
+<section style="font-size: 1.5em">
+<div class="column">
+    <p>billy</p>
+    <p class="green fragment" data-fragment-index="2">⇣</p>
+    <p class="fragment" data-fragment-index="2">Student.prototype</p>
+    <p class="green fragment" data-fragment-index="4">⇣</p>
+    <p class="fragment" data-fragment-index="4">Person.prototype</p>
+    <p class="green fragment" data-fragment-index="6">⇣</p>
+    <p class="fragment" data-fragment-index="6">Object.prototype</p>
+    <p class="green fragment" data-fragment-index="8">⇣</p>
+    <p class="magenta fragment" data-fragment-index="8">null</p>
+</div>
+<div class="column" >
+    <p class="fragment" data-fragment-index="1">Поле <span class="magenta">.name</span></p>
+    <p class="fragment green" data-fragment-index="3">&nbsp;</p>
+    <p class="fragment" data-fragment-index="3">Метод <span class="magenta">.sleep</span></p>
+    <p class="green fragment" data-fragment-index="5">&nbsp;</p>
+    <p class="fragment" data-fragment-index="5">Метод <span class="magenta">.getName</span></p>
+    <p class="green fragment" data-fragment-index="7">&nbsp;</p>
+    <p class="fragment" data-fragment-index="7">Общие методы</p>
+</div>
+</section>
+
+<section>
+<h4>instanceof</h4>
+<pre class="javascript fragment"><code data-trim>
+billy instanceof Student;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+billy instanceof Person;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+billy instanceof Object;
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.create(null) instanceof Object
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// false
+</code></pre>
+</section>
+
+<section>
+<h4>instanceof</h4>
+<pre class="javascript"><code data-trim>
+billy instanceof Person;
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+billy.__proto__ === Person.prototype;
+// false -> Может, там null?
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+billy.__proto__ === null;
+// false -> Идём дальше по цепочке
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+billy.__proto__.__proto__ === Person.prototype;
+// true -> Возвращаем true
+</code></pre>
+</section>
+
+<section>
+<h4>instanceof</h4>
+<pre class="javascript"><code data-trim>
+Object.create(null) instanceof Object;
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+Object.create(null).__proto__ === Object.prototype;
+// false -> Может, там null?
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+Object.create(null).__proto__ === null;
+// true -> Так и есть, возращаем false!
+</code></pre>
+</section>
+
+<section>
+<h4>Object.prototype<span>.isPrototypeOf()</span></h4>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.isPrototypeOf(billy);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Person.prototype.isPrototypeOf(billy);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Object.prototype.isPrototypeOf(billy);
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+// true
+</code></pre>
+</section>
+
+<section>
+<h4>Конструкторы <span>студента</span> и <span>предподавателя</span></h4>
+<div class="column"><pre class="javascript"><code data-trim data-noescape>
+function Student(name) {
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="2">this.name = name;</span>
+}
+</code></pre></div>
+<div class="column"><pre class="javascript"><code data-trim data-noescape>
+function Lecturer(name) {
+    <span class="fragment highlight highlight-magenta init_visible" data-fragment-index="2">this.name = name;</span>
+}
+</code></pre></div>
+<p class="fragment" data-fragment-index="3"><span class="red">Проблема:</span> дублирование кода</p>
+<p class="fragment" data-fragment-index="4"><span class="green">Решение:</span> вынести общий код в <span class="magenta">Person</span></p>
+</section>
+
+<section>
+<h4>Выносим общий код</h4>
+<pre class="javascript fragment highlight highlight-opacity init_visible" data-fragment-index=1><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+function Person() {
+    this.type = 'human';
+}
+</code></pre>
+<pre class="javascript fragment" data-fragment-index=1><code data-trim>
+function Student(name) {}
+
+function Person(name) {
+    this.type = 'human';
+    this.name = name;
+}
+</code></pre>
+
+</section>
+
+
+<section>
+<h4>Вызов одного конструктора внутри другого</h4>
+<pre class="javascript"><code data-trim>
+function Person(name) {
+    this.type = 'human';
+    this.name = name;
+}
+</code></pre>
+<pre class="javascript fragment highlight highlight-opacity init_visible" data-fragment-index=1><code data-trim>
+function Student(name) {}
+</code></pre>
+<pre class="javascript fragment" data-fragment-index=1><code data-trim>
+function Student(name) {
+     Person.call(this, name);
+}
+</code></pre>
+<pre class="javascript"><code data-trim>
+var billy = new Student('Billy');
+
+console.info(billy.name); // undefined
+</code></pre>
+</section>
+
+<section>
+<h4>Вызов метода одного прототипа внутри другого</h4>
+<pre class="javascript"><code data-trim>
+function Person(name) {
+    this.name = name;
+}
+Person.prototype.getName = function () {
+    return this.name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.getName = function () {
+    return 'Student ' + this.getName();
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+billy.getName();
+</code></pre>
+<p class="fragment red" style="font-size: 35px;">RangeError: Maximum call stack size exceeded</p>
+</section>
+
+<section>
+<h4>Вызов метода одного прототипа внутри другого</h4>
+<pre class="javascript"><code data-trim>
+function Person(name) {
+    this.name = name;
+}
+Person.prototype.getName = function () {
+    return this.name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.getStudentName = function () {
+    return 'Student ' + this.getName();
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = new Student('Billy');
+
+billy.getStudentName();
+</code></pre>
+</section>
+
+<section>
+<h4>Вызов метода одного прототипа внутри другого</h4>
+<pre class="javascript"><code data-trim>
+function Person(name) {
+    this.type = 'human';
+    this.name = name;
+}
+Person.prototype.getName = function () {
+    return this.name;
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.getName = function () {
+    return 'Student ' +
+        Person.prototype.getName.call(this);
+};
+</code></pre>
+</section>
+
+<section>
+<p>
+    <span class="fragment" data-fragment-index="1"><span class="magenta fragment highlight highlight-opacity init_visible" data-fragment-index="5">new</span></span>
+    <span class="fragment" data-fragment-index="2">, <span class="magenta fragment highlight highlight-opacity init_visible" data-fragment-index="5">prototype</span></span>
+    <span class="fragment" data-fragment-index="3">, <span class="magenta">Object.create</span></span>
+</p>
+<p>
+    <span class="fragment" data-fragment-index="5"> <span class="green">Можно проще!</span></span>
+</p>
+</section>
+
+<section>
+<h4>Вернёмся к простым объектам</h4>
+<pre class="javascript"><code data-trim>
+var personProto = {
+    getName: function () {
+        return this.name;
+    }
+};
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var studentProto = Object.create(personProto);
+</code></pre>
+<div class="fragment" style="font-size: 30px;">
+    <p>studentProto</p>
+    <p class="green">⇣</p>
+    <p>personProto</p>
+</div>
+<pre class="javascript fragment"><code data-trim>
+studentProto.sleep = function () {};
+</code></pre>
+</section>
+
+<section>
+<h4>Вернёмся к простым объектам</h4>
+<pre class="javascript"><code data-trim>
+var billy = Object.create(studentProto);
+</code></pre>
+<div class="fragment">
+    <p>billy</p>
+    <p class="green">⇣</p>
+    <p>studentProto</p>
+    <p class="green">⇣</p>
+    <p>personProto</p>
+</div>
+<pre class="javascript fragment"><code data-trim>
+billy.name = 'Billy';
+</code></pre>
+</section>
+
+<section>
+<h4>Вернёмся к простым объектам</h4>
+<pre class="javascript"><code data-trim>
+var personProto = {};
+personProto.getName = function () { return this.name; }
+</code></pre>
+<pre class="javascript"><code data-trim>
+var studentProto = Object.create(personProto);
+studentProto.sleep = function () {};
+</code></pre>
+<pre class="javascript"><code data-trim>
+var billy = Object.create(studentProto);
+billy.name = 'Billy';
+</code></pre>
+</section>
+
+<section>
+<h4>Вернёмся к простым объектам</h4>
+<pre class="javascript"><code data-trim>
+var personProto = {};
+personProto.getName = function () { return this.name; }
+</code></pre>
+<pre class="javascript"><code data-trim>
+var studentProto = Object.create(personProto);
+studentProto.sleep = function () {};
+</code></pre>
+<pre class="javascript"><code data-trim>
+studentProto.create = function (name) {
+    return Object.create(this, {
+        name: { value: name }
+    });
+}
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+var billy = studentProto.create('Billy');
+</code></pre>
+</section>
+
+<section>
+<h4>Object<span>.create()</span></h4>
+<pre class="javascript"><code data-trim>
+var apple = Object.create(fruit, {
+    shape: { value: 'round', writable: false },
+    color: { value: 'Green' },
+    amount: { writable: true }
+});
+</code></pre>
+<pre class="javascript fragment"><code data-trim>
+apple.amount = 'half';
+</code></pre>
+</section>
+
+<section>
+<p><span class="magenta">new</span> или <span class="magenta">Object.create</span>?</p>
+<img class="fragment" width="100%" style="background: none" src="images/holy-war.jpeg">
+</section>
+
+<section>
+<h4>Некоторое время спустя ...</h4>
+</section>
+
+<section>
+<h4>«Классы»</h4>
+<pre class="fragment javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+Student.prototype.getName = function () {
+    return this.name;
+};
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+class Student {
+    constructor(name) {
+        this.name = name;
+    }
+
+    getName() {
+        return this.name;
+    }
+}
+</code></pre>
+</section>
+
+<section>
+<h4>«Классы»</h4>
+<pre class="javascript"><code data-trim>
+class Student {
+   // ...
+}
+</code></pre>
+
+<pre class="javascript"><code data-trim>
+var billy = new Student('Billy');
+
+billy.getName(); // Billy
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+Student.prototype.isPrototypeOf(billy); // true
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+typeof Student.prototype.getName; // function
+</code></pre>
+
+<pre class="javascript fragment"><code data-trim>
+typeof Student; // function
+</code></pre>
+</section>
+
+<section>
+<p><span class="magenta">class</span> или <span class="magenta">Object.create</span>?</p>
+<p class="fragment"><a href="https://medium.com/javascript-scene/common-misconceptions-about-inheritance-in-javascript-d5d9bab29b0a#.kl8wze49g">
+Common Misconceptions About Inheritance in JavaScript</a>, Eric Elliott</p>
+</section>
+
+<section>
+<p>Что почитать?</p>
+<p><a href="http://speakingjs.com/es5/ch17.html">
+Objects and Inheritance</a>, Dr. Axel Rauschmayer</p>
+<p><a href="http://learn.javascript.ru/prototypes">
+Прототипы</a>, Илья Кантор</p>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+<script>
+    Reveal.initialize({
+        controls: false,
+        center: false,
+        history: true,
+        hideAddressBar: true,
+        progress: true,
+        slideNumber: false,
+        transition: 'none',
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+</script>
+</body>
+</html>
