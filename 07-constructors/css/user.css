@@ -57,6 +57,11 @@ pre.flat code {
     color: #ab4642 !important;
 }
 
+.highlight.highlight-opacity.fragment.visible,
+.highlight.highlight-opacity.static {
+    opacity: .4 !important;
+}
+
 .red {
     color: #ab4642 !important;
 }
