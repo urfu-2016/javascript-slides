@@ -27,11 +27,30 @@
     <p class="author"><small>Жигалов Сергей</small></p>
 </section>
 
+<!-- <section>
+    <h3>В прошлых лекциях</h3>
+    <ul>
+        <li>Числа, строки, булевы величины, неопределённые величины</li>
+        <li>Объекты, массивы, функции</li>
+    </ul>
+</section> -->
+
+<!-- <section>
+    <h3>Содержание</h3>
+    <ul>
+        <li>Аргументы функции</li>
+        <li>Область видимости</li>
+        <li>Всплытие</li>
+        <li>Замыкание</li>
+    </ul>
+</section> -->
+
 <section>
     <h3>Функции</h3>
+
     <ul>
-        <li>Не повторять код (DRY)</li>
         <li>Объединить группу действий</li>
+        <li>Не повторять код (DRY)</li>
         <li>Рекурсивный вызов</li>
         <li>Создать область видимости*</li>
     </ul>
@@ -107,7 +126,7 @@ min(13);      // 13
     <section>
         <h4><span class="grey">Аргументы.</span> Значения по умолчанию</h4>
         <pre class="size-S js"><code data-trim>
-function getCartSum(price, count) {
+function getCost(price, count) {
     count = count || 1;
 
     return price * count;
@@ -115,19 +134,19 @@ function getCartSum(price, count) {
         </code></pre>
 
         <pre class="size-S js fragment"><code data-trim>
-getCartSum(27.70, 10); // 🍏 277₽
-getCartSum(49.90);     // 🍅 49.9₽
+getCost(27.70, 10); // 🍏 277₽
+getCost(49.90);     // 🍅 49.9₽
         </code></pre>
 
         <pre class="size-S js fragment"><code data-trim>
-getCartSum(99999, 0);  // 🚀 99999₽ ???
+getCost(9999, 0);  // 🚀 9999 ???
         </code></pre>
     </section>
 
     <section>
         <h4><span class="grey">Аргументы.</span> Значения по умолчанию</h4>
         <pre class="size-S js"><code data-trim>
-function getCartSum(price, count) {
+function getCost(price, count) {
     if (count === undefined) {
         count = 1;
     }
@@ -137,9 +156,9 @@ function getCartSum(price, count) {
         </code></pre>
 
         <pre class="size-S js fragment"><code data-trim>
-getCartSum(27.70, 10); // 🍏 277₽
-getCartSum(49.90);     // 🍅 49.9₽
-getCartSum(99999, 0);  // 🚀 0₽
+getCost(27.70, 10); // 🍏 277₽
+getCost(49.90);     // 🍅 49.9₽
+getCost(99999, 0);  // 🚀 0₽
         </code></pre>
     </section>
 </section>
@@ -188,13 +207,13 @@ BMI({ weight: 60, height: 1.7 }) // 20.7
         <blockquote cite="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/arguments">
             Объект arguments - это подобный массиву объект, который содержит аргументы, переданные в функцию.
         </blockquote>
-        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/arguments">Arguments object. MDN</a></small>
+        <small><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Functions/arguments">Arguments object - JavaScript | MDN</a></small>
     </section>
 
     <section>
         <pre class="size-S js"><code data-trim>
 function example() {
-    arguments[1]; // 12
+    arguments[1];     // 12
     arguments.length; // 2
 }
 
@@ -273,8 +292,8 @@ example(5, 6);
 </section>
 
 <section>
-    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628747/192706fa-997e-11e6-94d2-0f9f9bf23e32.jpg'>
-        <h3>Объявление функции</h3>
+    <section  class="shadow" data-background='http://www.artlib.ru/objects/gallery_32/artlib_gallery-16271-o.jpg'>
+        <h3  class="shadow">Объявление функции</h3>
         <small class="description">Васнецов. "Витязь на распутье"</small>
     </section>
 
@@ -288,7 +307,7 @@ function add(a, b) {
 }
         </code></pre>
 
-        <pre class="size-S js"><code data-trim>
+        <pre class="size-S js fragment"><code data-trim>
 // function expression
 var add = function (a, b) {
     return a + b;
@@ -392,12 +411,13 @@ function greet() {
 }
 
 text;   // ReferenceError:
-        //    text is not defined</code></pre>
+        // text is not defined</code></pre>
         <pre class="js left lexical-envorinment fragment"><code data-trim>
 ┌{ greet }
 ├─┬{ text }
 │ │
 │ │
+│
 │
 │
 │
@@ -407,6 +427,7 @@ text;   // ReferenceError:
 
     <section>
         <h4>❌ Нет блочной области видимости*</h4>
+        <p><small>* Standard ECMA-262 5.1 Edition</small></p>
 
         <div class="code-container">
         <pre class="js left code"><code>
@@ -490,9 +511,10 @@ function greet() {
 </section>
 
 <section>
-    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628722/985d0bc8-997d-11e6-940a-0c3bcba03942.jpg'>
-        <h3>Всплытие</h3>
-        <small class="description">Репин. "Бурлаки на Волге"</small>
+    <!-- data-background='https://cloud.githubusercontent.com/assets/1654243/19628722/985d0bc8-997d-11e6-940a-0c3bcba03942.jpg' -->
+    <section class="shadow" >
+        <h3  class="shadow">Всплытие</h3>
+        <!-- <small class="description">Репин. "Бурлаки на Волге"</small> -->
     </section>
 
     <section>
@@ -510,7 +532,7 @@ function greet() {
         </ol>
     </section>
 
-    <section class="no-transition">
+    <section data-transition='slide-in'>
         <h4>Всплытие функций</h4>
 
         <div class="code-container">
@@ -529,7 +551,7 @@ function add(a, b) {
         </div>
     </section>
 
-    <section class="no-transition">
+    <section data-transition='slide-out'>
         <h4>Всплытие функций</h4>
 
         <div class="code-container">
@@ -608,7 +630,7 @@ var add = function (a, b) {
         </div>
     </section>
 
-    <section class="no-transition">
+    <section data-transition='slide-out'>
         <h4>Всплытие переменных</h4>
 
         <div class="code-container">
@@ -630,7 +652,7 @@ var add = function (a, b) {
 
 
 
-    <section>
+    <!-- <section data-transition='slide-in'>
         <h4>Всплытие переменных</h4>
 
         <div class="code-container">
@@ -720,7 +742,7 @@ var beans = 30;</code></pre>
         </code></pre>
     </section>
 
-    <section class="no-transition">
+    <section data-transition='slide-out'>
         <h4>Всплытие переменных</h4>
 
         <div class="code-container">
@@ -736,11 +758,83 @@ var beans = 30;</code></pre>
 
 
 { milk: 270, beans: 30 }</code></pre>
+    </section> -->
+
+    <section data-transition='slide-in'>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+}
+
+</code></pre>
+        <pre class="js left hoisting"><code>{ greet: function }
+
+
+
+
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+}
+
+</code></pre>
+        <pre class="js left hoisting"><code>
+{ greet: function, text: undefined }
+
+
+
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+}
+
+</code></pre>
+        <pre class="js left hoisting"><code>
+
+{ greet: function, text: 'Привет' }
+
+
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Всплытие переменных</h4>
+
+        <div class="code-container">
+        <pre class="js left code"><code>
+function greet() {
+    var text = 'Привет';
+}
+
+</code></pre>
+        <pre class="js left hoisting"><code>
+
+
+
+{ greet: function }
+</code></pre>
     </section>
 </section>
 
 <section>
-    <section data-background='https://cloud.githubusercontent.com/assets/1654243/19628842/6d7e0fee-9980-11e6-853e-33cd0db27317.jpg'>
+    <section class="shadow" data-background='https://cloud.githubusercontent.com/assets/1654243/19628842/6d7e0fee-9980-11e6-853e-33cd0db27317.jpg'>
         <h3>Замыкание</h3>
         <small class="description">Микеланджело. "Сотворение Адама"</small>
     </section>
@@ -952,7 +1046,7 @@ var getDateString = (function () {
         return date.toGMTString()
     }
 
-    return function(date) {
+    return function getDateString(date) {
         date = date || new Date();
         return format(date);
     }
@@ -1003,7 +1097,7 @@ void function () {
     // https://github.com/hakimel/reveal.js#configuration
     Reveal.initialize({
         controls: false,
-        progress: true,
+        progress: false,
         slideNumber: true,
         history: true,
         center: true,

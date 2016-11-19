@@ -23,7 +23,7 @@
 <body class="yandex"><div class="reveal"><div class="slides">
 <section class="large">
     <h1>JavaScript</h1>
-    <h4>Введение. Основы языка. github</h4>
+    <h4>Введение. Основы языка.</h4>
     <p class="author"><small>Жигалов Сергей</small></p>
 </section>
 
@@ -138,9 +138,32 @@
             <favourite>tea</favourite>
         </persone>
     </barista>
-</coffee_shop>
+    </coffee_shop>
         </code></pre>
     </section>
+
+    <section>
+        <h4>JSON</h4>
+        <pre class="size-XS"><code data-trim>
+{
+    "name": "Works",
+    "cashlessPayment": true,
+    "capacity": 3,
+    "barista": [
+        {
+            "name": "Лёша",
+            "favourite": "cappuccino"
+        },
+        {
+            "name": "Лиза",
+            "favourite": "tea"
+        }
+    ]
+}
+        </code></pre>
+    </section>
+
+
 </section>
 
 <section>
@@ -167,7 +190,7 @@
         <img class="fragment" src="http://cronj.com/blog/wp-content/uploads/2014/12/npm.logo_.png" alt="npm" />
     </section>
 
-    <section>
+    <!-- <section>
         <table>
             <thead>
                 <tr>
@@ -202,7 +225,7 @@
                 </tr>
             </tbody>
         </table>
-    </section>
+    </section>-->
 </section>
 
 <section>
@@ -221,8 +244,7 @@
 
 <section>
     <section>
-        <h4>Основы языка</h4>
-        <h4>Типы данных</h4>
+        <h3>Типы данных</h3>
     </section>
 
     <section>
@@ -231,9 +253,9 @@
             <li class="fragment">числа</li>
             <li class="fragment">строки</li>
             <li class="fragment">булевые величины</li>
-            <li class="fragment">объекты* и массивы*</li>
-            <li class="fragment">функции*</li>
             <li class="fragment">неопределённые величины</li>
+            <li class="fragment">объекты и массивы</li>
+            <li class="fragment">функции</li>
         </ul>
     </section>
 </section>
@@ -260,7 +282,6 @@
 
     <section>
         <h4>Числовой. <span class="green">Экспонента</span></h4>
-        <p>64 бит</p>
 
         <pre class="size-M js fragment"><code data-trim>
 2^64 = 18446744073709552000
@@ -351,8 +372,39 @@ typeof '0';
 
 <section>
     <section>
-        <h4>Основы языка</h4>
-        <h4>Переменные</h4>
+        <h4>Преобразование к числу</h4>
+    </section>
+
+    <section>
+        <pre class="size-M javascript"><code data-trim>
+parseInt(string, radix);
+        </code></pre>
+
+        <pre class="size-M javascript fragment"><code data-trim>
+parseInt('17', 10); // 17
+parseInt('123');    // 123
+parseInt('11', 2);  // 3
+parseInt('a1', 10); // NaN
+parseInt('2b', 10); // 2
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="size-M javascript"><code data-trim>
+parseFloat(строка)
+        </code></pre>
+
+        <pre class="size-M javascript fragment"><code data-trim>
+parseFloat('3.14');  // 3.14
+parseFloat('314e-2');// 3.14
+parseFloat('a1');    // NaN
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h3>Переменные</h3>
     </section>
 
     <section>
@@ -361,12 +413,21 @@ typeof '0';
 var studentsCount;
 studentsCount = 98;
         </code></pre>
+
         <pre class="size-M javascript fragment"><code data-trim>
+studentsCount; // 98;
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Переменные</h4>
+
+        <pre class="size-M javascript"><code data-trim>
 var studentsCount = 98;
         </code></pre>
         <pre class="size-M javascript fragment"><code data-trim>
-var studentsCount = 98,
-language = 'JavaScript';
+var studentsCount,
+    language = 'JavaScript';
         </code></pre>
     </section>
 
@@ -390,6 +451,7 @@ A-Z a-z 0-9 _ $
 
     <section>
         <h4>Именование переменных</h4>
+
         <pre class="size-M javascript"><code data-trim>
 // Переменная
 var currentTime;
@@ -413,17 +475,60 @@ default  if       throw
 delete   in       instanceof
 typeof   var      void
         </code></pre>
-        <a href="https://clck.ru/9auhk">https://clck.ru/9auhk</a>
+        <pre class="size-S css fragment"><code data-trim>
+class    enum     extends   super
+const    export   import
+        </code></pre>
     </section>
 
+    <section>
+        <h4>Именование переменных</h4>
+
+        <pre class="size-S js fragment"><code data-trim>
+spisokDruzey; // ❌
+tsena;        // ❌
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+friends;      // ✅
+price;        // ✅
+        </code></pre>
+    </section>
 
     <section>
-        <h4>Зарезервированные слова</h4>
-        <pre class="size-S css"><code data-trim>
-class enum   extends super
-const export import
+        <h4>Именование переменных</h4>
+
+        <pre class="size-S js"><code data-trim>
+h, w;                      // ❌
+friendsListWithNameAndAge; // ❌
         </code></pre>
-        <a href="https://clck.ru/9auhk">https://clck.ru/9auhk</a>
+
+        <pre class="size-S js fragment"><code data-trim>
+height, width;             // ✅
+myFriends;                 // ✅
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Именование переменных</h4>
+
+        <pre class="size-S js"><code data-trim>
+my_friends;   // ❌
+        </code></pre>
+
+        <pre class="size-S js fragment"><code data-trim>
+myFriends;    // ✅
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Именование переменных</h4>
+
+        <pre class="size-S js"><code data-trim>
+isCorrect = true;
+totalCount = 47;
+fritnds = [];
+        </code></pre>
     </section>
 </section>
 
@@ -466,9 +571,9 @@ console.log(weather);
     </section>
 </section>
 
+
 <section>
-    <h4>Основы языка</h4>
-    <h4>Операторы</h4>
+    <h3>Операторы</h3>
 </section>
 
 <section>
@@ -477,6 +582,7 @@ console.log(weather);
         <pre class="size-M javascript">
 ++ (инкремент)
 -- (декремент)
++  (унарный плюс)
 -  (унарный минус)
 !  (логическое НЕ)
         </pre>
@@ -555,30 +661,31 @@ var b = ++a;  // b === 2, a === 2
     <pre class="size-M javascript fragment">*=, /=, +=, -=, &=, ^=, |= <br/>(присваивание с операцией)</pre>
     <pre class="size-M javascript fragment"><code data-trim>
 var a = 1;
-a += 1;
 a = a + 1;
+a += 1;
     </code></pre>
 </section>
 
 <section>
-    <h4>Условные операторы</h4>
-    <pre class="size-S javascript"><code data-trim>
+    <section>
+        <h4>Условные операторы</h4>
+        <pre class="size-S javascript"><code data-trim>
 if (language === 'JavaScript') {
     likes = likes + 1;
 } else {
     likes = likes - 1;
 }
-    </code></pre>
-    <pre class="size-S javascript fragment"><code data-trim>
+        </code></pre>
+        <pre class="size-S javascript fragment"><code data-trim>
 likes = language === 'JavaScript' ?
     likes + 1 :
     likes - 1;
-    </code></pre>
-</section>
+        </code></pre>
+    </section>
 
 <section>
     <h4>Условные операторы</h4>
-    <pre class="size-XS javascript"><code data-trim>
+    <pre class="size-S javascript"><code data-trim>
 switch (language) {
     case 'JavaScript':
         likes++;
@@ -589,7 +696,8 @@ switch (language) {
     default:
         likes--;
 }
-    </code></pre>
+        </code></pre>
+    </section>
 </section>
 
 <section>
@@ -611,44 +719,66 @@ a = b * 2;
     </code></pre>
 </section>
 
+
 <section>
-    <h4>;</h4>
-    <pre class="size-S"><code data-trim>
+    <section>
+        <h3>Точка с запятой</h3>
+    </section>
+    <section>
+        <h4>Точка с запятой</h4>
+        <pre class="size-S"><code data-trim>
 function getTrue() {
     return true;
 }
 
 getTrue();    // true
-    </code></pre>
-</section>
+        </code></pre>
+    </section>
 
-<section>
-    <h4>;</h4>
-    <pre class="size-S"><code data-trim>
+    <section>
+        <h4>Точка с запятой</h4>
+        <pre class="size-S"><code data-trim>
 function getTrue() {
     return
     true;
 }
 
 getTrue();    // undefined
-    </code></pre>
+        </code></pre>
+    </section>
 </section>
 
 <section>
-    <h4>Основы языка</h4>
-    <h4>Строгий режим</h4>
-</section>
+    <section>
+        <h3>Строгий режим</h3>
+    </section>
 
-<section>
-    <h4>Строгий режим</h4>
-    <pre class="size-S"><code data-trim>
+    <section>
+        <h4>Строгий режим</h4>
+        <pre class="size-S"><code data-trim>
 'use strict';
 
 // этот код будет работать
 // по современному стандарту ES5
-    </code></pre>
+        </code></pre>
 
-    <p><a href="http://ecma262-5.com/ELS5_HTML.htm#Annex_C">Спецификация</a></p>
+        <p><a href="http://ecma262-5.com/ELS5_HTML.htm#Annex_C">Спецификация</a></p>
+    </section>
+
+    <section>
+        <pre class="size-S"><code data-trim>
+text = 'hello';
+
+text; // 'hello'
+        </code></pre>
+
+        <pre class="size-S"><code data-trim>
+'use strict';
+
+text = 'hello'; // ReferenceError:
+            // text is not defined
+        </code></pre>
+    </section>
 </section>
 
 
@@ -684,7 +814,7 @@ $ node index.js
     </code></pre>
 </section>
 
-<section>
+<!-- <section>
     <section>
         <h4>Редакторы кода</h4>
         <ul>
@@ -714,9 +844,9 @@ $ node index.js
         </ol>
         <p>Подать заявку можно <a href="https://www.jetbrains.com/shop/eform/students">здесь</a></p>
     </section>
-</section>
+</section> -->
 
-<section data-background='images/github-octocat.png'>
+<!-- <section data-background='images/github-octocat.png'>
 </section>
 
 <section>
@@ -729,15 +859,15 @@ $ node index.js
         <img src="https://cloud.githubusercontent.com/assets/1654243/19113852/eb2681b6-8b24-11e6-8e88-8ff18e122b1b.jpg" alt="Регистрация"/>
     </section>
 
-    <!-- <section>
+     <section>
         <h5>Шаг 2</h5>
         <img src="https://cloud.githubusercontent.com/assets/1654243/19114406/477f5792-8b27-11e6-9854-247f39b01322.jpg" alt="Шаг 2"/>
-    </section> -->
+    </section>
 
-    <!-- <section>
+    <section>
         <h5>Шаг 3</h5>
         <img src="https://cloud.githubusercontent.com/assets/1654243/19114478/8fe90550-8b27-11e6-947e-2d9eb4efcc02.jpg" alt="Шаг 3"/>
-    </section> -->
+    </section>
 
     <section>
         <h5>Подтверждение почты</h5>
@@ -1108,7 +1238,7 @@ git push origin master
 <section>
     <h4>Домашнее задание</h4>
     <h4><a href="https://github.com/urfu-2016/javascript-task-1">XXL</a></h4>
-</section>
+</section> -->
 
 </div></div>
 
@@ -1121,7 +1251,7 @@ git push origin master
     // https://github.com/hakimel/reveal.js#configuration
     Reveal.initialize({
         controls: false,
-        progress: true,
+        progress: false,
         slideNumber: true,
         history: true,
         center: true,

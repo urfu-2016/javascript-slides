@@ -59,3 +59,15 @@
     font-style: italic;
     font-family: sans-serif;
 }
+.reveal {
+    background: #000;
+}
+
+body {
+    /*transform: scaleY(-1) !important;*/
+}
+
+.reveal .shadow,
+.reveal .shadow h3 {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+}

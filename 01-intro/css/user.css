@@ -34,3 +34,7 @@ section .strike {
     text-decoration: line-through;
     color: #888;
 }
+
+.reveal {
+    background: #000;
+}
