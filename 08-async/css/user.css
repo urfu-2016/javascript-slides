@@ -1,0 +1,101 @@
+.reveal .code-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.reveal .callstack {
+    margin-left: 30px;
+}
+
+.reveal .callstack code,
+.reveal .queue code {
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.reveal .callstack code {
+    background-image: url('../images/arrow-up.png');
+}
+
+.reveal .queue code {
+    background-image: url('../images/arrow-right.png');
+}
+
+.reveal .callstack::before {
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .callstack::before {
+    content: 'Стек вызовов:';
+}
+
+.reveal .code::before {
+    content: 'Код:';
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .queue::before {
+    content: 'Очередь событий:';
+    font-style: italic;
+    font-family: sans-serif;
+}
+
+.reveal .console::before {
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    line-height: initial;
+
+    color: black;
+    content: 'Console';
+
+    background-image: url('../images/mac-os-x-buttons.png');
+    background-color: #D6D6D6;
+    background-repeat: no-repeat;
+    background-position-y: center;
+
+    border-left: 8px solid #D6D6D6;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.reveal .console code {
+    background: #232323;
+
+    font-size: 20px;
+    line-height: initial;
+
+    border: 2px solid #D6D6D6;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.reveal .cover {
+    text-shadow: 0 0 5px black;
+}
+
+.reveal .clock {
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+}
+
+.reveal .clock::before {
+    content: '⏰ ';
+    z-index: 1;
+}
+
+.reveal .green {
+    color: green;
+}
+
+.reveal .gray {
+    color: gray;
+}
+
+.reveal .red {
+    color: red;
+}
