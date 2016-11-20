@@ -155,7 +155,7 @@ function makeCounter() {
     <section>
         <h4><span class="grey">this</span> C#</h4>
 
-        <pre class="csharp"><code data-trim>
+        <pre class="csharp size-XXS"><code data-trim>
 class User
 {
     private int age = 24;
@@ -178,7 +178,7 @@ static void Main()
     <section>
         <h4><span class="grey">this</span> Java</h4>
 
-        <pre class="java"><code data-trim>
+        <pre class="java size-XXS"><code data-trim>
 public class User {
     private int age = 24;
 
@@ -208,7 +208,7 @@ public static void main(String []args){
     <section>
         <h4><span class="grey">this</span> JavaScript</h4>
 
-        <pre class="js"><code data-trim>
+        <pre class="js size-XXS"><code data-trim>
 function User () {
     return {
         age: 24,
@@ -587,7 +587,7 @@ fun.call(thisArg, arg1, arg2, ...);
         <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
 
         <div class="code-container">
-        <pre class="js code"><code>var mike = {
+        <pre class="js code size-XXS"><code>var mike = {
     age: 24,
 
     getAge: function () {
@@ -600,7 +600,7 @@ var anna = {
 }
 
         </code></pre>
-        <pre class="js this fragment"><code>
+        <pre class="js this fragment size-XXS"><code>
 
 
 
@@ -620,7 +620,7 @@ var anna = {
         <h4><span class="grey">II. Как попали на участок кода.</span> Заимствование метода</h4>
 
         <div class="code-container">
-        <pre class="js code"><code>var mike = {
+        <pre class="js code size-XXS"><code>var mike = {
     age: 24,
 
     getAge: function () {
@@ -633,7 +633,7 @@ var anna = {
 }
 
 mike.getAge.call(anna); // 21</code></pre>
-        <pre class="js this"><code>
+        <pre class="js this size-XXS"><code>
 
 
 
@@ -1105,7 +1105,6 @@ binPow(10); // 1024
 }
 
 var mike = new User();
-
 mike.showAge(); // 24
 </code></pre>
         <pre class="js this"><code>
@@ -1387,8 +1386,24 @@ general.name
                 callback: function () {
                     hljs.initHighlightingOnLoad();
                 }
+            },
+            {
+                src: '../plugin/menu/menu.js'
             }
-        ]
+        ],
+        menu: {
+            side: 'left',
+            numbers: true,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            hideMissingTitles: true,
+            markers: true,
+            custom: false,
+            themes: false,
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true
+        },
     });
 
 </script>
