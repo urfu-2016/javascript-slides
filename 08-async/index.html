@@ -1,0 +1,1927 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>JavaScript, async</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="css/user.css">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <!--[if lt IE 9]>
+    <script src="../lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+
+<body class="yandex"><div class="reveal"><div class="slides">
+<section class="large">
+    <h2>Асинхронный код</h2>
+    <h4>Очередь событий. Таймеры. Callback. Promise</h4>
+    <p class="author"><small>Жигалов Сергей</small></p>
+</section>
+
+<section>
+    <section>
+        <h3>Синхронный код</h3>
+    </section>
+
+    <section>
+        <h4>Синхронный код</h4>
+
+        <pre class="js"><code data-trim>
+function grist() {
+   return 'Перемолоть кофейные зерна';
+}
+
+function addWater() {
+   return 'Добавить немного воды';
+}
+
+function toStove() {
+   return 'Поставить на плиту';
+}
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>Синхронный код</h4>
+
+        <pre class="js size-XS"><code data-trim>
+grist();
+addWater();
+toStove();
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Синхронный код</h4>
+
+        <pre class="js size-XS"><code data-trim>
+grist();     // 'Перемолоть кофейные зерна'
+addWater();
+toStove();
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Синхронный код</h4>
+
+        <pre class="js size-XS"><code data-trim>
+grist();     // 'Перемолоть кофейные зерна'
+addWater();  // 'Добавить немного воды'
+toStove();
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>Синхронный код</h4>
+
+        <pre class="js size-XS"><code data-trim>
+grist();     // 'Перемолоть кофейные зерна'
+addWater();  // 'Добавить немного воды'
+toStove();   // 'Поставить на плиту'
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Стек вызовов</h4>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+        </code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+<mark>toCheerUp();</mark></code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+toCheerUp
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    <mark>prepareCoffee()</mark>;
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    <mark>toStove()</mark>;
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+toStove
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+toCheerUp
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+anonymous</code></pre>
+    </div>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>Стек вызовов</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+        </code></pre>
+    </div>
+    </section>
+
+    <section>
+        <h4>Стек вызовов</h4>
+
+        <pre class="js"><code data-trim>
+function toStove() {
+    throw new Error('No electricity');
+}
+function prepareCoffee() {
+    toStove();
+}
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();
+        </code></pre>
+        <pre class="js console fragment"><code data-trim>
+Uncaught Error: No electricity
+    at toStove (&lt;anonymous&gt;:2:11)
+    at prepareCoffee (&lt;anonymous&gt;:6:5)
+    at toCheerUp (&lt;anonymous&gt;:10:5)
+    at &lt;anonymous&gt;:13:1
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Очередь событий</h4>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+        </code></pre>
+    </div>
+
+    <pre class="js queue w100"><code>anonymous
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape><mark>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</mark></code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code> </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+<mark>toCheerUp();</mark></code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+toCheerUp
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    <mark>prepareCoffee()</mark>;
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    <mark>toStove()</mark>;
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+toStove
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+prepareCoffee
+toCheerUp
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+toCheerUp
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+anonymous</code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>Очередь событий</h4>
+
+        <div class="code-container">
+        <pre class="js code"><code data-noescape>function prepareCoffee() {
+    toStove();
+}
+
+function toCheerUp() {
+    prepareCoffee();
+}
+
+toCheerUp();</code></pre>
+        <pre class="js callstack"><code>
+
+
+
+
+
+
+
+        </code></pre>
+    </div>
+    <pre class="js queue"><code>
+</code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-background="https://cloud.githubusercontent.com/assets/1654243/20462534/13a115b6-af42-11e6-8b1d-6cc7d58202d6.jpg" class="cover">
+        <h4>Системный таймер</h4>
+        <small>Сальвадор Дали «Постоянство времени»</small>
+    </section>
+
+    <section>
+        <h4>setTimeout</h4>
+
+        <pre class="js"><code>setTimeout(func[, delay, param1, param2, ...]);</code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+setTimeout(fromStove, 5000);
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <pre class="js code"><code data-trim>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+setTimeout(fromStove, 5000);
+        </code></pre>
+        <pre class="js queue"><code data-trim>
+anonymous
+        </code></pre>
+        <pre class="js console"><code>
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+<mark>toStove()</mark>;
+setTimeout(fromStove, 5000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <span><span class="clock">0 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+<mark>setTimeout(fromStove, 5000)</mark>;
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <span><span class="clock">5 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+setTimeout(fromStove, 5000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+setTimeout(fromStove, 5000);
+        </code></pre>
+        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+
+function fromStove() {
+   return 'Снять с плиты';
+}
+
+toStove();
+setTimeout(fromStove, 5000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Снять с плиты'</code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>setInterval</h4>
+
+        <pre class="js"><code>setInterval(func[, delay, param1, param2, ...]);</code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+    </section>
+
+    <section data-transition="slide-in">
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code>anonymous</code></pre>
+        <pre class="js console"><code>
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+<mark>toStove()</mark>;
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">0 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+<mark>setInterval(toStir, 1000)</mark>;
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">1 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">1 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">2 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">2 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+'Помешивать'
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">3 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+'Помешивать'
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">3 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+'Помешивать'
+'Помешивать'</code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">4 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStove() {
+   return 'Поставить на плиту';
+}
+function toStir() {
+   return 'Помешивать';
+}
+
+toStove();
+setInterval(toStir, 1000);
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+'Помешивать'
+'Помешивать'</code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+var id = setInterval(fromStove, 1000);
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+clearInterval(id);
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition="slide-in">
+        <pre class="js"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+executionThreeSeconrs();
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+executionThreeSeconrs();
+        </code></pre>
+        <pre class="js queue"><code>anonymous</code></pre>
+        <pre class="js console"><code>
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+<mark>console.log('Поставить на плиту');</mark>
+setInterval(toStir, 1000);
+executionThreeSeconrs();
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">0 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+<mark>setInterval(toStir, 1000);</mark>
+executionThreeSeconrs();
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">0 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+<mark>executionThreeSeconrs();</mark>
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">1 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+<mark>executionThreeSeconrs();</mark>
+        </code></pre>
+        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">2 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+<mark>executionThreeSeconrs();</mark>
+        </code></pre>
+        <pre class="js queue"><code>fromStove fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">3 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+<mark>executionThreeSeconrs();</mark>
+        </code></pre>
+        <pre class="js queue"><code>fromStove fromStove fromStove</code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition="none">
+        <span><span class="clock">3.001 sec</span></span>
+        <pre class="js code"><code data-trim data-noescape>
+function toStir() {
+   return 'Помешивать';
+}
+
+console.log('Поставить на плиту');
+setInterval(toStir, 1000);
+executionThreeSeconrs();
+        </code></pre>
+        <pre class="js queue"><code> </code></pre>
+        <pre class="js console"><code>'Поставить на плиту'
+'Помешивать'
+'Помешивать'
+'Помешивать'</code></pre>
+    </section>
+
+    <section>
+        <h4>Выводы</h4>
+
+        <ul>
+            <li>delay гарантирует, что событие произойдёт <span style="text-decoration: underline;">не раньше</span> указанного времени</li>
+            <li>setInterval Vs setTimeout</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4>setInterval</h4>
+
+        <img src="./images/setInterval.svg" style="background: none;" width="100%" alt="setInterval" />
+    </section>
+
+    <section>
+        <h4>setInterval → setTimeout</h4>
+
+        <pre class="js"><code data-trim>
+function toStir() {
+    console.log('Помешивать');
+
+    setTimeout(toStir, 1000);
+};
+
+toStir();
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>setInterval → setTimeout</h4>
+
+        <img src="./images/setTimeout.svg" style="background: none;" width="100%" alt="setTimeout" />
+    </section>
+</section>
+
+<section>
+     <section>
+         <h4>Нулевой интервал</h4>
+     </section>
+
+    <section>
+        <pre class='js'><code data-trim>
+function beHappy() {
+    return 'Насладиться результатом';
+}
+
+setTimeout(beHappy, 0);
+
+console.log('Много-много синхронных дел');
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <pre class='js'><code data-trim data-noescape>
+function beHappy() {
+    return 'Насладиться результатом';
+}
+
+setTimeout(beHappy, 0);
+
+console.log('Много-много синхронных дел');
+        </code></pre>
+        <pre class="js queue"><code>anonymous</code></pre>
+        <pre class="js console"><code>
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <pre class='js'><code data-trim data-noescape>
+function beHappy() {
+    return 'Насладиться результатом';
+}
+
+<mark>setTimeout(beHappy, 0);</mark>
+
+console.log('Много-много синхронных дел');
+        </code></pre>
+        <pre class="js queue"><code>beHappy</code></pre>
+        <pre class="js console"><code>
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <pre class='js'><code data-trim data-noescape>
+function beHappy() {
+    return 'Насладиться результатом';
+}
+
+setTimeout(beHappy, 0);
+
+<mark>console.log('Много-много синхронных дел');</mark>
+        </code></pre>
+        <pre class="js queue"><code>beHappy</code></pre>
+        <pre class="js console"><code>'Много-много синхронных дел'
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <pre class='js'><code data-trim data-noescape>
+function beHappy() {
+    return 'Насладиться результатом';
+}
+
+setTimeout(beHappy, 0);
+
+console.log('Много-много синхронных дел');
+        </code></pre>
+        <pre class="js queue"><code>beHappy</code></pre>
+        <pre class="js console"><code>'Много-много синхронных дел'
+'Насладиться результатом'</code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Работа с файлами</h4>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+var fs = require('fs');
+var fileName = __dirname + '/data.json';
+
+var data = fs.readFileSync(fileName, 'utf-8');
+
+console.log(data);
+        </code></pre>
+
+        <pre class="js fragment console"><code data-trim>
+'{"name": "Sergey"}'
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+var fs = require('fs');
+var fileName = __dirname + '/data.json';
+
+<mark>console.time('readFileSync');</mark>
+var data = fs.readFileSync(fileName, 'utf-8');
+<mark>console.timeEnd('readFileSync');</mark>
+
+console.log(data);
+        </code></pre>
+
+        <pre class="js fragment console"><code data-trim>
+readFileSync: 3ms
+'{"name": "Sergey"}'
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+var fs = require('fs');
+var fileName = __dirname + '/<mark>bigData.mov</mark>';
+
+console.time('readFileSync');
+var data = fs.readFileSync(fileName, 'utf-8');
+console.timeEnd('readFileSync');
+
+console.log(data);
+        </code></pre>
+
+        <pre class="js fragment console"><code data-trim>
+readFileSync: 3567ms
+<много текста>
+        </code></pre>
+    </section>
+
+    <section>
+        <p>
+            Во время синхронных операций не обрабатываются другие события: таймеры, пользовательские события и тп
+        </p>
+    </section>
+
+    <section>
+        <h4>Пример</h4>
+
+        <img src="./images/some_gif_with_action.gif" alt="Some action" style="display: block; margin: auto;" width=500 />
+
+        <button
+            type="button"
+            name="button"
+            onclick="javasctipt:var finish = new Date(Date.now() + 3000); while (new Date() < finish);">Синхронная операция</button>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+var fs = require('fs');
+var fileName = __dirname + '/data.json';
+
+var data = fs.readFile(fileName, 'utf-8');
+
+console.log(data);
+        </code></pre>
+
+        <pre class="js fragment console"><code data-trim>
+undefined
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+var fs = require('fs');
+var fileName = __dirname + '/data.json';
+
+fs.readFile(fileName, 'utf-8', function (err, data) {
+    console.log(data);
+});
+        </code></pre>
+
+        <pre class="js fragment console"><code data-trim>
+'{"name": "Sergey"}'
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section data-transition='slide-in'>
+        <h4>callback</h4>
+
+        <pre class="js"><code>function cb(err, data) {
+
+
+
+
+
+}</code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4>callback</h4>
+
+        <pre class="js"><code data-noescape>function cb(<mark>err</mark>, data) {
+    if (err) {
+        console.error(err.stack);
+    }
+
+
+}</code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4>callback</h4>
+
+        <pre class="js"><code data-noescape>function cb(err, <mark>data</mark>) {
+    if (err) {
+        console.error(err.stack);
+    } else {
+        console.log(data);
+    }
+}</code></pre>
+    </section>
+
+    <section>
+        <h4><span class="gray">callback. </span><span class="green">Достоинства</span></h4>
+
+        <ul>
+            <li>Нет накладных расходов</li>
+            <li>Не нужно подключать дополнительные библиотеки</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="gray">callback. </span><span class="red">Недостатки</span></h4>
+
+        <ul>
+            <li>Глубокий уровень вложенности</li>
+        </ul>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+var fs = require('fs');
+
+fs.readFile('data.json', function (err, data) {
+    if (err) {
+        console.error(err.stack);
+    } else {
+        console.log(data);
+    }
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim style="max-height: none;">
+var fs = require('fs');
+
+fs.readFile('data.json', function (err, data) {
+    if (err) {
+        console.error(err.stack);
+    } else {
+        fs.readFile('ext.json', function (e, ext) {
+            if (e) {
+                console.error(e.stack);
+            } else {
+                console.log(data + ext);
+            }
+        });
+    }
+});
+        </code></pre>
+    </section>
+
+    <section data-background="https://raw.githubusercontent.com/urfu-2015/javascript-slides/master/09-async/images/pyramid_of_doom.jpg">
+    </section>
+
+    <section>
+        <h4><span class="gray">callback. </span><span class="red">Недостатки</span></h4>
+
+        <ul>
+            <li>Глубокий уровень вложенности</li>
+            <li>Обработка ошибок и данных в одном месте</li>
+            <li class="fragment">Необработанные исключения</li>
+        </ul>
+    </section>
+
+    <section data-transition='slide-in'>
+        <pre class="js"><code data-trim  style="max-height: none;">
+var fs = require('fs');
+
+function readTwoFiles(cb) {
+    var tmp;
+
+    fs.readFile('data.json', function (err, data) {
+        if (tmp) {cb(err, data + tmp);}
+        else { tmp = data; }
+    });
+
+    fs.readFile('ext.json', function (err, data) {
+        if (tmp) {cb(err, tmp + data);}
+        else { tmp = data; }
+    });
+}
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <pre class="js"><code data-trim data-noescape  style="max-height: none;">
+var fs = require('fs');
+
+function readTwoFiles(cb) {
+    var tmp;
+
+    fs.readFile('data.json', function (err, data) {
+        if (tmp) {cb(err, data + tmp);}
+        else { <mark>throw Error('Mu-ha-ha!');</mark> }
+    });
+
+    fs.readFile('ext.json', function (err, data) {
+        if (tmp) {cb(err, tmp + data);}
+        else { tmp = data; }
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="gray">callback. </span><span class="red">Недостатки</span></h4>
+
+        <ul>
+            <li>Глубокий уровень вложенности</li>
+            <li>Обработка ошибок и данных в одном месте</li>
+            <li>Необработанные исключения</li>
+            <li>Лишние переменные</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="gray">callback. </span><span class="green">Когда использовать</span></h4>
+
+        <ul>
+            <li>Нужна выcокая производительность</li>
+            <li>Код библиотеки</li>
+        </ul>
+    </section>
+
+    <section>
+        <img src="https://raw.githubusercontent.com/caolan/async/master/logo/async-logo_readme.jpg" alt="async.js" />
+        <a href="https://github.com/caolan/async">https://github.com/caolan/async</a>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function readTwoFiles(cb) {
+    async.parallel([
+        fs.readFile.bind(fs, 'data.json'),
+        fs.readFile.bind(fs, 'ext.json')
+    ], function (err, data) {
+        cb(err, data[0] + data[1])
+    });
+}
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Promises</h4>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+fs.readFile('data.json', function (err, data) {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(data);
+    }
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Асинхронный код</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+<mark>fs.readFile('data.json', function (err, data) {
+    if (err) {</mark>
+        console.error(err);
+    <mark>} else {</mark>
+        console.log(data);
+    <mark>}
+});</mark>
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Обработчики</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+fs.readFile('data.json', function (err, data) {
+    if (err) {
+        <mark>console.error(err);</mark>
+    } else {
+        <mark>console.log(data);</mark>
+    }
+});
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="gray">Promises.</span> Асинхронный код</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+var promise = new Promise(function (resolve, reject) {
+
+
+
+
+
+
+
+});
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4><span class="gray">Promises.</span> Асинхронный код</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+var promise = new Promise(function (resolve, reject) {
+    fs.readFile('data.json', function (err, data) {
+
+
+
+
+
+    });
+});
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4><span class="gray">Promises.</span> Асинхронный код</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+var promise = new Promise(function (resolve, <mark>reject</mark>) {
+    fs.readFile('data.json', function (err, data) {
+        if (err) {
+            reject(err);
+        }
+
+
+    });
+});
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="gray">Promises.</span> Асинхронный код</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+var promise = new Promise(function (<mark>resolve</mark>, reject) {
+    fs.readFile('data.json', function (err, data) {
+        if (err) {
+            reject(err);
+        } else {
+            resolve(data);
+        }
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <img src="images/promise.svg"
+        alt="Promise"
+        height="100%"
+        style="background: none"
+        />
+    </section>
+
+    <section data-transition='slide-in'>
+        <h4><span class="gray">Promises.</span> Обработчики</h4>
+
+        <pre class="js"><code data-noescape>promise.then();
+
+
+
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <h4><span class="gray">Promises.</span> Обработчики</h4>
+
+        <pre class="js"><code data-noescape>promise.then(function (data) {
+        console.log(data)
+    });
+
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <h4><span class="gray">Promises.</span> Обработчики</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+promise.then(function (data) {
+        console.log(data)
+    }, function (err) {
+        console.error(err);
+    });
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="gray">Promises.</span> Обработчики</h4>
+
+        <pre class="js"><code data-trim data-noescape>
+promise.then(console.log, console.error);
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="gray">Promises.</span> <span class="red">Недостатки</span></h4>
+
+        <ul>
+            <li>Дополнительные обёртки</li>
+            <li class="fragment">Немного медленнее, чем callback</li>
+        </ul>
+    </section>
+
+    <section>
+        <h4><span class="gray">Promises.</span> <span class="green">Достоинства</span></h4>
+
+        <ul>
+            <li>Контролируем исключения</li>
+        </ul>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim data-noescape>
+var promise = new Promise(function (resolve, reject) {
+    fs.readFile('data.json', function (err, data) {
+        if (err) {
+            reject(err);
+        } else {
+            <mark>throw new Error('Mu-ha-ha!');</mark>
+        }
+    });
+});
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+promise.then(console.log, console.error);
+        </code></pre>
+
+        <pre class="js console"><code data-trim>
+[Error: Mu-ha-ha!]
+        </code></pre>
+    </section>
+
+    <section>
+        <h4><span class="gray">Promises.</span> <span class="green">Достоинства</span></h4>
+
+        <ul>
+            <li>Контролируем исключения</li>
+            <li>Несколько обработчиков</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Чейнинг</h4>
+    </section>
+
+    <section>
+        <img src="images/promise_base.svg"
+        alt="Promise"
+        height="100%"
+        style="background: none"
+        />
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+function identity(data) {
+    return data;
+}
+
+function thrower(err) {
+    throw err;
+}
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+promise
+    .then(console.log, thrower)
+    .then(identity, console.error);
+        </code></pre>
+    </section>
+
+    <section>
+        <img src="images/promise_simple.svg"
+        alt="promise simple"
+        height="100%"
+        style="background: none;" />
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+promise
+    .then(JSON.parse, thrower)
+    .then(identity, getDefault)
+    .then(getAvatar, thrower)
+    .then(identity, console.error);
+        </code></pre>
+
+        <pre class="js fragment"><code data-trim>
+function getDefault() {
+    return { name: 'Sergey' };
+}
+
+function getAvatar (data) {
+    var name = data.name;
+    return request('https://my.avatar/' + name);
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <img src="images/promise_complex.svg"
+        alt="promise complex"
+        height="100%"
+        style="background: none;" />
+    </section>
+
+    <section data-transition='slide-in'>
+        <pre class="js"><code data-trim>
+promise
+    .then(JSON.parse, thrower)
+    .then(identity, getDefault)
+    .then(getAvatar, thrower)
+    .then(identity, console.error);
+        </code></pre>
+    </section>
+
+    <section data-transition='none'>
+        <pre class="js"><code data-trim data-noescape>
+promise
+    .then(JSON.parse, <mark>thrower</mark>)
+    .then(<mark>identity</mark>, getDefault)
+    .then(getAvatar, <mark>thrower</mark>)
+    .then(<mark>identity</mark>, console.error);
+        </code></pre>
+    </section>
+
+    <section data-transition='slide-out'>
+        <pre class="js"><code data-trim>
+promise
+    .then(JSON.parse)
+    .catch(getDefault)
+    .then(getAvatar)
+    .catch(console.error);
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+promise
+    .then(JSON.parse)
+    .then(getAvatar);
+        </code></pre>
+
+        <p>
+            не то же самое, что
+        </p>
+
+        <pre class="js"><code data-trim>
+promise.then(JSON.parse);
+promise.then(getAvatar);
+        </code></pre>
+    </section>
+
+    <section>
+        <ul>
+            <li>then вернул данные — передаём по цепочке дальше</li>
+            <li>then вернул промис — передаём результат работы промиса</li>
+            <li>произошла ошибка — реджектим промис</li>
+        </ul>
+    </section>
+</section>
+
+<section>
+    <section>
+        <h4>Promise.all</h4>
+
+        <pre class="js"><code data-trim>
+function readFile(name) {
+    return new Promise(function (resolve, reject) {
+        fs.readFile(name, function (err, data) {
+            err ? reject(err) : resolve(data);
+        });
+    });
+}
+        </code></pre>
+    </section>
+
+    <section>
+        <h4>Promise.all</h4>
+
+        <pre class="js"><code data-trim>
+Promise
+    .all([
+        readFile('data.json'),
+        readFile('ext.json')
+    ])
+    .then(function (data) {
+        console.log(data[0] + data[1])
+    });
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+Promise
+    .resolve('{"name": "Sergey"}')
+    .then(console.log);
+        </code></pre>
+
+        <pre class="js console"><code data-trim>
+'{"name": "Sergey"}'
+        </code></pre>
+    </section>
+
+    <section>
+        <pre class="js"><code data-trim>
+Promise
+    .reject(new Error('Mu-ha-ha!'))
+    .catch(console.error);
+        </code></pre>
+
+        <pre class="js console"><code data-trim>
+[Error: Mu-ha-ha!]
+        </code></pre>
+    </section>
+</section>
+
+<section>
+    <h4>Почитать</h4>
+    <ul>
+        <li><a href="https://developer.mozilla.org/ru/docs/Web/JavaScript/EventLoop">Параллельная модель и цикл событий. - JavaScript | MDN</a></li>
+        <li><a href="https://learn.javascript.ru/settimeout-setinterval">setTimeout и setInterval</a></li>
+        <li><a href="https://learn.javascript.ru/promise">Promise</a></li>
+    </ul>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+
+<script>
+
+    // Full list of configuration options available at:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: false,
+        progress: true,
+        slideNumber: true,
+        history: true,
+        center: true,
+        hideAddressBar: true,
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                condition: function () {
+                    return !!document.querySelector('pre code');
+                },
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            }
+        ]
+    });
+
+</script>
+
+</body>
+</html>

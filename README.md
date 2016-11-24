@@ -7,3 +7,4 @@
 1. [this](http://urfu-2016.github.io/javascript-slides/05-this/)
 1. [Прототипы](http://urfu-2016.github.io/javascript-slides/06-prototypes/)
 1. [Конструкторы](http://urfu-2016.github.io/javascript-slides/07-constructors/)
+1. [Асинхронный код](http://urfu-2016.github.io/javascript-slides/08-async/)
