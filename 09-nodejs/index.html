@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Node.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../css/reveal.css">
+    <link rel="stylesheet" href="../lib/css/zenburn.css">
+
+    <link rel="stylesheet" href="../css/theme/yandex.css" id="theme">
+    <link rel="stylesheet" href="./css/user.css">
+</head>
+<body class="yandex nodejs"><div class="reveal"><div class="slides">
+
+<section class="large">
+    <h2>Node.js</h2>
+    <p><small>Гоголев Сергей</small></p>
+</section>
+
+<section>
+    <h4>Ресурсы</h4>
+    <div class="resources grey fragment highlight highlight-opacity init_visible" data-fragment-index=4><img src="images/cpu.png"><br>CPU</div>
+    <div class="resources grey fragment highlight highlight-opacity init_visible" data-fragment-index=4><div class="fragment grey" data-fragment-index=1><img src="images/mem.png"><br>Memory</div></div>
+    <div class="fragment resources grey" data-fragment-index=2><img src="images/hdd.png"><br>Disk<br></div>
+    <div class="fragment resources grey" data-fragment-index=3><img src="images/net.png"><br>Network<br></div>
+</section>
+
+<section>
+    <h4>Сферические операции в вакууме</h4>
+    <p class="left fragment">Вычисление числа Фибоначчи<br><span> – <span class="magenta">CPU bound</span> операция</span></p>
+    <p class="left fragment">Подсчёт количества строк в файле<br><span> – <span class="magenta">I/O bound</span> операция</span></p>
+    <p class="left fragment">Сохранение промежуточных вычислений<br><span> – <span class="magenta">Memory bound</span> операция</span></p>
+</section>
+
+<section>
+    <h4>Операции в web-приложении</h4>
+    <table class="operations">
+        <tr><td><div class="grey">Чтение HTTP запроса</div></td><td><span class="fragment red">I/O</span></td></tr>
+        <tr><td><div class="grey">Парсинг HTTP запроса</div></td><td><span class="fragment green">CPU</span></td></tr>
+        <tr><td><div class="grey">Запрос к базе данных</div></td><td><span class="fragment red">I/O</span></td></tr>
+        <tr><td><div class="grey">Запрос к API</div></td><td><span class="fragment red">I/O</span></td></tr>
+        <tr><td><div class="grey">Генерация HTML</div></td><td><span class="fragment green">CPU</span></td></tr>
+        <tr><td><div class="grey">Отправка HTML</div></td><td><span class="fragment red">I/O</span></td></tr>
+    </table>
+</section>
+<section>
+    <h4>Поток выполнения</h4>
+    <img src="images/_one-thread.png" width="10%">
+    <p class="fragment">Одновременно выполняется<br><span class="magenta">только одна</span> операция</p>
+</section>
+
+<section>
+    <h4>I/O</h4>
+    <img src="images/_one-thread-one-user.png">
+</section>
+
+<section>
+    <h4>Blocking I/O</h4>
+    <img src="images/_one-thread-two-user.png">
+</section>
+
+<section>
+    <h4>Blocking I/O</h4>
+    <br>
+    <p class="left"><span class="red">I/O</span> &nbsp;Чтение 1 Кб данных c SSD – 0.0014 ms</p>
+    <p class="left fragment"><span class="green">CPU</span> <span class="magenta">28 000</span> циклов на одном 2Ghz ядре</p>
+    <br>
+    <p class="left fragment"><span class="red">I/O</span> &nbsp;Сетевое соединение – 60 ms</p>
+    <p class="left fragment"><span class="green">CPU</span> <span class="magenta">132 000 000</span> циклов на одном 2Ghz ядре</p>
+</section>
+
+<section>
+    <h4>Решение #1: <span>Multithreading</span></h4>
+    <img src="images/_two-thread-two-user.png">
+</section>
+
+<section>
+    <h4>Решение #1: <span>Multithreading</span></h4>
+    <ul>
+        <li class="left">Поднятие потока не бесплатная операция<br>
+            <span class="fragment green">(можно использовать пулл потоков)</span>
+        </li>
+
+        <li class="left fragment">Есть лимит на количество</li>
+        <li class="left fragment">Каждый поток требует<br>дополнительной памяти</li>
+    </ul>
+</section>
+
+<section>
+    <h4>Решение #2: <span>Non-blocking I/O</span></h4>
+    <img src="images/_non-block.png">
+</section>
+
+<section>
+    <img width="100%" src="images/_r-1.png">
+</section>
+
+<section>
+    <img width="100%" src="images/_r-2.png">
+</section>
+
+<section>
+    <img width="100%" src="images/_r-3.png">
+</section>
+
+<section>
+    <img width="100%" src="images/_r-4.png">
+    <h4 class="fragment">Паттерн <span>Reactor</span></h4>
+</section>
+
+<section>
+    <h4>Apache <span>vs</span> Nginx</h4>
+    <p class="left fragment"><span class="magenta">Apache</span> использует <span class="red">multithreading</span></p>
+    <p class="left fragment"><span class="magenta">Nginx</span> использует паттерн <span class="green">reactor</span></p>
+</section>
+
+<section>
+    <h4>Apache <span>vs</span> Nginx</h4>
+    <img src="images/_nginx-vs-apache.png">
+</section>
+
+<section>
+    <h4>Apache <span>vs</span> Nginx</h4>
+    <img src="images/_nginx-vs-apache2.png">
+</section>
+
+<section>
+    <h4>2009</h4>
+    <img class="fragment" data-fragment-index=0 width=400 src="images/ryan-dahl.png">
+    <p class="fragment" data-fragment-index=0>Ryan Dahl</p>
+</section>
+
+<section>
+    <h4>Event demultiplexer<br><span class="grey">Event notification interface</span></h4>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/linux.png"> epoll</p>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/mac.png"> kqueue</p>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/win.png" width=32> I/O Completion Port API</p>
+
+    <p class="fragment"><img src="images/libuv.png"></p>
+</section>
+
+<section>
+    <h4>Особенности <span class="magenta">libuv</span></h4>
+    <ul>
+    <li class="left fragment">В linux операции над локальными файлами <span class="red">всегда блокирующие</span> (в отличие от сетевых операций)</li>
+    <li class="left fragment">Для эмуляции не блокирующего поведения <span class="magenta">libuv использует потоки</span></li>
+    <li class="left fragment">По умолчанию, создаётся пулл <span class="magenta">4</span> потоков</li>
+    <li class="left fragment">Четыре долгих операции над файлами <span class="red"><br>блокируют всё приложение</span></li>
+    </ul>
+    <a class="fragment" href="https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/">On problems with threads in Node.js</a>
+</section>
+
+<section>
+    <h4>Про <span class="magenta">libuv</span></h4>
+    <p><a href="https://www.youtube.com/watch?v=nGn60vDSxQ4">About libuv</a>, Bert Belder</p>
+    <p><a href="http://docs.libuv.org/en/v1.x/design.html">Design overview</a></p>
+    <p><a href="http://nikhilm.github.io/uvbook/basics.html">Basics of libuv</a></p>
+</section>
+
+<section>
+    <img src="images/_r-5.png">
+    <p class="fragment">Помимо ресурса необходимо указать обработчик результата – <span class="magenta">callbaсk</span></p>
+</section>
+
+<section>
+    <div class="fragment highlight highlight-opacity init_visible" data-fragment-index=1><pre class="javascript" data-fragment-index=0><code data-trim>
+var data = request('https://api.github.com/');
+
+var result = writeFile(file, data);
+
+console.info(result);
+    </code></pre></div>
+    <pre class="javascript fragment" data-fragment-index=1><code data-trim>
+request('https://api.github.com/', function (err, data) {
+    writeFile(file, data, function (err, result) {
+        console.info(result);
+    });
+}
+    </code></pre>
+    <h4 class="fragment">Паттерн <span>Callback</span></h4>
+    <p class="left fragment grey" style="margin-left: 40px">1. Callbacks come last</p>
+    <p class="left fragment grey" style="margin-left: 40px">2. Error comes first</p>
+</section>
+
+<section>
+    <h4>JavaScript</h4>
+    <p class="left fragment"><span class="green">✓</span> Функции первого класса и замыкания</p>
+    <p class="left fragment"><span class="green">✓</span> Готов к EventLoop (DOM events, setTimeout)</p>
+    <p class="left fragment"><span class="green">✓</span> Большое коммьюнити<span class="green"> !</span></p>
+    <img class="fragment" src="images/v8.png">
+</section>
+
+<section>
+    <p>API работы с фаловой системой – <span class="green">fs</span>, для запросов – <span class="green">http</span>, логирования – <span class="green">console</span></p>
+    <img class="fragment" src="images/core-api.png">
+    <p class="fragment"><a href="https://github.com/nodejs/node/tree/master/lib">github.com/nodejs/lib</a></p>
+</section>
+
+<section>
+    <img src="images/nodejs.png">
+    <p class="fragment"><img src="images/nodejs-logo.png"></p>
+</section>
+
+<section>
+    <p>Node.js</p>
+    <p class="fragment"><a href="https://www.youtube.com/watch?v=ztspvPYybIY">Original Node.js presentation</a>, <a href="https://github.com/bcomnes/node-handbook/blob/gh-pages/doc/jsconf.pdf">Slides</a>,<br> Ryan Dahl</p>
+    <p class="fragment"><a href="https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop/">Understanding Node.js Event Loop</a>,<br> Tamas Kadlecsik</p>
+    <p class="fragment"><a href="https://blog.ghaiklor.com/how-nodejs-works-bfe09efc80ca">How does NodeJS work</a>,<br> Eugene Obrezkov</p>
+</section>
+
+<section>
+    <h4>Getting started</h4>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/linux.png"> apt-get install nodejs</p>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/mac.png"> brew install node</p>
+    <p class="left fragment"><img style="vertical-align:bottom" src="images/win.png"> Скачать с <a href="https://nodejs.org/en/">nodejs.org</a></p>
+    <pre class="javascript fragment"><code data-trim>
+$ node
+> 2 + 2
+4
+    </code></pre>
+    <p class="fragment"><span class="green">v6 LTS</span> – длительная поддержка</p>
+    <p class="fragment"><span class="red">v7 Current</span> – самые новые возможности</p>
+</section>
+
+<section>
+    <h4>Модули</h4>
+    <ul>
+        <li class="fragment">Фундаментальный блок кода для структурирования приложений в Node.js</li>
+        <li class="fragment">Node.js приложения состоят из модулей</li>
+        <li class="fragment">Реиспользуемый между приложениями модуль называют <span class="magenta">пакетом</span></li>
+        <li class="fragment">В основе модулей – <a href="http://wiki.commonjs.org/wiki/Modules/1.1.1">CommonJS</a></li>
+    </ul>
+</section>
+
+<section>
+    <h4>Модули: <span>Создание</span></h4>
+    <pre class="javascript"><code data-trim>// hypotenuse.js
+
+function square(n) {
+    return n * n;
+}
+
+function calculateHypo(a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Экспорт</span></h4>
+    <pre class="javascript "><code data-trim>// hypotenuse.js
+
+// module = {
+//     filename: '/absolute/path/to/hypotenuse.js',
+//     exports: {}
+// }
+
+function square(n) {
+    return n * n;
+}
+
+module.exports.calculate = function (a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+
+// return module.exports;
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Импорт</span></h4>
+    <pre class="javascript"><code data-trim>// index.js
+
+var hypotenuse = require('./hypotenuse.js')
+
+hypotenuse.calculate(3, 4); // 5
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Экспорт функции</span></h4>
+    <pre class="javascript"><code data-trim>// hypotenuse.js
+
+function square(n) {
+    return n * n;
+}
+
+module.exports = function (a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>// index.js
+
+var hypotenuse = require('./hypotenuse.js');
+
+hypotenuse(3, 4); // 5
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Экспорт других типов</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+module.exports = 42; // Число
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+function Student(name) {
+    this.name = name;
+}
+
+Student.prototype.getName = function() {
+    return this.name;
+};
+
+module.exports = Student; // Конструктор
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+module.exports = new Student('Billy'); // Объект
+    </code></pre>
+</section>
+
+<section>
+    <h4><span>module.exports</span> vs <span>exports</span></h4>
+    <pre class="javascript"><code data-trim>
+// hypotenuse.js
+
+function square(n) {
+    return n * n;
+}
+</code></pre>
+    <pre class="fragment javascript highlight highlight-opacity init_visible" data-fragment-index=1><code data-trim>
+module.exports.calculate = function (a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+    </code></pre>
+    <pre class="fragment javascript"  data-fragment-index=1><code data-trim>
+exports.calculate = function (a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+    </code></pre>
+    <p class="fragment">exports <span class="magenta" style="position: relative; top: 6px"> ⇢ </span>module.exports</p>
+</section>
+
+<section>
+    <h4><span>module.exports</span> vs <span>exports</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+// hypotenuse.js
+
+function square(n) {}
+
+exports = function (a, b) {
+    return Math.sqrt(square(a) + square(b));
+}
+    </code></pre>
+<pre class="fragment javascript"><code data-trim>// index.js
+
+var hypotenuse = require('./hypotenuse.js');
+
+hypotenuse(3, 4); // hypotenuse is not a function
+</code></pre>
+<p class="fragment">exports <span class="red" style=""> x </span>module.exports</p>
+</section>
+
+<section>
+    <h4>Модули: <span>Импорт встроенных (Core API)</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+var url = require('url');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+url.parse('https://yandex.ru/');
+    </code></pre>
+    <pre class="fragment flat"><code>
+{
+    protocol: 'https:',
+    host: 'yandex.ru',
+    port: null,
+    path: '/'
+}
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Импорт сторонних</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+var lodash = require('lodash');
+</code></pre>
+<pre class="fragment javascript"><code data-trim>
+
+lodash.shuffle([1, 2, 3, 4]);
+// [4, 1, 3, 2]
+
+lodash.uniq([2, 1, 2]);
+// [2, 1]
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Импорт</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+var counter = 1;
+
+module.exports = function() {
+    return counter++;
+};
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+var counter = require('./counter');
+var anotherCounter = require('./counter');
+
+console.info(counter()); // 1
+console.info(counter()); // 2
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+console.info(anotherCounter()); // ?
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+console.info(anotherCounter()); // 3
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Импорт</span></h4>
+    <p class="left">Модули импортируются <span class="green">один раз</span>, и после первого require, экспорт кешируется</p>
+    <p class="left fragment">Результат хранится в свойстве <span class="green">require.cache</span></p>
+    <pre class="fragment javascript"><code data-trim>
+{
+  '/absolute/path/to/filename.js': {
+      filename: '...',
+      exports: {},
+  }
+}
+    </code></pre>
+</section>
+
+<section>
+    <h4>Модули: <span>Поиск</span></h4>
+    <p class="left fragment">Если есть встроенный модуль с таким именем, экспортируется он – <span class="green"> require('url')</span></p>
+    <p class="left fragment">Если имя начинается с <span class="red">./</span>, <span class="red">/</span> или <span class="red">. ./</span>,  экспортируется по указанному пути – <span class="green"> require('./index.js')</span> или <span class="green"> require('../index.js')</span></p>
+    <p class="left fragment">В противном случае пакет ищется в <span class="magenta">node_modules</span> начиная с текущей директории и поднимаясь <span class="magenta">вверх</span> – <span class="green"> require('lodash')</span></p>
+</section>
+
+<section>
+    <h4>Модули: <span>Поиск</span></h4>
+    <p class="left fragment"><span class="green">/home/gogoleff/hypotenuse/</span><span class="red">node_modules</span></p>
+    <p class="left fragment"><span class="green">/home/gogoleff/</span><span class="red">node_modules</span></p>
+    <p class="left fragment"><span class="green">/home/</span><span class="red">node_modules</span></p>
+    <a class="fragment" href="https://nodejs.org/api/modules.html#modules_all_together">Полный алгоритм</a>
+</section>
+
+<section>
+    <h4 style="height: 60px; overflow: hidden;"><img src="images/npm.svg" width=120></h4>
+    <p class="grey">Node Package Manager</p>
+    <p class="left fragment" data-fragment-index=0><span class="green">Инструмент командной строки</span>, устанавливается вместе с Node.js</p>
+    <p class="left fragment" data-fragment-index=2><span class="green">Глобальное хранилище модулей</span><br><a href="https://registry.npmjs.org/lodash">registry.npmjs.org/lodash</a></p>
+
+</section>
+
+<section>
+    <h4>npm <span>init</span></h4>
+    <p class="left fragment">Создаёт файл-манифест <span class="green">package.json</span> описывающий модуль</p>
+    <p class="left fragment">Модуль + манифест = <span class="green">пакет</span></p>
+    <p class="left fragment">Файл содержит <span class="green">название</span> и <span class="green">версию</span> нашего модуля, а так же его <span class="green">зависимости</span></p>
+    <p class="left fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
+</section>
+
+<section>
+    <h4>npm <span>search</span> <span class="grey">math</span></h4>
+    <p>Ищет пакет в хранилище по имени</p>
+    <p class="fragment">А также можно найти через web:<br> <a href="https://www.npmjs.com/">npmjs.com</a> или <a href="https://npms.io/">npms.io</a></p>
+</section>
+
+<section>
+    <h4>npm <span>show</span> <span class="grey">mathjs</span></h4>
+    <p class="">Выводит информацию о пакете по имени</p>
+    <p class="fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
+</section>
+
+<section>
+    <h4>npm <span>install</span> <span class="grey">mathjs</span></h4>
+    <p class="left fragment">Устанавливает пакет в качестве зависимости в директорию <span class="green">node_modules</span></p>
+    <p class="left fragment">Если у зависимости есть подзависимости – установятся в <span class="green">node_modules</span> у зависимости</p>
+</section>
+
+<section>
+    <h4>npm <span>install</span> <span class="grey">mathjs</span></h4>
+    <pre>
+<span class=grey>node_modules</span>
+└── mathjs<span class=green>@3.8.0</span>
+    └──<span class=grey>node_modules</span>
+        └─┬
+          ├── complex.js<span class=green>@4.0.3</span>
+          ├── fraction.js<span class=green>@1.7.0</span>
+          ├── basic-auth<span class=green>@1.0.3</span>
+          └── tiny-emitter<span class=green>@1.0.1</span>
+</pre>
+</section>
+
+<section>
+    <h4>npm <span>install </span> <span class="grey">mathjs</span><span class="green">@3.8.0</span></h4>
+    <p>Устанавливает определённую версию пакета</p>
+</section>
+
+<section>
+    <h4>npm <span>install --save</span> <span class="grey">mathjs</span></h4>
+    <p class="">Зависимость зафиксируется в <span class="green">package.json</span></p>
+    <p class="fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
+</section>
+
+<section>
+    <h4>npm <span>install --save-dev</span> <span class="grey">mocha</span></h4>
+    <p>Устанавливает пакет в качестве зависимости, которая не требуется для работы модуля</p>
+</section>
+
+<section>
+    <h4>Semantic Versions</h4>
+    <p><span class="red">2</span>.<span class="green">7</span>.<span class="magenta">0</span></p>
+    <p class="left fragment"><span class="red">major</span> – новые возможности без сохранения обратной совместимости</p>
+    <p class="left fragment"><span class="green">minor</span> – новые возможности с сохранением обратной совместимости</p>
+    <p class="left fragment"><span class="magenta">patch</span> – исправления ошибок, рефакторинг</p>
+    <a class="left fragment" href="http://semver.org/">semver.org</a>
+</section>
+
+<section>
+    <h4>npm <span>install</span></h4>
+    <pre class="grey">
+{
+  "dependencies": {
+    <span class=fragment>"express": "<span class="green">1.2.3</span>",</span>
+    <span class=fragment>"express": "<span class="green">>1.2.3</span>",</span>
+    <span class=fragment>"express": "<span class="green">>=1.2.3</span>",</span>
+    <span class=fragment>"express": "<span class="green">~1.2.3</span>", // >=1.2.3 <1.3.0</span>
+    <span class=fragment>"express": "<span class="green">^1.2.3</span>", // >=1.2.3 <2.0.0</span>
+    <span class=fragment>"express": "<span class="green">1.2.*</span>", </span>
+    <span class=fragment>"express": "<span class="green">latest</span>",</span>
+    <span class=fragment>"express": "<span class="green">git://github.com/expressjs/express.git</span>",</span>
+    <span class=fragment>"express": "<span class="green">git://github.com/expressjs/express.git#4.13.4</span>",</span>
+    <span class=fragment>"express": "<span class="green">git://github.com/expressjs/express.git#master</span>",</span>
+    <span class=fragment>"express": "<span class="green">git://github.com/expressjs/express.git#f3d99a4</span>",</span>
+    <span class=fragment>"express": "<span class="green">expressjs/express#f3d99a4</span>"</span>
+  }
+}</pre>
+    <a class="fragment" href="https://docs.npmjs.com/misc/semver#advanced-range-syntax">Advanced Range Syntax</a>
+</section>
+
+<section>
+    <h4>.npmrc</h4>
+    <pre class="fragment"><code data-noescape data-trim>
+save=true <span class="grey">// Всегда фиксировать зависимость</span>
+    </code></pre>
+    <pre class="fragment"><code data-noescape data-trim>
+save-exact=true <span class="grey">// Строго фиксировать версию</span>
+    </code></pre>
+    <pre class="fragment"><code data-noescape data-trim>
+init-author-name='Sergey Gogolev'
+    </code></pre>
+    <p class="fragment"><a href="https://docs.npmjs.com/misc/config">docs.npmjs.com/misc/config</a></p>
+    <p class="fragment"><a href="https://docs.npmjs.com/files/package.json">docs.npmjs.com/files/package.json</a></p>
+    <p class="fragment"><a href="https://www.youtube.com/watch?v=-moRyiijffU">NPM — найдётся подходящий модуль</a>,  Всеволод Струкчинского</p>
+</section>
+
+<section class="center">
+    <h4>Знакомимся с Node.js Core API</h4>
+</section>
+
+<section>
+    <h4>require(<span class="green">'events'</span>);</h4>
+    <pre class="fragment javascript"><code data-trim>
+var EventEmitter = require('events').EventEmitter;
+var emitter = new EventEmitter();
+
+</code></pre>
+<pre class="fragment javascript"><code data-trim>
+emitter.on('log', console.info);
+</code></pre>
+<pre class="fragment javascript"><code data-trim>
+emitter.emit('log', 'Hello!'); // Hello!
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+emitter.emit('unknown event'); // Do nothing
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+emitter.emit('error');
+// Uncaught, unspecified "error" event.
+    </code></pre>
+    <p class="fragment"><a href="https://nodejs.org/api/events.html">nodejs.org/api/events</a></p>
+</section>
+
+
+<section>
+    <h4>require(<span class="green">'http'</span>);</h4>
+    <p class="fragment"><span class="grey">Задача: </span> принимать запросы и отвечать на них</p>
+    <pre class="fragment javascript"><code data-trim>
+var http = require('http');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+var server = new http.Server();
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+server.on('request', function (req, res) {
+    res.end('Hello, User!');
+});
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+server.listen(8080);
+    </code></pre>
+</section>
+
+<section>
+    <h4><span>req</span> instanceof <span class="green">http.IncomingMessage</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+server.on('request', function (req, res) {
+    console.info(req.method); // GET
+});
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+req.headers; // {'accept-encoding': 'gzip'}
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+req.url; // /favicon.ico
+    </code></pre>
+</section>
+
+<section>
+    <h4><span>res</span> instanceof <span class="green">new http.ServerResponse</span></h4>
+    <pre class="fragment javascript"><code data-trim>
+server.on('request', function (req, res) {
+    console.info(res.statusCode); // 200
+});
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+res.setHeader('content-type', 'text/html');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+res.write('<strong>Hello!</strong>');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+res.end();
+    </code></pre>
+    <p class="fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
+</section>
+
+<section>
+    <h4>require(<span class="green">'http'</span>);</h4>
+    <p class="fragment"><span class="grey">Задача: </span> cделать запрос и прочитать ответ</p>
+    <pre class="fragment javascript"><code data-trim>
+var http = require('http');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+var req = http.request({
+    hostname: 'localhost',
+    port: 8080
+});
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'http'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+req.on('response', function (response) {
+    var body = '';
+
+    response.on('data', function (chunk) {
+	body += chunk; // res.write(chunk);
+    });
+
+    response.on('end', function () {
+	console.info(body); // res.end();
+    });
+});
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+req.end();
+    </code></pre>
+    <p class="fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
+</section>
+
+<section>
+    <h4 class="">require(<span class="green">'url'</span>);</h4>
+    <pre class="fragment javascript"><code data-trim>
+url.parse('https://yandex.ru/');
+// {
+//     protocol: 'https:',
+//     host: 'yandex.ru',
+//     path: '/',
+//     ...
+// }
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+url.format({
+    protocol: 'https:',
+    host: 'yandex.ru'
+});
+// https://yandex.ru/
+    </code></pre>
+    <p class="fragment"><a href="https://nodejs.org/api/url.html">nodejs.org/api/url</a></p>
+</section>
+
+<section>
+    <h4 class="">require(<span class="green">'querystring'</span>);</h4>
+    <pre class="fragment javascript"><code data-trim>
+querystring.parse('foo=bar&arr=a&arr=b');
+// {
+//     foo: 'bar',
+//     arr: ['a', 'b']
+// }
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+querystring.stringify({
+    foo: 'bar',
+    arr: ['a', 'b']
+});
+// foo=bar&arr=a&arr=b
+    </code></pre>
+    <p class="fragment"><a href="https://nodejs.org/api/querystring.html">nodejs.org/api/querystring</a></p>
+</section>
+
+<section>
+    <h4>require(<span class="green">'fs'</span>);</h4>
+    <pre class="fragment javascript"><code data-trim>
+var fs = require('fs');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+fs.readFile(__filename, function (err, content) {
+    console.info(content);
+});
+    </code></pre>
+    <p class="fragment"><span class="green">__filename</span> – строка, которая хранит абсолютный путь до текущего файла</p>
+    <pre class="fragment javascript"><code data-trim>
+Buffer 63 6f 6e 73 74 20 66 73 20 3d 20 72 65 ...
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'buffer'</span>);</h4>
+    <p class="left">Для работы с <span class="green">бинарными данными</span></p>
+    <p class="left fragment">Буфер можно рассматривать как массив чисел, ограниченных диапазоном <span class="green">0-255</span</p>
+    <p class="left fragment">Каждое число представляет <span class="green">байт</span></p>
+</section>
+
+<section>
+    <h4>require(<span class="green">'buffer'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+var letterB = new Buffer([98]);
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+console.info(letterB.toString()); // b
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+console.info(letterB.toString('utf-8')); // b
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'buffer'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+var msg = new Buffer([0x2f, 0x04, 0x3d, 0x04,
+0x34, 0x04, 0x35, 0x04, 0x3a, 0x04, 0x41, 0x04]);
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+msg.toString(); // Default: utf8
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+// \u0004=\u00044\u00045\u0004:\u0004A\u0004
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+msg.toString('ucs2');
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+// 'Яндекс'
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'fs'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+fs.readFile(__filename, function (err, data) {
+    console.info(data.toString());
+});
+    </code></pre>
+    <pre class="fragment javascript"><code data-trim>
+fs.readFile(__filename, 'utf-8', function (err, data) {
+    console.info(data);
+});
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'fs'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+fs.appendFile();
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.writeFile();
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.unlink();
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.mkdir();
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.stat(__filename, function (stats) {
+    console.info(stat.isDirectory()); // false
+});
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'fs'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+fs.watch();
+    </code></pre>
+    <pre class="javascript fragment"><code data-trim>
+fs.watch(__filename, function (event, filename) {
+    console.info(event); // change or rename
+});
+    </code></pre>
+    <pre class="javascript fragment"><code data-trim>
+fs.watch(__dirname, function (event, filename) {
+    console.info(event); // change or rename
+});
+    </code></pre>
+</section>
+
+<section>
+    <h4>require(<span class="green">'fs'</span>);</h4>
+    <pre class="javascript"><code data-trim>
+fs.readFileSync(__filename);
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.writeFileSync(__filename, data);
+    </code></pre>
+    <pre class="javascript"><code data-trim>
+fs.mkdirSync('/games/diablo3');
+    </code></pre>
+    <p class="fragment red">Блокирует поток выполнения программы</p>
+    <p class="fragment"><a href="https://nodejs.org/api/fs.html">nodejs.org/api/fs</a></p>
+</section>
+
+<section class="center">
+    <h4>THE END</h4>
+</section>
+
+</div></div>
+
+<script src="../lib/js/head.min.js"></script>
+<script src="../js/reveal.js"></script>
+<script>
+    Reveal.initialize({
+        controls: false,
+        center: false,
+        history: true,
+        hideAddressBar: true,
+        progress: true,
+        slideNumber: true,
+        transition: 'none',
+        dependencies: [
+            {
+                src: '../plugin/highlight/highlight.js',
+                async: true,
+                callback: function () {
+                    hljs.initHighlightingOnLoad();
+                }
+            },
+            {
+                src: '../plugin/menu/menu.js'
+            }
+        ],
+        menu: {
+            side: 'left',
+            numbers: false,
+            titleSelector: 'h1, h2, h3, h4, h5, h6',
+            hideMissingTitles: true,
+            markers: true,
+            custom: false,
+            themes: false,
+            transitions: false,
+            openButton: true,
+            openSlideNumber: false,
+            keyboard: true
+        },
+    });
+</script>
+</body>
+</html>
