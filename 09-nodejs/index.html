@@ -77,7 +77,7 @@
 <section>
     <h4>Решение #1: <span>Multithreading</span></h4>
     <ul>
-        <li class="left">Поднятие потока не бесплатная операция<br>
+        <li class="left">Поднятие потока – небесплатная операция<br>
             <span class="fragment green">(можно использовать пулл потоков)</span>
         </li>
 
@@ -143,8 +143,8 @@
     <h4>Особенности <span class="magenta">libuv</span></h4>
     <ul>
     <li class="left fragment">В linux операции над локальными файлами <span class="red">всегда блокирующие</span> (в отличие от сетевых операций)</li>
-    <li class="left fragment">Для эмуляции не блокирующего поведения <span class="magenta">libuv использует потоки</span></li>
-    <li class="left fragment">По умолчанию, создаётся пулл <span class="magenta">4</span> потоков</li>
+    <li class="left fragment">Для эмуляции неблокирующего поведения <span class="magenta">libuv использует потоки</span></li>
+    <li class="left fragment">По умолчанию создаётся пулл <span class="magenta">4</span> потоков</li>
     <li class="left fragment">Четыре долгих операции над файлами <span class="red"><br>блокируют всё приложение</span></li>
     </ul>
     <a class="fragment" href="https://www.future-processing.pl/blog/on-problems-with-threads-in-node-js/">On problems with threads in Node.js</a>
@@ -186,12 +186,12 @@ request('https://api.github.com/', function (err, data) {
     <h4>JavaScript</h4>
     <p class="left fragment"><span class="green">✓</span> Функции первого класса и замыкания</p>
     <p class="left fragment"><span class="green">✓</span> Готов к EventLoop (DOM events, setTimeout)</p>
-    <p class="left fragment"><span class="green">✓</span> Большое коммьюнити<span class="green"> !</span></p>
+    <p class="left fragment"><span class="green">✓</span> Большое комьюнити<span class="green"> !</span></p>
     <img class="fragment" src="images/v8.png">
 </section>
 
 <section>
-    <p>API работы с фаловой системой – <span class="green">fs</span>, для запросов – <span class="green">http</span>, логирования – <span class="green">console</span></p>
+    <p>API работы с файловой системой – <span class="green">fs</span>, для запросов – <span class="green">http</span>, логирования – <span class="green">console</span></p>
     <img class="fragment" src="images/core-api.png">
     <p class="fragment"><a href="https://github.com/nodejs/node/tree/master/lib">github.com/nodejs/lib</a></p>
 </section>
@@ -419,7 +419,7 @@ console.info(anotherCounter()); // 3
 
 <section>
     <h4>Модули: <span>Импорт</span></h4>
-    <p class="left">Модули импортируются <span class="green">один раз</span>, и после первого require, экспорт кешируется</p>
+    <p class="left">Модули импортируются <span class="green">один раз</span>, и после первого require экспорт кешируется</p>
     <p class="left fragment">Результат хранится в свойстве <span class="green">require.cache</span></p>
     <pre class="fragment javascript"><code data-trim>
 {
@@ -456,7 +456,7 @@ console.info(anotherCounter()); // 3
 
 <section>
     <h4>npm <span>init</span></h4>
-    <p class="left fragment">Создаёт файл-манифест <span class="green">package.json</span> описывающий модуль</p>
+    <p class="left fragment">Создаёт файл-манифест <span class="green">package.json</span>, описывающий модуль</p>
     <p class="left fragment">Модуль + манифест = <span class="green">пакет</span></p>
     <p class="left fragment">Файл содержит <span class="green">название</span> и <span class="green">версию</span> нашего модуля, а так же его <span class="green">зависимости</span></p>
     <p class="left fragment demo"><img style="vertical-align:middle" src="images/terminal.png"> Demo</p>
@@ -554,7 +554,7 @@ init-author-name='Sergey Gogolev'
     </code></pre>
     <p class="fragment"><a href="https://docs.npmjs.com/misc/config">docs.npmjs.com/misc/config</a></p>
     <p class="fragment"><a href="https://docs.npmjs.com/files/package.json">docs.npmjs.com/files/package.json</a></p>
-    <p class="fragment"><a href="https://www.youtube.com/watch?v=-moRyiijffU">NPM — найдётся подходящий модуль</a>,  Всеволод Струкчинского</p>
+    <p class="fragment"><a href="https://www.youtube.com/watch?v=-moRyiijffU">NPM — найдётся подходящий модуль</a>,  Всеволод Струкчинский</p>
 </section>
 
 <section class="center">
