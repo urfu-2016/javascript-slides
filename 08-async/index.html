@@ -24,7 +24,7 @@
 <section class="large">
     <h2>Асинхронный код</h2>
     <h4>Очередь событий. Таймеры. Callback. Promise</h4>
-    <p class="author"><small>Жигалов Сергей</small></p>
+    <!-- <p class="author"><small>Жигалов Сергей</small></p> -->
 </section>
 
 <section>
@@ -108,7 +108,7 @@ function toCheerUp() {
     prepareCoffee();
 }
 
-        </code></pre>
+toCheerUp();</code></pre>
         <pre class="js callstack"><code>
 
 
@@ -378,7 +378,7 @@ toCheerUp();</mark></code></pre>
 
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code> </code></pre>
+    <pre class="js queue w100"><code> </code></pre>
     </section>
 
     <section data-transition='none'>
@@ -404,7 +404,7 @@ function toCheerUp() {
 toCheerUp
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -431,7 +431,7 @@ prepareCoffee
 toCheerUp
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -458,7 +458,7 @@ prepareCoffee
 toCheerUp
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -485,7 +485,7 @@ prepareCoffee
 toCheerUp
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -512,7 +512,7 @@ toCheerUp();</code></pre>
 toCheerUp
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -539,7 +539,7 @@ toCheerUp();</code></pre>
 
 anonymous</code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 
@@ -566,13 +566,13 @@ toCheerUp();</code></pre>
 
         </code></pre>
     </div>
-    <pre class="js queue"><code>
+    <pre class="js queue w100"><code>
 </code></pre>
     </section>
 </section>
 
 <section>
-    <section data-background="https://cloud.githubusercontent.com/assets/1654243/20462534/13a115b6-af42-11e6-8b1d-6cc7d58202d6.jpg" class="cover">
+    <section data-background="https://cloud.githubusercontent.com/assets/1654243/20462534/13a115b6-af42-11e6-8b1d-6cc7d58202d6.jpg" class="cover shadow">
         <h4>Системный таймер</h4>
         <small>Сальвадор Дали «Постоянство времени»</small>
     </section>
@@ -823,7 +823,7 @@ function toStir() {
 toStove();
 setInterval(toStir, 1000);
         </code></pre>
-        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js queue"><code>toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 'Помешивать'
 
@@ -863,7 +863,7 @@ function toStir() {
 toStove();
 setInterval(toStir, 1000);
         </code></pre>
-        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js queue"><code>toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 'Помешивать'
 'Помешивать'
@@ -903,7 +903,7 @@ function toStir() {
 toStove();
 setInterval(toStir, 1000);
         </code></pre>
-        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js queue"><code>toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 'Помешивать'
 'Помешивать'
@@ -932,7 +932,7 @@ setInterval(toStir, 1000);
 
     <section>
         <pre class="js"><code data-trim>
-var id = setInterval(fromStove, 1000);
+var id = setInterval(toStir, 1000);
         </code></pre>
 
         <pre class="js fragment"><code data-trim>
@@ -950,7 +950,7 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-executionThreeSeconrs();
+runsThreeSeconds();
         </code></pre>
     </section>
 
@@ -962,7 +962,7 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-executionThreeSeconrs();
+runsThreeSeconds();
         </code></pre>
         <pre class="js queue"><code>anonymous</code></pre>
         <pre class="js console"><code>
@@ -979,7 +979,7 @@ function toStir() {
 
 <mark>console.log('Поставить на плиту');</mark>
 setInterval(toStir, 1000);
-executionThreeSeconrs();
+runsThreeSeconds();
         </code></pre>
         <pre class="js queue"><code> </code></pre>
         <pre class="js console"><code>'Поставить на плиту'
@@ -997,7 +997,7 @@ function toStir() {
 
 console.log('Поставить на плиту');
 <mark>setInterval(toStir, 1000);</mark>
-executionThreeSeconrs();
+runsThreeSeconds();
         </code></pre>
         <pre class="js queue"><code> </code></pre>
         <pre class="js console"><code>'Поставить на плиту'
@@ -1015,7 +1015,7 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-<mark>executionThreeSeconrs();</mark>
+<mark>runsThreeSeconds();</mark>
         </code></pre>
         <pre class="js queue"><code> </code></pre>
         <pre class="js console"><code>'Поставить на плиту'
@@ -1033,9 +1033,9 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-<mark>executionThreeSeconrs();</mark>
+<mark>runsThreeSeconds();</mark>
         </code></pre>
-        <pre class="js queue"><code>fromStove</code></pre>
+        <pre class="js queue"><code>toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 
 
@@ -1051,9 +1051,9 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-<mark>executionThreeSeconrs();</mark>
+<mark>runsThreeSeconds();</mark>
         </code></pre>
-        <pre class="js queue"><code>fromStove fromStove</code></pre>
+        <pre class="js queue"><code>toStir toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 
 
@@ -1069,9 +1069,9 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-<mark>executionThreeSeconrs();</mark>
+<mark>runsThreeSeconds();</mark>
         </code></pre>
-        <pre class="js queue"><code>fromStove fromStove fromStove</code></pre>
+        <pre class="js queue"><code>toStir toStir toStir</code></pre>
         <pre class="js console"><code>'Поставить на плиту'
 
 
@@ -1087,7 +1087,7 @@ function toStir() {
 
 console.log('Поставить на плиту');
 setInterval(toStir, 1000);
-executionThreeSeconrs();
+runsThreeSeconds();
         </code></pre>
         <pre class="js queue"><code> </code></pre>
         <pre class="js console"><code>'Поставить на плиту'
@@ -1299,7 +1299,7 @@ undefined
     </section>
 
     <section>
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js size-XXS"><code data-trim data-noescape>
 var fs = require('fs');
 var fileName = __dirname + '/data.json';
 
@@ -1315,6 +1315,10 @@ fs.readFile(fileName, 'utf-8', function (err, data) {
 </section>
 
 <section>
+    <section>
+        <h3>callback</h3>
+    </section>
+
     <section data-transition='slide-in'>
         <h4>callback</h4>
 
@@ -1402,8 +1406,8 @@ fs.readFile('data.json', function (err, data) {
         </code></pre>
     </section>
 
-    <section data-background="https://raw.githubusercontent.com/urfu-2015/javascript-slides/master/09-async/images/pyramid_of_doom.jpg">
-    </section>
+    <!-- <section data-background="https://raw.githubusercontent.com/urfu-2015/javascript-slides/master/09-async/images/pyramid_of_doom.jpg">
+    </section> -->
 
     <section>
         <h4><span class="gray">callback. </span><span class="red">Недостатки</span></h4>
@@ -1475,7 +1479,7 @@ function readTwoFiles(cb) {
         </ul>
     </section>
 
-    <section>
+    <!-- <section>
         <img src="https://raw.githubusercontent.com/caolan/async/master/logo/async-logo_readme.jpg" alt="async.js" />
         <a href="https://github.com/caolan/async">https://github.com/caolan/async</a>
     </section>
@@ -1491,7 +1495,7 @@ function readTwoFiles(cb) {
     });
 }
         </code></pre>
-    </section>
+    </section> -->
 </section>
 
 <section>
@@ -1499,7 +1503,7 @@ function readTwoFiles(cb) {
         <h4>Promises</h4>
     </section>
 
-    <section>
+    <!-- <section>
         <pre class="js"><code data-trim data-noescape>
 fs.readFile('data.json', function (err, data) {
     if (err) {
@@ -1537,12 +1541,12 @@ fs.readFile('data.json', function (err, data) {
     }
 });
         </code></pre>
-    </section>
+    </section> -->
 
     <section data-transition='slide-in'>
         <h4><span class="gray">Promises.</span> Асинхронный код</h4>
 
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js w100"><code data-trim data-noescape>
 var promise = new Promise(function (resolve, reject) {
 
 
@@ -1558,7 +1562,7 @@ var promise = new Promise(function (resolve, reject) {
     <section data-transition='none'>
         <h4><span class="gray">Promises.</span> Асинхронный код</h4>
 
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js w100"><code data-trim data-noescape>
 var promise = new Promise(function (resolve, reject) {
     fs.readFile('data.json', function (err, data) {
 
@@ -1574,7 +1578,7 @@ var promise = new Promise(function (resolve, reject) {
     <section data-transition='none'>
         <h4><span class="gray">Promises.</span> Асинхронный код</h4>
 
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js w100"><code data-trim data-noescape>
 var promise = new Promise(function (resolve, <mark>reject</mark>) {
     fs.readFile('data.json', function (err, data) {
         if (err) {
@@ -1590,7 +1594,7 @@ var promise = new Promise(function (resolve, <mark>reject</mark>) {
     <section data-transition='slide-out'>
         <h4><span class="gray">Promises.</span> Асинхронный код</h4>
 
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js w100"><code data-trim data-noescape>
 var promise = new Promise(function (<mark>resolve</mark>, reject) {
     fs.readFile('data.json', function (err, data) {
         if (err) {
@@ -1669,7 +1673,7 @@ promise.then(console.log, console.error);
     </section>
 
     <section>
-        <pre class="js"><code data-trim data-noescape>
+        <pre class="js w100"><code data-trim data-noescape>
 var promise = new Promise(function (resolve, reject) {
     fs.readFile('data.json', function (err, data) {
         if (err) {
@@ -1753,7 +1757,9 @@ promise
 function getDefault() {
     return { name: 'Sergey' };
 }
+        </code></pre>
 
+        <pre class="js fragment"><code data-trim>
 function getAvatar (data) {
     var name = data.name;
     return request('https://my.avatar/' + name);
@@ -1766,6 +1772,14 @@ function getAvatar (data) {
         alt="promise complex"
         height="100%"
         style="background: none;" />
+    </section>
+
+    <section>
+        <ul>
+            <li>then вернул данные — передаём по цепочке дальше</li>
+            <li>then вернул промис — передаём результат работы промиса</li>
+            <li>произошла ошибка — реджектим промис</li>
+        </ul>
     </section>
 
     <section data-transition='slide-in'>
@@ -1813,14 +1827,6 @@ promise
 promise.then(JSON.parse);
 promise.then(getAvatar);
         </code></pre>
-    </section>
-
-    <section>
-        <ul>
-            <li>then вернул данные — передаём по цепочке дальше</li>
-            <li>then вернул промис — передаём результат работы промиса</li>
-            <li>произошла ошибка — реджектим промис</li>
-        </ul>
     </section>
 </section>
 

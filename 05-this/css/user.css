@@ -49,3 +49,16 @@
 .reveal ul.no-bullet li {
     list-style-type: none;
 }
+
+.reveal {
+    background: #000 !important;
+}
+
+body {
+    /*transform: scaleX(-1) !important;*/
+}
+
+.reveal .shadow,
+.reveal .shadow h3 {
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+}

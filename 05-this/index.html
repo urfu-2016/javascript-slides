@@ -23,11 +23,11 @@
 <body class="yandex"><div class="reveal"><div class="slides">
 <section class="large">
     <h1>this</h1>
-    <h4>Контекст исполнения</h4>
-    <p class="author"><small>Жигалов Сергей</small></p>
+    <!-- <h4>Контекст исполнения</h4> -->
+    <!-- <p class="author"><small>Жигалов Сергей</small></p> -->
 </section>
 
-<section>
+<!-- <section>
     <section>
         <h3>В прошлой лекции</h3>
 
@@ -145,12 +145,12 @@ function makeCounter() {
         </code></pre>
         </div>
     </section>
-</section>
+</section> -->
 
 <section>
-    <section class="large">
+    <!-- <section class="large">
         <h1>this</h1>
-    </section>
+    </section> -->
 
     <section>
         <h4><span class="grey">this</span> C#</h4>
@@ -190,7 +190,7 @@ public class User {
 public static void main(String []args){
     User mike = new User();
 
-    mike.showAge();
+    mike.showAge(); // 24
 }
         </code></pre>
     </section>
@@ -200,8 +200,8 @@ public static void main(String []args){
 
         <ul>
             <li>ключевое слово</li>
-            <li>указывает на текущий объект</li>
             <li>нельзя перезаписать</li>
+            <li>указывает на текущий объект</li>
         </ul>
     </section>
 
@@ -226,12 +226,12 @@ mike.showAge(); // 24
     </section>
 
     <section>
-        <h4>Свойства this</h4>
+        <h4>Свойства this в JavaScript</h4>
 
         <ul>
             <li>ключевое слово</li>
-            <li>указывает на текущий объект</li>
             <li>нельзя перезаписать</li>
+            <li>указывает на текущий объект</li>
             <li>можно использовать за пределом объекта*</li>
         </ul>
     </section>
@@ -337,10 +337,6 @@ this.innerWidth;   // 1280
         <pre class="js size-S fragment"><code data-trim>
 window.innerWidth; // 1280
         </code></pre>
-
-        <pre class="js size-S fragment"><code data-trim>
-innerWidth;        // 1280
-        </code></pre>
     </section>
 
     <section>
@@ -352,10 +348,6 @@ this.process.version;   // "v7.0.0"
 
         <pre class="js size-S fragment"><code data-trim>
 global.process.version; // "v7.0.0"
-        </code></pre>
-
-        <pre class="js size-S fragment"><code data-trim>
-process.version;        // "v7.0.0"
         </code></pre>
     </section>
 
@@ -414,6 +406,10 @@ year2016.isLeapYear; // true;
 </section>
 
 <section>
+    <section>
+        <h4>II. Как попали на участок кода</h4>
+    </section>
+
     <section>
         <h4><span class="grey">II. Как попали на участок кода.</span> Простой вызов</h4>
 
@@ -654,7 +650,7 @@ anna.age;
 
         <pre class="js"><code data-trim>
 function func() {
-  var args = Array.prototype.slice.call(arguments);
+  var args = [].slice.call(arguments);
 }
         </code></pre>
     </section>
@@ -808,7 +804,7 @@ global.name
         <h4><span class="grey">II. Как попали на участок кода.</span> Callback</h4>
 
         <div class="code-container">
-        <pre class="js code"><code data-trim>
+        <pre class="js size-XXS code"><code data-trim>
 var person = {
     name: 'Sergey',
     items: ['keys', 'phone', 'banana'],
@@ -824,7 +820,7 @@ var person = {
 
 person.showItems();
         </code></pre>
-        <pre class="js lexical-envorinment fragment"><code data-trim>
+        <pre class="js size-XXS lexical-envorinment fragment"><code data-trim>
 ┌{ person }
 │
 │
@@ -1022,7 +1018,7 @@ person.name
     <section>
         <h4>myBind</h4>
 
-        <pre class="js"><code data-trim>
+        <pre class="js size-XXS"><code data-trim>
 Function.prototype.myBind = function(_this) {
     var fn = this;
     var args = [].slice.call(arguments, 1);
@@ -1060,7 +1056,7 @@ binPow(10); // 1024
         <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
 
         <div class="code-container">
-        <pre class="js code"><code data-noescape>function User () {
+        <pre class="js size-XXS code"><code data-noescape>function User () {
     return {
         age: 24,
 
@@ -1072,15 +1068,13 @@ binPow(10); // 1024
 
 
 
-
 </code></pre>
-        <pre class="js this fragment"><code>
+        <pre class="js size-XXS  this fragment"><code>
 
 
 
 
 ???.age
-
 
 
 
@@ -1094,7 +1088,7 @@ binPow(10); // 1024
         <h4><span class="grey">II. Как попали на участок кода.</span> Конструктор</h4>
 
         <div class="code-container">
-        <pre class="js code"><code data-noescape>function User () {
+        <pre class="js size-XXS code"><code data-noescape>function User () {
     return {
         age: 24,
 
@@ -1107,13 +1101,12 @@ binPow(10); // 1024
 var mike = new User();
 mike.showAge(); // 24
 </code></pre>
-        <pre class="js this"><code>
+        <pre class="js size-XXS  this"><code>
 
 
 
 
 mike.age
-
 
 
 
@@ -1126,10 +1119,10 @@ mike.age
 
 <section>
     <section>
-        <h3>Строгий режим</h3>
+        <h4>III. Режим работы интерпретатора</h4>
     </section>
 
-    <section>
+    <!-- <section>
         <h4>Строгий режим</h4>
 
         <pre class="js"><code data-trim>
@@ -1183,7 +1176,7 @@ function strictFunc() {
     randomNumber = 4; // ReferenceError
 }
         </code></pre>
-    </section>
+    </section> -->
 
     <section>
         <h4><span class="grey">III. Режим работы интерпретатора.</span> Режим совместимости</h4>
@@ -1387,9 +1380,9 @@ general.name
                     hljs.initHighlightingOnLoad();
                 }
             },
-            {
-                src: '../plugin/menu/menu.js'
-            }
+            // {
+            //     src: '../plugin/menu/menu.js'
+            // }
         ],
         menu: {
             side: 'left',
