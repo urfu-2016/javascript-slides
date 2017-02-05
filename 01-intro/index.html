@@ -100,6 +100,28 @@
     </section>
 
     <section>
+        <h4 class="strike">XML</h4>
+        <pre class="size-XXS"><code data-trim>
+<?xml version="1.0" encoding="UTF-8" ?>
+<coffee_shop>
+    <name>Works</name>
+    <cashlessPayment>true</cashlessPayment>
+    <capacity>3</capacity>
+    <barista>
+        <persone>
+            <name>Лёша</name>
+            <favourite>cappuccino</favourite>
+        </persone>
+        <persone>
+            <name>Лиза</name>
+            <favourite>tea</favourite>
+        </persone>
+    </barista>
+</coffee_shop>
+        </code></pre>
+    </section>
+
+    <section>
         <h4>JSON</h4>
         <pre class="size-XXS"><code data-trim>
 {
@@ -120,29 +142,7 @@
         </code></pre>
     </section>
 
-    <section>
-        <h4 class="strike">XML</h4>
-        <pre class="size-XXS"><code data-trim>
-<?xml version="1.0" encoding="UTF-8" ?>
-<coffee_shop>
-    <name>Works</name>
-    <cashlessPayment>true</cashlessPayment>
-    <capacity>3</capacity>
-    <barista>
-        <persone>
-            <name>Лёша</name>
-            <favourite>cappuccino</favourite>
-        </persone>
-        <persone>
-            <name>Лиза</name>
-            <favourite>tea</favourite>
-        </persone>
-    </barista>
-    </coffee_shop>
-        </code></pre>
-    </section>
-
-    <section>
+    <!-- <section>
         <h4>JSON</h4>
         <pre class="size-XS"><code data-trim>
 {
@@ -161,8 +161,7 @@
     ]
 }
         </code></pre>
-    </section>
-
+    </section> -->
 
 </section>
 
@@ -685,7 +684,7 @@ likes = language === 'JavaScript' ?
 
 <section>
     <h4>Условные операторы</h4>
-    <pre class="size-S javascript"><code data-trim>
+    <pre class="size-XS javascript"><code data-trim>
 switch (language) {
     case 'JavaScript':
         likes++;
@@ -700,7 +699,7 @@ switch (language) {
     </section>
 </section>
 
-<section>
+<!-- <section>
     <h4>Statement</h4>
     <pre class="size-L"><code data-trim>
 a = b * 2;
@@ -717,8 +716,7 @@ a = b * 2;
 // b * 2 - это арифметическое выражение
 // a = b * 2 - это выражение присвоения
     </code></pre>
-</section>
-
+</section> -->
 
 <section>
     <section>
@@ -1252,7 +1250,7 @@ git push origin master
     Reveal.initialize({
         controls: false,
         progress: false,
-        slideNumber: true,
+        slideNumber: 'c',
         history: true,
         center: true,
         hideAddressBar: true,
@@ -1270,23 +1268,23 @@ git push origin master
                     hljs.initHighlightingOnLoad();
                 }
             },
-            {
-                src: '../plugin/menu/menu.js'
-            }
+            // {
+            //     src: '../plugin/menu/menu.js'
+            // }
         ],
-        menu: {
-            side: 'left',
-            numbers: true,
-            titleSelector: 'h1, h2, h3, h4, h5, h6',
-            hideMissingTitles: true,
-            markers: true,
-            custom: false,
-            themes: false,
-            transitions: false,
-            openButton: true,
-            openSlideNumber: false,
-            keyboard: true
-        },
+        // menu: {
+        //     side: 'left',
+        //     numbers: true,
+        //     titleSelector: 'h1, h2, h3, h4, h5, h6',
+        //     hideMissingTitles: true,
+        //     markers: true,
+        //     custom: false,
+        //     themes: false,
+        //     transitions: false,
+        //     openButton: true,
+        //     openSlideNumber: false,
+        //     keyboard: true
+        // },
     });
 
 </script>
