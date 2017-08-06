@@ -9,3 +9,4 @@
 1. [Конструкторы](http://urfu-2016.github.io/javascript-slides/07-constructors/)
 1. [Асинхронный код](http://urfu-2016.github.io/javascript-slides/08-async/)
 1. [Node.js](http://urfu-2016.github.io/javascript-slides/09-nodejs/)
+1. [DOM](http://urfu-2016.github.io/javascript-slides/10-dom/)
