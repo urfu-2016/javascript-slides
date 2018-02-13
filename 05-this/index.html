@@ -708,7 +708,7 @@ Math.min.apply(null, arr); // 2
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         });
     }
@@ -740,7 +740,7 @@ Math.min.apply(null, arr); // 2
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         });
     }
@@ -772,7 +772,7 @@ person.items
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         });
     }
@@ -816,7 +816,7 @@ var person = {
     showItems: function () {
         var _this = this;
 
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return _this.name + ' has ' + item;
         });
     }
@@ -865,7 +865,7 @@ person.showItems();
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         }, <mark>this</mark>);
     }
@@ -897,7 +897,7 @@ person.showItems();
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         }, <mark>this</mark>);
     }
@@ -954,7 +954,7 @@ fun.bind(thisArg, arg1, arg2, ...);
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         }<mark>.bind(this)</mark>);
     }
@@ -986,7 +986,7 @@ fun.bind(thisArg, arg1, arg2, ...);
     items: ['keys', 'phone', 'banana'],
 
     showItems: function () {
-        this.items.map(function (item) {
+        return this.items.map(function (item) {
             return this.name + ' has ' + item;
         }<mark>.bind(this)</mark>);
     }
